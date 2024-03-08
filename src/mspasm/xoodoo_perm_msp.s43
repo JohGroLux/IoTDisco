@@ -1,0 +1,550 @@
+;-------------------------------- Definitions ----------------------------------
+
+; pointer to struct containing 5 64-bit words x0...x4
+#define SPTR R12
+
+; number of rounds
+#define NR R13
+
+; pointer to RCON
+#define CPTR R14
+
+;-------------------------- Theta specific definitions -------------------------
+
+; P high & low words
+#define P0L    R4
+#define P0H    R5
+#define P1L    R6
+#define P1H    R7
+#define P2L    R8
+#define P2H    R9
+#define P3L    R10
+#define P3H    R11
+
+; E registers
+#define ELO      R14
+#define EHI      R15
+
+; temporary registers
+#define TLO   R12
+#define THI   R13
+;--------------------------- Rho specific definitions --------------------------
+
+; registers for loading A1
+#define A1L0HI  R4
+#define A1L0LO  R5
+#define A1L1HI  R6
+#define A1L1LO  R7
+#define A1L2HI  R8
+#define A1L2LO  R9
+#define A1L3HI  R10
+#define A1L3LO  R11
+
+; registers for loading A2
+#define A2L0HI  R4
+#define A2L0LO  R5
+#define A2L1HI  R6
+#define A2L1LO  R7
+#define A2L2HI  R8
+#define A2L2LO  R9
+#define A2L3HI  R10
+#define A2L3LO  R11
+
+; temporary registers for plane rotations
+#define RHO_TEMP  R15
+
+;------------------------- Rho-east specific definitions -----------------------
+
+; temporary registers for L8 rotation
+#define RHO_THI     R14
+#define RHO_TLO     R15
+
+;--------------------------- Iota specific definitions -------------------------
+
+; register for rcon
+#define RCLO   R4
+#define INDEX  R5
+
+;-------------------------- Chi specific definitions ---------------------------
+
+; loading 
+#define CHI_A0_1    R4
+#define CHI_A0_2    R5      
+#define CHI_A1_1    R6
+#define CHI_A1_2    R7
+#define CHI_A2_1    R8
+#define CHI_A2_2    R9
+      
+; compute b's
+#define CHI_B_1         R10
+#define CHI_B_2         R11
+
+;------------------------------- GENERAL MACROS --------------------------------
+
+; push callee-saved registers onto the stack
+PROLOGUE MACRO
+    PUSH.W  R4
+    PUSH.W  R5
+    PUSH.W  R6
+    PUSH.W  R7
+    PUSH.W  R8
+    PUSH.W  R9
+    PUSH.W  R10
+    PUSH.W  R11
+    ENDM
+
+; pop callee-saved registers form stack
+EPILOGUE MACRO
+    POP.W   R11
+    POP.W   R10
+    POP.W   R9
+    POP.W   R8
+    POP.W   R7
+    POP.W   R6
+    POP.W   R5
+    POP.W   R4
+    ENDM
+
+;---------------------------- Theta specific macros ----------------------------
+
+COMP_P_WORDS MACRO
+    MOV.W @SPTR+, P0L       // load lo-word of a[0]
+    MOV.W @SPTR+, P0H       // load hi-word of a[0]
+    MOV.W @SPTR+, P1L       // load lo-word of a[1]
+    MOV.W @SPTR+, P1H       // load hi-word of a[1]
+    MOV.W @SPTR+, P2L       // load lo-word of a[2]
+    MOV.W @SPTR+, P2H       // load hi-word of a[2]
+    MOV.W @SPTR+, P3L       // load lo-word of a[3]
+    MOV.W @SPTR+, P3H       // load hi-word of a[3]
+    XOR.W @SPTR+, P0L       // XOR lo-word of a[4] to lo-word of a[0]
+    XOR.W @SPTR+, P0H       // XOR hi-word of a[4] to hi-word of a[0]
+    XOR.W @SPTR+, P1L       // XOR lo-word of a[5] to lo-word of a[1]
+    XOR.W @SPTR+, P1H       // XOR hi-word of a[5] to hi-word of a[1]
+    XOR.W @SPTR+, P2L       // XOR lo-word of a[6] to lo-word of a[2]
+    XOR.W @SPTR+, P2H       // XOR hi-word of a[6] to hi-word of a[2]
+    XOR.W @SPTR+, P3L       // XOR lo-word of a[7] to lo-word of a[3]
+    XOR.W @SPTR+, P3H       // XOR hi-word of a[7] to hi-word of a[3]
+    XOR.W @SPTR+, P0L       // XOR lo-word of a[8] to lo-word of a[0]
+    XOR.W @SPTR+, P0H       // XOR hi-word of a[8] to hi-word of a[0]
+    XOR.W @SPTR+, P1L       // XOR lo-word of a[9] to lo-word of a[1]
+    XOR.W @SPTR+, P1H       // XOR hi-word of a[9] to lo-word of a[1]
+    XOR.W @SPTR+, P2L       // XOR lo-word of a[10] to lo-word of a[2]
+    XOR.W @SPTR+, P2H       // XOR hi-word of a[10] to lo-word of a[2]
+    XOR.W @SPTR+, P3L       // XOR lo-word of a[11] to lo-word of a[3]
+    XOR.W @SPTR+, P3H       // XOR hi-word of a[11] to lo-word of a[3]
+    SUB.W #48, SPTR         // set SPTR to address of lo-word of a[0]
+    ENDM
+  
+COMP_E_SLICE MACRO      PLO, PHI
+    ; copy values to temp registers with implicit 16-bit rotation
+    MOV.W PLO, THI
+    MOV.W PHI, TLO
+    ; 5-bit left rotation, stored in PLO and PHI
+    RLA.W PHI
+    RLC.W PLO
+    ADC.W PHI
+    RLA.W PHI
+    RLC.W PLO
+    ADC.W PHI
+    RLA.W PHI
+    RLC.W PLO
+    ADC.W PHI
+    RLA.W PHI
+    RLC.W PLO
+    ADC.W PHI
+    RLA.W PHI
+    RLC.W PLO
+    ADC.W PHI
+    ; 2-bit right rotation on temp registers, 16-2 = 14
+    BIT.W #1, THI
+    RRC.W TLO
+    RRC.W THI
+    BIT.W #1, THI
+    RRC.W TLO
+    RRC.W THI 
+    ; (P << 5) XOR (P << 14) , stored in E1 and E2 registers
+    XOR.W PLO, TLO
+    XOR.W PHI, THI
+    MOV.W TLO, ELO
+    MOV.W THI, EHI
+    ENDM
+    
+PUSH_REGS       MACRO
+    PUSH.W SPTR      ; freeing sptr register for computation
+    PUSH.W NR
+    ENDM
+    
+POP_REGS        MACRO
+    POP.W NR
+    POP.W SPTR
+    ENDM
+  
+THETA        MACRO
+    ; compute and store P
+    COMP_P_WORDS
+    
+    ; first slice
+    PUSH.W NR
+    PUSH.W SPTR
+    COMP_E_SLICE  P3L, P3H
+    POP.W SPTR
+    
+    XOR.W ELO, 0(SPTR)
+    XOR.W EHI, 2(SPTR)
+    XOR.W ELO, 16(SPTR)
+    XOR.W EHI, 18(SPTR)
+    XOR.W ELO, 32(SPTR)
+    XOR.W EHI, 34(SPTR)
+    
+    POP.W NR
+    
+    ; second slice
+    PUSH.W NR
+    PUSH.W SPTR
+    
+    COMP_E_SLICE  P0L, P0H
+    POP.W SPTR
+    
+    XOR.W ELO, 4(SPTR)
+    XOR.W EHI, 6(SPTR)
+    XOR.W ELO, 20(SPTR)
+    XOR.W EHI, 22(SPTR)
+    XOR.W ELO, 36(SPTR)
+    XOR.W EHI, 38(SPTR)
+    
+    POP.W NR
+    
+    ; third slice
+    PUSH.W NR
+    PUSH.W SPTR
+    
+    COMP_E_SLICE  P1L, P1H
+    POP.W SPTR
+    
+    XOR.W ELO, 8(SPTR)
+    XOR.W EHI, 10(SPTR)
+    XOR.W ELO, 24(SPTR)
+    XOR.W EHI, 26(SPTR)
+    XOR.W ELO, 40(SPTR)
+    XOR.W EHI, 42(SPTR)
+    
+    POP.W NR
+    
+    ; fourth slice
+    PUSH.W NR
+    PUSH.W SPTR
+    
+    COMP_E_SLICE  P2L, P2H
+    POP.W SPTR
+
+    XOR.W ELO, 12(SPTR)
+    XOR.W EHI, 14(SPTR)
+    XOR.W ELO, 28(SPTR)
+    XOR.W EHI, 30(SPTR)
+    XOR.W ELO, 44(SPTR)
+    XOR.W EHI, 46(SPTR)
+    
+    POP.W NR
+    ENDM
+  
+;---------------------------- Rho specific macros ------------------------------
+
+RHO_LOAD_A1 MACRO
+    ADD.W #16, SPTR
+    MOV.W @SPTR+, A1L0LO         ; load first word of first lane of A1
+    MOV.W @SPTR+, A1L0HI
+    MOV.W @SPTR+, A1L1LO
+    MOV.W @SPTR+, A1L1HI
+    MOV.W @SPTR+, A1L2LO
+    MOV.W @SPTR+, A1L2HI
+    MOV.W @SPTR+, A1L3LO
+    MOV.W @SPTR+, A1L3HI
+    SUB.W #32, SPTR               ; reset sptr
+    ENDM
+
+RHO_LOAD_A2 MACRO
+    ADD.W #32, SPTR
+    MOV.W @SPTR+, A2L0LO         ; load first word of first lane of A1
+    MOV.W @SPTR+, A2L0HI
+    MOV.W @SPTR+, A2L1LO
+    MOV.W @SPTR+, A2L1HI
+    MOV.W @SPTR+, A2L2LO
+    MOV.W @SPTR+, A2L2HI
+    MOV.W @SPTR+, A2L3LO
+    MOV.W @SPTR+, A2L3HI
+    SUB.W #48, SPTR               ; reset sptr
+    ENDM
+
+RHO_SAVE_A2 MACRO
+    MOV.W A2L0LO, 32(SPTR)         ; save first word of first lane of A2
+    MOV.W A2L0HI, 34(SPTR)
+    MOV.W A2L1LO, 36(SPTR)
+    MOV.W A2L1HI, 38(SPTR)
+    MOV.W A2L2LO, 40(SPTR)
+    MOV.W A2L2HI, 42(SPTR)
+    MOV.W A2L3LO, 44(SPTR)
+    MOV.W A2L3HI, 46(SPTR)
+    ENDM
+
+;-------------------------- Rho-west specific macros ---------------------------
+
+
+RHOWEST_A1      MACRO
+    RHO_LOAD_A1
+    MOV.W A1L3LO, 16(SPTR)
+    MOV.W A1L3HI, 18(SPTR)
+    MOV.W A1L0LO, 20(SPTR)
+    MOV.W A1L0HI, 22(SPTR)
+    MOV.W A1L1LO, 24(SPTR)
+    MOV.W A1L1HI, 26(SPTR)
+    MOV.W A1L2LO, 28(SPTR)
+    MOV.W A1L2HI, 30(SPTR)
+    ENDM
+
+ROTL32_11       MACRO   HI, LO
+    ; implicit 16-bit rotation
+    MOV.W HI, RHO_TEMP
+    MOV.W LO, HI
+    MOV.W RHO_TEMP, LO
+    ; explicit 5-bit right rotation, 16-5 = 11
+    BIT.W #1, HI
+    RRC.W LO
+    RRC.W HI
+    BIT.W #1, HI
+    RRC.W LO
+    RRC.W HI
+    BIT.W #1, HI
+    RRC.W LO
+    RRC.W HI
+    BIT.W #1, HI
+    RRC.W LO
+    RRC.W HI
+    BIT.W #1, HI
+    RRC.W LO
+    RRC.W HI
+    ENDM
+
+RHOWEST_A2_MOD MACRO
+    ROTL32_11     A2L0HI, A2L0LO
+    ROTL32_11     A2L1HI, A2L1LO
+    ROTL32_11     A2L2HI, A2L2LO
+    ROTL32_11     A2L3HI, A2L3LO
+    ENDM
+
+RHOWEST_A2 MACRO
+    RHO_LOAD_A2
+    RHOWEST_A2_MOD
+    RHO_SAVE_A2
+    ENDM
+
+RHOWEST MACRO
+    PUSH.W NR
+    RHOWEST_A1
+    RHOWEST_A2
+    POP.W NR
+    ENDM
+
+;---------------------------- Iota specific macros -----------------------------
+
+IOTA_LD_RCON MACRO
+    MOV.W   @CPTR, RCLO
+    ENDM
+    
+IOTA   MACRO    NR
+    MOV.W #12, INDEX
+    SUB.W NR, INDEX
+    MOV.W #RCON, CPTR
+    ADD.W INDEX, CPTR
+    ADD.W INDEX, CPTR
+    IOTA_LD_RCON
+    XOR.W RCLO, 0(SPTR)
+    ENDM
+
+
+;---------------------------- Chi specific macros ------------------------------
+
+CHI_LOAD_SLICE  MACRO
+    MOV.W @SPTR+, CHI_A0_1
+    MOV.W @SPTR+, CHI_A0_2
+    ADD.W #12, SPTR
+    MOV.W @SPTR+, CHI_A1_1
+    MOV.W @SPTR+, CHI_A1_2
+    ADD.W #12, SPTR
+    MOV.W @SPTR+, CHI_A2_1
+    MOV.W @SPTR, CHI_A2_2
+    SUB.W #34, SPTR
+    ENDM
+
+CHI_COMP_B_SLICE        MACRO
+    ; B0
+    MOV.W CHI_A2_1, CHI_B_1
+    MOV.W CHI_A2_2, CHI_B_2
+    BIC.W CHI_A1_1, CHI_B_1
+    BIC.W CHI_A1_2, CHI_B_2
+    XOR.W CHI_A0_1, CHI_B_1
+    XOR.W CHI_A0_2, CHI_B_2
+    MOV.W CHI_B_1, 0(SPTR)
+    MOV.W CHI_B_2, 2(SPTR)
+    ; B1
+    MOV.W CHI_A0_1, CHI_B_1
+    MOV.W CHI_A0_2, CHI_B_2
+    BIC.W CHI_A2_1, CHI_B_1
+    BIC.W CHI_A2_2, CHI_B_2
+    XOR.W CHI_A1_1, CHI_B_1
+    XOR.W CHI_A1_2, CHI_B_2
+    MOV.W CHI_B_1, 16(SPTR)
+    MOV.W CHI_B_2, 18(SPTR)
+    ; B2
+    MOV.W CHI_A1_1, CHI_B_1
+    MOV.W CHI_A1_2, CHI_B_2
+    BIC.W CHI_A0_1, CHI_B_1
+    BIC.W CHI_A0_2, CHI_B_2
+    XOR.W CHI_A2_1, CHI_B_1
+    XOR.W CHI_A2_2, CHI_B_2
+    MOV.W CHI_B_1, 32(SPTR)
+    MOV.W CHI_B_2, 34(SPTR)
+    ENDM
+  
+CHI     MACRO
+    PUSH.W NR
+    CHI_LOAD_SLICE
+    CHI_COMP_B_SLICE
+    ADD.W #4, SPTR        ; point to second slice
+    CHI_LOAD_SLICE
+    CHI_COMP_B_SLICE
+    ADD.W #4, SPTR        ; point to third slice
+    CHI_LOAD_SLICE
+    CHI_COMP_B_SLICE
+    ADD.W #4, SPTR        ; point to fourth slice
+    CHI_LOAD_SLICE
+    CHI_COMP_B_SLICE
+    SUB.W #12, SPTR       ; reset state pointer
+    POP.W NR
+    ENDM
+  
+;---------------------------- Rho-east specific macros -------------------------
+
+ROTL32_1       MACRO   HI, LO
+    ; explicit 1-bit left rotation
+    RLA.W LO
+    RLC.W HI
+    ADC.W LO
+    ENDM
+
+ROTL32_8       MACRO   HI, LO
+    MOV.B HI, RHO_THI
+    MOV.B LO, RHO_TLO
+    SWPB  HI
+    SWPB  LO
+    SWPB  RHO_THI
+    SWPB  RHO_TLO
+    MOV.B HI, HI
+    MOV.B LO, LO
+    XOR.W RHO_THI, LO
+    XOR.W RHO_TLO, HI
+    MOV.W LO, RHO_TLO
+    MOV.W HI, LO
+    MOV.W RHO_TLO, HI
+    ENDM
+
+RHOEAST_A1_MOD MACRO
+    ROTL32_1     A1L0HI, A1L0LO
+    ROTL32_1     A1L1HI, A1L1LO
+    ROTL32_1     A1L2HI, A1L2LO
+    ROTL32_1     A1L3HI, A1L3LO
+    ENDM
+  
+RHOEAST_SAVE_A1 MACRO
+    MOV.W A1L0LO, 16(SPTR)         ; save first word of first lane of A1
+    MOV.W A1L0HI, 18(SPTR)
+    MOV.W A1L1LO, 20(SPTR)
+    MOV.W A1L1HI, 22(SPTR)
+    MOV.W A1L2LO, 24(SPTR)
+    MOV.W A1L2HI, 26(SPTR)
+    MOV.W A1L3LO, 28(SPTR)
+    MOV.W A1L3HI, 30(SPTR)
+    ENDM
+
+RHOEAST_A1      MACRO
+    RHO_LOAD_A1
+    RHOEAST_A1_MOD
+    RHOEAST_SAVE_A1
+    ENDM
+  
+RHOEAST_A2      MACRO
+    RHO_LOAD_A2
+    ; first slice
+    ROTL32_8 A1L2LO, A1L2HI      
+    MOV.W A1L2LO, 32(SPTR)
+    MOV.W A1L2HI, 34(SPTR)
+    ; second slice
+    ROTL32_8 A1L3LO, A1L3HI
+    MOV.W A1L3LO, 36(SPTR)
+    MOV.W A1L3HI, 38(SPTR)
+    ; third slice
+    ROTL32_8 A1L0LO, A1L0HI
+    MOV.W A1L0LO, 40(SPTR)
+    MOV.W A1L0HI, 42(SPTR)
+    ; fourth slice
+    ROTL32_8 A1L1LO, A1L1HI
+    MOV.W A1L1LO, 44(SPTR)
+    MOV.W A1L1HI, 46(SPTR)
+    ENDM
+  
+RHOEAST MACRO
+    PUSH.W NR
+    RHOEAST_A1
+    RHOEAST_A2
+    POP.W NR
+    ENDM
+
+;----------------------------- Full permutation --------------------------------
+
+XOODOO  MACRO   
+    THETA
+    RHOWEST
+    IOTA
+    CHI
+    RHOEAST
+    ENDM
+
+
+
+
+;-------------------------------- Directives -----------------------------------
+
+NAME xoodoo_perm_msp
+PUBLIC xoodoo_perm_msp
+RSEG CODE
+
+
+;--------------------------------- MAIN LOOP -----------------------------------
+
+
+xoodoo_perm_msp:
+    PROLOGUE
+    
+loop:
+    THETA
+    RHOWEST
+    IOTA        NR
+    CHI
+    RHOEAST        
+    SUB.W #1, NR
+    JZ term
+    BR #loop
+term:
+    EPILOGUE
+    RET
+
+
+RSEG DATA16_C:DATA:REORDER:NOROOT(1)
+
+RCON:
+    DC16 0x0058, 0x0038, 0x03C0, 0x00D0
+    DC16 0x0120, 0x0014, 0x0060, 0x002C
+    DC16 0x0380, 0x00F0, 0x01A0, 0x0012
+
+
+END
+

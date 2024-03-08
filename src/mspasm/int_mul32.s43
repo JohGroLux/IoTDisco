@@ -1,0 +1,83 @@
+//*****************************************************************************
+// Description: Multiprecision multiplication (product-scanning method) of two
+//              UINT16 arrays using hardware multiplier (MAC)
+// Function:    void intmul(r, a, b, len)
+// Clockcycles: 160-bit: 462; 192-bit: 540; 224-bit: 618; 256-bit: 696
+//*****************************************************************************
+
+
+#include "mspcfg.h"
+
+
+// register definitions
+#define RLOADDR R7
+#define RHIADDR R8
+#define LOOPCTR R9
+#define WORDLO R10
+#define WORDHI R11
+#define RPTR R12
+#define APTR R13
+#define BPTR R14
+#define LEN R15
+
+
+NAME int_mul32_msp          ; module name
+PUBLIC int_mul32_msp        ; make the main label visible outside this module
+RSEG CODE                   ; place program in 'CODE' segment
+int_mul32_msp:
+    
+    PUSH_R7_TO_R11          ; macro to push registers R7-R11 (see mspcfg.h)
+    MOV  #RESLO, RLOADDR    ; initialize register RLOADDR with addr of RESLO
+    MOV  #RESHI, RHIADDR    ; initialize register RHIADDR with addr of RESHI
+    DINT                    ; disable interrupts since we use multiplier
+    NOP                     ; required for DINT
+    
+    // prepare for first loop
+    CLR  WORDLO             ; clear WORDLO register
+    CLR  WORDHI             ; clear WORDHI register
+    ADD  LEN, LEN           ; LEN contains now length of array A in bytes
+    MOV  LEN, LOOPCTR       ; LOOPCTR is initialized with 2*len
+    MOV  @BPTR+, &MPY       ; b[0] is first operand for multiplication
+    
+LOOP1:
+    MOV  @APTR+, &OP2       ; a[i] is second operand for multiplication
+    ADD  @RLOADDR, WORDLO   ; add lower 16 bit of product to SUMLO
+    ADDC @RHIADDR, WORDHI   ; add upper 16 bit of product with carry to SUMHI
+    MOV  WORDLO, 0(RPTR)    ; write WORDLO to r[i]
+    ADD  #2, RPTR           ; increment R pointer
+    MOV  WORDHI, WORDLO     ; move WORDHI to WORDLO
+    CLR  WORDHI             ; clear WORDHI register
+    SUB  #2, LOOPCTR        ; decrement LOOPCTR
+    JNZ  LOOP1              ; jump to 'LOOP1' if not 0
+    
+    MOV  WORDLO, 0(RPTR)    ; write WORDLO to r[len-1]
+    ADD  #2, RPTR           ; increment R pointer
+    
+    // prepare for second loop
+    SUB  LEN, APTR          ; APTR contains now address of a[1]
+    SUB  LEN, RPTR          ; RPTR contains now address of r[1]
+    CLR  WORDLO             ; clear WORDLO register
+    CLR  WORDHI             ; clear WORDHI register
+    MOV  LEN, LOOPCTR       ; LOOPCTR is initialized with 2*len
+    MOV  @BPTR, &MPY        ; b[1] is first operand for multiplication
+    
+LOOP2:
+    MOV  @APTR+, &OP2       ; a[i] is second operand for multiplication
+    ADD  @RLOADDR, WORDLO   ; add lower 16 bit of product to WORDLO
+    ADDC @RHIADDR, WORDHI   ; add upper 16 bit of product with carry to WORDHI
+    ADD  WORDLO, 0(RPTR)    ; add WORDLO register to r[i]
+    ADC  WORDHI             ; propagate resulting carry to WORDHI register
+    ADD  #2, RPTR           ; increment R pointer
+    MOV  WORDHI, WORDLO     ; move WORDHI to WORDLO
+    CLR  WORDHI             ; clear WORDHI register
+    SUB  #2, LOOPCTR        ; decrement LOOPCTR
+    JNZ  LOOP2              ; jump to 'LOOP2' if not 0
+    
+    MOV  WORDLO, 0(RPTR)    ; write WORDLO to r[len]
+    
+    EINT_                   ; macro to enable interrupts (see mspcfg.h)
+    POP_R11_TO_R7           ; macro to pop R11-R7 and return (see mspcfg.h)
+    
+    RET_                    ; RET_ is either RET or RETA (see mspcfg.h)
+    
+END

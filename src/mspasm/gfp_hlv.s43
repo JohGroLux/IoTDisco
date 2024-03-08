@@ -1,0 +1,160 @@
+///////////////////////////////////////////////////////////////////////////////
+// gfp_hlv.s43: Multiple-Precision Halving Modulo a Pseudo-Mersenne Prime.   //
+// This file is part of SECC430, a Scalable ECC implementation for MSP430.   //
+// Version 1.0.4 (2023-11-15), see <http://www.cryptolux.org/> for updates.  //
+// License: GPLv3 (see LICENSE file), other licenses available upon request. //
+// ------------------------------------------------------------------------- //
+// This program is free software: you can redistribute it and/or modify it   //
+// under the terms of the GNU General Public License as published by the     //
+// Free Software Foundation, either version 3 of the License, or (at your    //
+// option) any later version. This program is distributed in the hope that   //
+// it will be useful, but WITHOUT ANY WARRANTY; without even the implied     //
+// warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the  //
+// GNU General Public License for more details. You should have received a   //
+// copy of the GNU General Public License along with this program. If not,   //
+// see <http://www.gnu.org/licenses/>.                                       //
+///////////////////////////////////////////////////////////////////////////////
+
+
+// Function prototype:
+// -------------------
+// void gfp_hlv_msp(UINT16 *r, const UINT16 *a, UINT16 c, int len);
+// 
+// Description:
+// ------------
+// The function gfp_hlv_msp computes the modular half r = a/2 mod p, where 'a'
+// is a multiple-precision integer and p is a pseudo-Mersenne prime of the
+// form p = 2^n - c. Both the operand and the result are stored in arrays of
+// 16-bit unsigned integers (the word with index 0 is the least significant
+// one). The operand 'a' and the result 'r' consist of 'len' words. Note that
+// 'len' must be >= 2. The prime p is given by p = 2^(16*'len'-1) - 'c', where
+// 'c' is at most 15 bits long (i.e. 'c' must be in the range [1, 2^15-1]).
+// The result may not be fully reduced (i.e. the result is not necessarily the
+// least non-negative residue modulo p). This function is described in the
+// paper "Energy-Efficient Elliptic Curve Cryptography for MSP430-Based
+// Wireless Sensor Nodes" (Proceedings of ACISP 2016, Springer Verlag).
+// 
+// Operands:
+// ---------
+// r: address of UINT16 array for result (must have space for 'len' words)
+// a: address of UINT16 array for operand (has length of 'len' words)
+// c: constant c of the prime p = 2^(16*'len'-1) - c, where 1 <= 'c' <= 2^15-1
+// len: number of UINT16 words of 'a' and 'r' ('len' must be >= 3)
+// 
+// Execution time (including function-call overhead):
+// --------------------------------------------------
+// MSP430F1611: len=10 (160 bit): 180 cycles, len=12 (192 bit): 210 cycles,
+//              len=14 (224 bit): 240 cycles, len=16 (256 bit): 270 cycles
+// 
+// Version history:
+// ----------------
+// 1.0.0: Lin's original implementation from her M.Sc. project
+// 1.0.1: Performance improvements and further documentation added by Johann
+// 1.0.2: Merged the two loops into a single one for improved performance
+// 1.0.3: Small optimization of the loop to save 1 clock cycle per iteration
+// 1.0.4: The sum is a signed 32-bit integer to save 2 cycles per iteration
+
+
+#include "mspcfg.h"
+
+
+// Define register names
+
+; MASK holds a mask, which is either an all-1 word (i.e. 0xFFFF) or 0
+#define MASK R8
+; SUM holds the lower part (i.e. 16 LSBs) of the sum of two words
+#define SUM R9
+; CARRY holds the carry bit of the sum of two words
+#define CARRY R10
+; OLDSUM holds the sum from the previous loop-iteration
+#define OLDSUM R11
+; RPTR holds a pointer for writing words to array 'r'
+#define RPTR R12
+; APTR holds a pointer for loading words from array 'a'
+#define APTR R13
+; CWORD holds parameter 'c', which defines the prime p = 2^(16*'len'-1) - c
+#define CWORD R14
+; LEN holds 'len' parameter, i.e. the number of words of arrays 'a' and 'r'
+#define LEN R15
+
+
+NAME gfp_hlv_msp            ; module name
+PUBLIC gfp_hlv_msp          ; make module name visible to other modules
+RSEG CODE                   ; module is relocatable and placed in CODE segment
+gfp_hlv_msp:
+    
+    // Push callee-saved registers on stack
+    
+    PUSH_R8_TO_R11          ; macro to push registers R8-R11 (see mspcfg.h)
+    
+    // When the LSB of operand 'a' is 0 then we can directly shift it, if not
+    // then we need to add the prime p first so that the LSB becomes 0. To do
+    // this in constant time, we apply a mask to the prime p before we add it
+    // to 'a'. This mask is an all-1 word (i.e. 0xFFFF) if the LSB of 'a' is
+    // 1 and 0 if the LSB of 'a' is 0
+    
+    MOV  @APTR+, OLDSUM     ; load a[0] to OLDSUM register via A-pointer
+    BIT  #1, OLDSUM         ; set carry flag to the LSB of a[0]
+    SUBC MASK, MASK         ; MASK is 0 if cry flag was 1 and 0xFFFF otherwise
+    INV  MASK               ; MASK is either 0xFFFF (if LSB(a[0]) is 1) or 0
+    
+    // In order to compute a[0] + (mask & p[0]), we have to first obtain the
+    // value of p[0] (i.e. the LSW of the prime p), which is simply the two's
+    // complement of the parameter c. The sum of a[0] and (mask & p[0]) can be
+    // up to 17 bits long and is stored in the CARRY|OLDSUM register pair.
+    // Note that we can not halve this sum yet since we need the LSB of the
+    // next-higher sum-word, i.e. the sum of a[1] and (mask & p[1])
+    
+    AND  MASK, CWORD        ; CWORD is now either 0 or LSW of prime p
+    SUB  CWORD, OLDSUM      ; add CWORD to a[0] in OLDSUM register
+    SUBC SUM, SUM           ; add carry flag to SUM reg (is either 0 or 1)
+    MOV  SUM, CARRY         ;
+    SUB  #2, LEN            ; the following loop is iterated len-2 times
+    
+    // In each iteration of the following loop, the sum a[i] + (mask & p[i])
+    // is computed, taking the carry from the previous iteration into account.
+    // The sum, which can be 17 bits long, is stored in the CARRY|SUM register
+    // pair. Note that all "middle" words of the prime p are 0xFFFF, which
+    // means (mask & p[i]) equals mask. Furthermore, in each itreration, the
+    // sum from the previous iteration (which is contained in register OLDSUM)
+    // is shifted one bit to the right (with the LSB of the current sum being
+    // "shifted in") and this shifted sum is written to r[i-1]
+    
+LOOP:
+    ADD  @APTR+, SUM        ; load a[i] to SUM via A-pointer (with increment)
+    ADC  CARRY              ; restore carry flag; CARRY register is now 0
+    BIT  #1, SUM            ; carry flag contains now the LSB of SUM register
+    RRC  OLDSUM             ; shift (through carry) OLDSUM to the right 
+    MOV  OLDSUM, 0(RPTR)    ; write shifted OLDSUM to r[i-1] via R-pointer
+    ADD  #2, RPTR           ; increment R pointer
+    MOV  SUM, OLDSUM        ; copy SUM register to OLDSUM
+    MOV  CARRY, SUM         ; 
+    DEC  LEN                ; decrement LEN (is used as loop counter)
+    JNZ  LOOP               ; loop terminates when LEN equals 0
+    
+    // After the last iteration of the loop, the OLDSUM register contains the
+    // sum of a[len-1] and MASK (which is either 0xFFFF or 0). However, the
+    // most significant word of the prime p is 0x7FFF, which means we need to
+    // first subtract (MASK & 0x8000) from OLDSUM and propagate the borrow bit
+    // into the CARRY register. Finally, we extract the carry flag from the
+    // CARRY register, shift (through carry) OLDSUM to the right, and write
+    // the shifted OLDSUM register to to r[len-1] via the R-pointer
+    
+    ADD  @APTR, SUM         ; load a[len-1] to SUM via A-pointer
+    ADC  CARRY              ; restore carry flag; CARRY register is now 0
+    AND  #0x8000, MASK      ; MASK register is now either 0x8000 or 0
+    ADD  MASK, SUM          ; subtract MASK from OLDSUM
+    ADC  CARRY              ; 
+    BIT  #1, CARRY          ; carry flag contains now the LSB of SUM register
+    RRC  SUM                ; shift (through carry) OLDSUM to the right 
+    RRC  OLDSUM             ; shift (through carry) OLDSUM to the right 
+    MOV  OLDSUM, 0(RPTR)    ; write shifted OLDSUM to r[len-2] via R-pointer
+    MOV  SUM, 2(RPTR)       ; write shifted OLDSUM to r[len-1] via R-pointer
+    
+    // Pop callee-saved registers from stack
+    
+    POP_R11_TO_R8           ; macro to pop registers R11-R8 (see mspcfg.h)
+    
+    RET_                    ; RET_ is either RET or RETA (see mspcfg.h)
+    
+END

@@ -1,0 +1,221 @@
+///////////////////////////////////////////////////////////////////////////////
+// gfp_cneg.s43: Conditional Negation Modulo a Pseudo-Mersenne Prime.        //
+// This file is part of SECC430, a Scalable ECC implementation for MSP430.   //
+// Version 1.0.2 (2023-11-13), see <http://www.cryptolux.org/> for updates.  //
+// License: GPLv3 (see LICENSE file), other licenses available upon request. //
+// ------------------------------------------------------------------------- //
+// This program is free software: you can redistribute it and/or modify it   //
+// under the terms of the GNU General Public License as published by the     //
+// Free Software Foundation, either version 3 of the License, or (at your    //
+// option) any later version. This program is distributed in the hope that   //
+// it will be useful, but WITHOUT ANY WARRANTY; without even the implied     //
+// warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the  //
+// GNU General Public License for more details. You should have received a   //
+// copy of the GNU General Public License along with this program. If not,   //
+// see <http://www.gnu.org/licenses/>.                                       //
+///////////////////////////////////////////////////////////////////////////////
+
+
+// Function prototype:
+// -------------------
+// void gfp_cneg_msp(UINT16 *r, const UINT16 *a, UINT16 c, int neg, int len);
+// 
+// Description:
+// ------------
+// The function gfp_cneg_msp computes the modular negative r = -a mod p if the
+// LSB of operand 'neg' is 1, otherwise it computes r = a mod p. The operand
+// 'a' is a multiple-precision integer and p is a pseudo-Mersenne prime of the
+// form p = 2^n - c. Both the operand and the result are stored in  arrays of
+// 16-bit unsigned integers (the word with index 0 is the least  significant
+// one). The operand 'a' and the result 'r' consist of 'len' words. Note that
+// 'len' must be >= 2. The prime p is given by p = 2^(16*'len'-1) - 'c', where
+// 'c' is at most 15 bits long (i.e. 'c' must be in the range of [1, 2^15-1]).
+// The result may not be fully reduced (i.e. the result is not necessarily the
+// least non-negative residue modulo p). When the LSB of 'neg' is 0, it is not
+// guaranteed that 'r' is identical to 'a', but 'r' and 'a' will belong to the
+// same residue class modulo the prime p. This function is described in the
+// paper "Energy-Efficient Elliptic Curve Cryptography for MSP430-Based
+// Wireless Sensor Nodes" (Proceedings of ACISP 2016, Springer Verlag).
+// 
+// Operands:
+// ---------
+// r: address of UINT16 array for result (must have space for 'len' words)
+// a: address of UINT16 array for operand (has length of 'len' words)
+// c: constant c of the prime p = 2^(16*'len'-1) - c, where 1 <= 'c' <= 2^15-1
+// neg: either 1 (negation is actually performed) or 0 (no negation performed)
+// len: number of UINT16 words of arrays 'a' and 'r' ('len' must be >= 2)
+// 
+// Execution time (including function-call overhead):
+// --------------------------------------------------
+// MSP430F1611: len=10 (160 bit): 231 cycles, len=12 (192 bit): 261 cycles,
+//              len=14 (224 bit): 291 cycles, len=16 (256 bit): 321 cycles
+// 
+// Version history:
+// ----------------
+// 1.0.0: Lin's original implementation from her M.Sc. project
+// 1.0.1: Performance improvements and further documentation added by Johann
+// 1.0.2: Realize negation by addition of 2's complement; apply mask via XOR
+
+// ToDo: when c is at most 14 bits long then the "MOV &RESHI, SUMHI" can be 
+// replaced by "CLR SUMHI" and also the double subtraction of (c<<1) can be
+// replace by a single subtraction of (c<<2).
+// Note: May we dont even need the "CLR SUMHI" when we replace the "SBC SUMHI"
+// by a "SUBC SUMHI, SUMHI" ???
+// Note: it may be OK to set the SUMHI to 0xFFFF at the beginning and then add
+// only 1 at the end of the loop
+// Note: Test corner cases like a = 0, a = p, a = 2*p, etc.
+
+#include "mspcfg.h"
+
+
+// Define register names
+
+; AWORD holds the current word of the operand 'a' to be conditionally negated
+#define AWORD R7
+; MSW holds an itermediate value of the most significant word of result 'r'
+#define MSW R8
+; SUMLO holds the lower part (i.e. 16 LSBs) of the sum of two or more words
+#define SUMLO R9
+; SUMLO holds the upper part (i.e. carries) of the sum of two or more words
+#define SUMHI R10
+; LEN holds 'len' parameter, i.e. the number of words of arrays 'a' and 'r'
+#define LEN R11
+; RPTR holds a pointer for writing words to array 'r'
+#define RPTR R12
+; APTR holds a pointer for loading words from array 'a'
+#define APTR R13
+; CWORD holds parameter 'c', which defines the prime p = 2^(16*'len'-1) - c
+#define CWORD R14
+; NEG holds parameter 'neg' that determines whether the negation is performed
+#define NEG R15
+; MASK holds a mask that is either 0xFFFF (if 'neg' = 1) or 0 (if 'neg' = 0)
+#define MASK R15
+
+
+NAME gfp_cneg_msp           ; module name
+PUBLIC gfp_cneg_msp         ; make module name visible to other modules
+RSEG CODE                   ; module is relocatable and placed in CODE segment
+gfp_cneg_msp:
+    
+    // Push callee-saved registers on stack, get 5th parameter from stack, and
+    // disable interrupts
+    
+    PUSH_R7_TO_R11          ; macro to push registers R7-R11 (see mspcfg.h)
+    MOV  OFFSET(5)(SP), LEN ; copy parameter 'len' from stack (see mspcfg.h)
+    DINT                    ; disable interrupts since we use multiplier
+    NOP                     ; required for DINT
+    
+    // Compute a mask, which is either 0xFFFF (if neg = 1) or 0 (if neg = 0)
+    
+    AND  #1, NEG            ; we only consider the LSB of the neg parameter
+    ADD  #0xFFFF, MASK      ; MASK is now 0 if LSB(neg)=1 and 0xFFFF otherwise
+    INV  MASK               ; MASK is now 0xFFFF if LSB(neg)=1 and 0 otherwise
+    
+    // We compute the sum r = 4*p + (~mask & a) - (mask & a) mod p in a very
+    // similar way as in the modular subtraction. The mask and its inverse are
+    // applied word-wise to the operand 'a'. As stated before, if LSB(neg) is
+    // 1 then the mask is 0xFFFF, which means the negation is actually carried
+    // out. On the other hand, if LSB(neg) is 0, the mask is also 0 and no 
+    // negation is performed. The computation of 'r' requires only a single 
+    // loop, whereby in each iteration a[i] is either added or subtracted. We
+    // start with the most significant word of 'a', i.e. a[len-1], and compute
+    // sum = 0x1FFFC + (~mask & a[len-1]) - (mask & a[len-1]). This sum, which
+    // can be up to 18 bits long, is paced in the SUMHI|SUMLO register pair
+    
+    CLR  SUMHI              ; clear SUMHI register
+    MOV  #0xFFFC, SUMLO     ; initialize SUMLO with 0xFFFC
+    AND  MASK, SUMLO        ; apply mask to SUMLO to clear it if neg=0
+    ADD  LEN, LEN           ; double LEN, holds now num of bytes of array 'a'
+    SUB  #2, LEN            ; len-2 is the offset (in bytes) to the MSW of 'a'
+    ADD  LEN, APTR          ; A-pointer now contains the address of a[len-1]
+    MOV  @APTR, AWORD       ; load a[len-1] to AWORD register via A-pointer
+    XOR  MASK, AWORD        ; invert AWORD if neg=1 (no modification if neg=0)
+    ADD  AWORD, SUMLO       ; add AWORD to SUMLO register
+    ADC  SUMHI              ; add carry flag to SUMHI register
+    SUB  LEN, APTR          ; set A-pointer back to the address of a[0]
+    
+    // Compute the product c*(sum>>15) and msw = sum&0x7FFF. The product can
+    // be up to 18 bits long and is placed in the SUMHI|SUMLO register pair
+    
+    RLA  SUMLO              ; shift SUMLO left; carry flag is now MSB of SUMLO
+    RLC  SUMHI              ; shift SUMHI left via carry; carry flag is now 0
+    RRC  SUMLO              ; shift SUMLO right; MSB of SUMLO is now 0
+    MOV  SUMLO, MSW         ; copy SUMLO to MSW reg (contains now sum&0x7FFF)
+    MOV  SUMHI, &MPY        ; copy SUMHI (contains the 2 MSBs of sum) to &MPY
+    MOV  CWORD, &OP2        ; copy CWORD to &OP2; this starts multiplication
+    MOV  &RESLO, SUMLO      ; copy &RESLO (lower half of product) to SUMLO reg
+    MOV  &RESHI, SUMHI      ; copy &RESHI (upper half of product) to SUMHI reg
+    
+    // Now we need to add the least significant word of 4*p to the SUMHI|SUMLO
+    // register pair. However, instead of adding 4*p[0], we subtract 4*c from 
+    // SUMHI|SUMLO by subtracting (c<<1) twice. Note that (c<<1) fits into a
+    // single register since c is at most 15 bits long. The subtraction of 4*c
+    // generates a borrow, which we will propagate up to the most significant
+    // word (using the addition loop below) and destroy it there by adding 1
+    
+    ADD  CWORD, CWORD       ; double CWORD, contains now (c<<1)
+    AND  MASK, CWORD        ; apply mask to CWORD to clear it if neg=0
+    SUB  CWORD, SUMLO       ; subtract (c<<1) from SUMLO register
+    SBC  SUMHI              ; subtract carry flag from SUMHI register
+    SUB  CWORD, SUMLO       ; subtract (c<<1) from SUMLO register
+    SBC  SUMHI              ; subtract carry flag from SUMHI register
+    // MOV  #1, CWORD          ; set CWORD register to 1
+    // AND  MASK, CWORD        ; apply mask to CWORD to clear it if neg=0
+    // ADD  CWORD, SUMLO       ; add 1 (if neg=1) or 0 (neg=0) from SUMLO reg
+    // ADC  SUMHI              ; add carry flag to SUMHI register
+    BIT  #1, NEG            ; carry flag is now 1 if LSB(neg)=1 and 0 otherwise
+    ADC  SUMLO              ; add carry flag to SUMLO register
+    ADC  SUMHI              ; propagate carry to SUMHI register   
+    
+    // In the i-th iteration of the addition loop, the word (~mask & a[i]) is
+    // added to the content of the SUMHI|SUMLO register pair, while the word
+    // (mask & a[i]) is subtracted from it. Then, SUMLO is written to r[i]
+    // (via the R-pointer) and the SUMHI|SUMLO register pair is shifted to the
+    // right by 16 bits to prepare for the next iteration. Note that we do not
+    // need to explitly add 4*p[i] to SUMHI|SUMLO since we propagate the
+    // borrow generated above to the next-higher word(s) by performing an
+    // *arithmetic* right-shift of the SUMHI|SUMLO register pair (this works
+    // because p[i] is always 0xFFFF for 1 <= i <= len-2). After this
+    // right-shift, SUMHI|SUMLO is either -2, -1, 0, or 1 (the subtraction of
+    // (mask & a[i]) may generate a second borrow, whereas the addition of
+    // (~mask & a[i]) may generate a carry). The loop is iterated only len-1
+    // times since the most significant word (i.e. a[len-1]) has already been
+    // processed above
+    
+LOOP:
+    MOV  @APTR+, AWORD      ; load a[i] to AWORD (with increment) via A-ptr
+    XOR  MASK, AWORD        ; invert AWORD if neg=1 (no modification if neg=0)
+    ADD  AWORD, SUMLO       ; add AWORD to SUMLO register
+    ADC  SUMHI              ; add carry flag to SUMHI register
+    MOV  SUMLO, 0(RPTR)     ; write SUMLO to r[i] via R-pointer
+    ADD  #2, RPTR           ; increment R-pointer
+    MOV  SUMHI, SUMLO       ; copy SUMHI register to SUMLO
+    RRA  SUMHI              ; 1-bit arithmetic right-shift of SUMHI register
+    SUB  #2, LEN            ; decrement LEN register by 2
+    JNZ  LOOP               ; loop terminates when LEN equals 0
+    
+    // At the end of the loop, R-pointer contains the address of r[len-1]. The
+    // sum of the most significant word is already in the MSW register; we
+    // just need to add it to the SUMLO register. In the addition loop, the
+    // words p[i] of the prime p were processed by simply propagating the
+    // borrow generated by the subtraction of 4*c to the next-higher word(s),
+    // which is possible since p[i] is 0xFFFF for 1 <= i <= len-2. However, we
+    // added 4*p[len-1] = 0x1FFFC directly to the sum of the most significant
+    // words. In order to get the correct result, it is necessary to add 3 to
+    // the SUMLO register. Furthermore, we need to add 1 to SUMLO to stop the
+    // propagation of the borrow mentioned above. After these final additions,
+    // we write the result (which can be at most 16 bits long) to r[len-1]
+    
+    ADD  MSW, SUMLO         ; add MSW (i.e. sum&0x7FFF) to SUMLO register
+    AND  #4, MASK           ; MASK is now 4 if LSB(neg)=1 and 0 otherwise
+    ADD  MASK, SUMLO        ; add MASK to SUMLO register
+    MOV  SUMLO, 0(RPTR)     ; write SUMLO to r[len-1] via R-pointer
+    
+    // Enable interrupts and pop callee-saved registers from stack
+    
+    EINT_                   ; macro to enable interrupts (see mspcfg.h)
+    POP_R11_TO_R7           ; macro to pop registers R11-R7 (see mspcfg.h)
+    
+    RET_                    ; RET_ is either RET or RETA (see mspcfg.h)
+    
+END

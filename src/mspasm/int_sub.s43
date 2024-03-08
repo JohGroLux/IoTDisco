@@ -1,0 +1,40 @@
+// Multiprecision subtraction of two 16-bit integer arrays (in Assembly)
+
+
+#include "mspcfg.h"
+
+
+// register definitions
+#define LEN R15
+#define BPTR R14
+#define APTR R13
+#define RPTR R12
+#define DIF R11
+#define BORROW R10
+
+
+NAME int_sub_msp            ; module name
+PUBLIC int_sub_msp          ; make the main label visible outside this module
+RSEG CODE                   ; place program in 'CODE' segment
+int_sub_msp:
+    
+    PUSH_R10_TO_R11         ; macro to push registers R10-R11 (see mspcfg.h)
+    MOV  #1, BORROW         ; initialize BORROW register with 1
+    
+LOOP:
+    MOV  @APTR+, DIF        ; load a[i] to DIF
+    RRA  BORROW             ; restore carry flag; BORROW register is now 0
+    SUBC @BPTR+, DIF        ; subtract b[i] with carry from a[i]
+    ADC  BORROW             ; save the carry flag in BORROW register
+    MOV  DIF, 0(RPTR)       ; write dif to r[i]
+    ADD  #2, RPTR           ; increment R pointer (carry flag gets modified!)
+    DEC  LEN                ; decrement len
+    JNZ  LOOP               ; jump to 'LOOP' if not zero
+    
+    XOR  #1, BORROW         ; invert LSB of BORROW register
+    MOV  BORROW, R12        ; return borrow bit (is either 0 or 1)
+    POP_R11_TO_R10          ; macro to pop R11-R10 and return (see mspcfg.h)
+    
+    RET_                    ; RET_ is either RET or RETA (see mspcfg.h)
+    
+END
