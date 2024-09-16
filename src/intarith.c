@@ -124,33 +124,31 @@ int int_sub_c99(UINT16 *r, const UINT16 *a, const UINT16 *b, int len)
 /*------Multiprecision multiplication------*/
 void int_mul_c99(UINT16 *r, const UINT16 *a, const UINT16 *b, int len)
 {
-  int i, j, k;
-  UINT64 accu;
+  int i, j;
+  UINT32 prod = 0;
   
-  /* first iteration of 1st outer loop */
-  accu = (UINT32) a[0]*b[0];
-  r[0] = (UINT16) accu;
-  accu >>= 16;
-  /* len-1 iterations of 1st outer loop */
-  for (i = 1; i < len; i++)  
-  { 
-    j = 0; k = i;
-    while (k >= 0) accu += (UINT32) a[j++]*b[k--];
-    r[i] = (UINT16) accu;
-    accu >>= 16;
+  /* multiplication of A by b[0] */
+  for(j = 0; j < len; j ++) 
+  {
+    prod += (UINT32) a[j]*b[0];
+    r[j] = (UINT16) prod;
+    prod >>= 16;
   }
-  /* len-2 iterations of 2nd outer loop */
-  for (i = len; i < 2*len-2; i++)
-  { 
-    k = len-1; j = i-k;
-    while (j < len) accu += (UINT32) a[j++]*b[k--];
-    r[i] = (UINT16) accu;
-    accu >>= 16;
+  r[j] = (UINT16) prod;
+  
+  /* multiplication of A by b[i] for 1 <= i < len */
+  for(i = 1; i < len; i ++) 
+  {
+    prod = 0;
+    for(j = 0; j < len; j ++) 
+    {
+      prod += (UINT32) a[j]*b[i];
+      prod += r[i+j];
+      r[i+j] = (UINT16) prod;
+      prod >>= 16;
+    }
+    r[i+j] = (UINT16) prod;
   }
-  /* last iteration of 2nd outer loop */
-  accu += (UINT32) a[len-1]*b[len-1];
-  r[2*len-2] = (UINT16) accu;
-  r[2*len-1] = (UINT16) (accu >> 16);
 }
 
 
@@ -185,38 +183,45 @@ void int_mul32_c99(UINT16 *r, const UINT16 *a, const UINT16 *b, int len)
 /*------Multiprecision squaring------*/
 void int_sqr_c99(UINT16 *r, const UINT16 *a, int len)
 {
-  int i, j, k;
-  UINT64 accu = 0;
+  int i, j;
+  UINT32 prod = 0, sum = 0;
   
+  /* compute A[1,...,len-1]*a[0] */
   r[0] = 0;
-  /* len-1 iterations of 1st outer loop */  
-  for(i = 1; i < len; i++) 
+  for(j = 1; j < len; j ++) 
   {
-    j = 0; k = i;
-    while (j < k) accu += (UINT32) a[j++]*a[k--];
-    r[i] = (UINT16) accu;
-    accu >>= 16;
+    prod += (UINT32) a[j]*a[0];
+    r[j] = (UINT16) prod;
+    prod >>= 16;
   }
-  /* len-2 iterations of 2nd outer loop */
-  for(i = len; i < 2*len-2; i++) 
+  r[j] = (UINT16) prod;
+  
+  /* compute A[i+1,...,len-1]*a[i] for 1 <= i < len */
+  for(i = 1; i < len; i ++) 
   {
-    k = len-1; j = i-k;
-    while (j < k) accu += (UINT32) a[j++]*a[k--];
-    r[i] = (UINT16) accu;
-    accu >>= 16;
+    prod = 0;
+    for(j = i+1; j < len; j ++) 
+    {
+      prod += (UINT32) a[j]*a[i];
+      prod += r[i+j];
+      r[i+j] = (UINT16) prod;
+      prod >>= 16;
+    }
+    r[i+j] = (UINT16) prod;
   }
-  r[i] = (UINT16) accu;
-  r[i+1] = 0;
-  /* double the result obtained so far and add all a[i]*a[i] */
-  accu = 0;
-  for(i = 0; i < 2*len; i += 2) 
+  
+  /* double the result obtained so far and */
+  /* add the partial products a[i]*a[i]    */
+  for (i = 0; i < len; i ++)
   {
-    k = i>>1;
-    accu += (UINT32) a[k]*a[k] + r[i] + r[i];
-    r[i] = (UINT16) accu;
-    accu >>= 16; 
-    accu += (UINT32) r[i+1] + r[i+1];
-    r[i+1] = (UINT16) accu;
-    accu >>= 16;
+    prod = (UINT32) a[i]*a[i];
+    sum += (UINT16) prod;
+    sum += (UINT32) r[2*i] + r[2*i];
+    r[2*i] = (UINT16) sum;
+    sum >>= 16;
+    sum += ((UINT16) (prod>>16));
+    sum += (UINT32) r[2*i+1] + r[2*i+1];
+    r[2*i+1] = (UINT16) sum;
+    sum >>= 16;
   }
 }
