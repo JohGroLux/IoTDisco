@@ -89,6 +89,29 @@ void gfp_sub_c99(UINT16 *r, const UINT16 *a, const UINT16 *b, UINT16 c, int len)
 }
 
 
+/*------Modular subtraction (2nd variant)------*/
+void gfp_sub_c99_v2(UINT16 *r, const UINT16 *a, const UINT16 *b, UINT16 c, int len)
+{
+  int i;
+  UINT16 msw;
+  UINT32 sum;
+  
+  /* we compute r = 4*p + a - b */
+  sum = (UINT32) 0x1FFFC + a[len-1] - b[len-1];
+  msw = ((UINT16) sum) & 0x7FFF;
+  sum = (UINT32) c*((UINT16) (sum >> 15));
+  sum = sum - (c<<1) - (c<<1) + 4;  // (c<<1) can be up to 16 bits long!
+  
+  for (i = 0; i < len-1; i++)
+  {
+    sum += (UINT32) 0x3FFFC + a[i] - b[i];
+    r[i] = (UINT16) sum;
+    sum >>= 16;
+  }
+  r[len-1] = msw + ((UINT16) sum);
+}
+
+
 /*------Conditional negation------*/
 void gfp_cneg_c99(UINT16 *r, const UINT16 *a, UINT16 c, int neg, int len)
 {
@@ -141,6 +164,32 @@ void gfp_hlv_c99(UINT16 *r, const UINT16 *a, UINT16 c, int len)
     sum = ars32(sum, 16);  // arithmetic right-shift; now sum is in [-1,0]
   }
   sum += (INT32) a[len-1] + (0x8000 & mask);
+  r[len-2] = (((UINT16) sum) << 15) | (tmp >> 1);
+  r[len-1] = (UINT16) (sum >> 1);
+}
+
+
+/*------Modular halving (2nd variant)------*/
+void gfp_hlv_c99_v2(UINT16 *r, const UINT16 *a, UINT16 c, int len)
+{
+  int i;
+  UINT16 tmp, mask;
+  UINT32 sum;
+  
+  // masked addition of prime p to a
+  mask = ~((a[0] & 1) - 1);  // 0 or 0xFFFF
+  // mask = 0 - (a[0] & 1);  // 0 or 0xFFFF
+  sum = (UINT32) a[0] + ((0-c) & mask);
+  tmp = (UINT16) sum;
+  sum >>= 16;
+  for (i = 1; i < len-1; i ++)
+  {
+    sum += (UINT32) a[i] + mask;
+    r[i-1] = (((UINT16) sum) << 15) | (tmp >> 1);
+    tmp = (UINT16) sum;
+    sum >>= 16;
+  }
+  sum += (UINT32) a[len-1] + (0x7FFF & mask);
   r[len-2] = (((UINT16) sum) << 15) | (tmp >> 1);
   r[len-1] = (UINT16) (sum >> 1);
 }
