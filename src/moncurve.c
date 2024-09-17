@@ -33,21 +33,6 @@
 #endif
 
 
-#define gfp_mul(r, a, b, c, len) do {   \
-  int_mul(prod, a, b, len);             \
-  gfp_red(r, prod, c, len);             \
-} while(0)
-
-#define gfp_sqr(r, a, c, len) do {      \
-  int_sqr(prod, a, len);                \
-  gfp_red(r, prod, c, len);             \
-} while(0)
-
-#define gfp_mul32(r, a, b, c, len) do { \
-  int_mul32(prod, a, b, len);           \
-  gfp_red32(r, prod, c, len);           \
-} while(0)
-
 #define get_bit(k, i) ((k[((i)>>4)] >> ((i)&0xF)) & 1)
 
 

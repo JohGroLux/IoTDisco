@@ -33,7 +33,19 @@
 #define gfp_cneg(r, a, neg, c, len) gfp_cneg_msp((r), (a), (neg), (c), (len))
 #define gfp_hlv(r, a, c, len) gfp_hlv_msp((r), (a), (c), (len))
 #define gfp_red(r, a, c, len) gfp_red_msp((r), (a), (c), (len))
+#define gfp_mul(r, a, b, c, len) do {   \
+  int_mul_msp(prod, a, b, len);         \
+  gfp_red_msp(r, prod, c, len);         \
+} while(0)
+#define gfp_sqr(r, a, c, len) do {      \
+  int_sqr_msp(prod, a, len);            \
+  gfp_red_msp(r, prod, c, len);         \
+} while(0)
 #define gfp_red32(r, a, c, len) gfp_red32_msp((r), (a), (c), (len))
+#define gfp_mul32(r, a, b, c, len) do { \
+  int_mul32_msp(prod, a, b, len);       \
+  gfp_red32_msp(r, prod, c, len);       \
+} while(0)
 #define gfp_sub(r, a, b, c, len) gfp_sub_msp((r), (a), (b), (c), (len))
 #else
 #define int_add(r, a, b, len) int_add_c99((r), (a), (b), (len))
@@ -46,7 +58,10 @@
 #define gfp_cneg(r, a, neg, c, len) gfp_cneg_c99((r), (a), (neg), (c), (len))
 #define gfp_hlv(r, a, c, len) gfp_hlv_c99((r), (a), (c), (len))
 #define gfp_red(r, a, c, len) gfp_red_c99((r), (a), (c), (len))
+#define gfp_mul(r, a, b, c, len) gfp_mul_c99((r), (a), (b), (c), (len))
+#define gfp_sqr(r, a, c, len) gfp_sqr_c99((r), (a), (c), (len))
 #define gfp_red32(r, a, c, len) gfp_red32_c99((r), (a), (c), (len))
+#define gfp_mul32(r, a, b, c, len) gfp_mul32_c99((r), (a), (b), (c), (len))
 #define gfp_sub(r, a, b, c, len) gfp_sub_c99((r), (a), (b), (c), (len))
 #endif  // MSPECC_USE_ASM
 

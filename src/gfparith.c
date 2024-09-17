@@ -225,6 +225,130 @@ void gfp_red_c99(UINT16 *r, const UINT16 *a, UINT16 c, int len)
 }
 
 
+/*------Modular multiplication------*/
+void gfp_mul_c99(UINT16 *r, const UINT16 *a, const UINT16 *b, UINT16 c, int len)
+{
+  int i, j;
+  UINT16 msw, d = (c<<1);
+  UINT32 prod = 0;
+  UINT16 t[2*MSPECC_MAX_LEN];
+  
+  /* multiplication of A by b[0] */
+  for(j = 0; j < len; j ++) 
+  {
+    prod += (UINT32) a[j]*b[0];
+    t[j] = (UINT16) prod;
+    prod >>= 16;
+  }
+  t[j] = (UINT16) prod;
+  
+ /* multiplication of A by b[i] for 1 <= i < len */
+  for(i = 1; i < len; i ++) 
+  {
+    prod = 0;
+    for(j = 0; j < len; j ++) 
+    {
+      prod += (UINT32) a[j]*b[i];
+      prod += t[i+j];
+      t[i+j] = (UINT16) prod;
+      prod >>= 16;
+    }
+    t[i+j] = (UINT16) prod;
+  }
+  
+  /* first round of modular reduction */
+  prod = 0;
+  for (i = 0; i < len-1; i ++)
+  {
+    prod += (UINT32) t[i+len]*d + t[i];
+    t[i] = (UINT16) prod;
+    prod >>= 16;
+  }
+  prod += (UINT32) t[2*len-1]*d + t[len-1];
+  
+  /* second round of modular reduction */
+  msw = ((UINT16) prod) & 0x7FFF;
+  prod = (UINT32) c*(prod >> 15);  // prod is max 32 bits if c is max 15 bits
+  for (i = 0; i < len-1; i ++)
+  {
+    prod += t[i];
+    r[i] = (UINT16) prod;
+    prod >>= 16; 
+  }
+  r[len-1] = msw + ((UINT16) prod);
+}
+
+
+/*------Modular squaring------*/
+void gfp_sqr_c99(UINT16 *r, const UINT16 *a, UINT16 c, int len)
+{
+  int i, j;
+  UINT16 msw, d = (c<<1);
+  UINT32 prod = 0, sum = 0;
+  UINT16 t[2*MSPECC_MAX_LEN];
+  
+  /* compute A[1,...,len-1]*a[0] */
+  t[0] = 0;
+  for(j = 1; j < len; j ++) 
+  {
+    prod += (UINT32) a[j]*a[0];
+    t[j] = (UINT16) prod;
+    prod >>= 16;
+  }
+  t[j] = (UINT16) prod;
+  
+  /* compute A[i+1,...,len-1]*a[i] for 1 <= i < len */
+  for(i = 1; i < len; i ++) 
+  {
+    prod = 0;
+    for(j = i+1; j < len; j ++) 
+    {
+      prod += (UINT32) a[j]*a[i];
+      prod += t[i+j];
+      t[i+j] = (UINT16) prod;
+      prod >>= 16;
+    }
+    t[i+j] = (UINT16) prod;
+  }
+  
+  /* double the result obtained so far and */
+  /* add the partial products a[i]*a[i]    */
+  for (i = 0; i < len; i ++)
+  {
+    prod = (UINT32) a[i]*a[i];
+    sum += (UINT16) prod;
+    sum += (UINT32) t[2*i] + t[2*i];
+    t[2*i] = (UINT16) sum;
+    sum >>= 16;
+    sum += ((UINT16) (prod>>16));
+    sum += (UINT32) t[2*i+1] + t[2*i+1];
+    t[2*i+1] = (UINT16) sum;
+    sum >>= 16;
+  }
+  
+  /* first round of modular reduction */
+  prod = 0;
+  for (i = 0; i < len-1; i ++)
+  {
+    prod += (UINT32) t[i+len]*d + t[i];
+    t[i] = (UINT16) prod;
+    prod >>= 16;
+  }
+  prod += (UINT32) t[2*len-1]*d + t[len-1];
+  
+  /* second round of modular reduction */
+  msw = ((UINT16) prod) & 0x7FFF;
+  prod = (UINT32) c*(prod >> 15);  // prod is max 32 bits if c is max 15 bits
+  for (i = 0; i < len-1; i ++)
+  {
+    prod += t[i];
+    r[i] = (UINT16) prod;
+    prod >>= 16; 
+  }
+  r[len-1] = msw + ((UINT16) prod);
+}
+
+
 /*------Reduction of a (16*len+32)-bit integer------*/
 void gfp_red32_c99(UINT16 *r, const UINT16 *a, UINT16 c, int len)
 {
@@ -254,6 +378,62 @@ void gfp_red32_c99(UINT16 *r, const UINT16 *a, UINT16 c, int len)
   for (i = 3; i < len-1; i++)
   {
     prod += (UINT32) a[i];
+    r[i] = (UINT16) prod;
+    prod >>= 16;
+  }
+  r[len-1] = ((UINT16) prod) + msw;
+}
+
+
+/*------Modular Multiplication by 32-bit integer------*/
+void gfp_mul32_c99(UINT16 *r, const UINT16 *a, const UINT16 *b, UINT16 c, int len)
+{
+  int i;
+  UINT16 msw, word;
+  UINT32 prod = 0;
+  UINT16 t[MSPECC_MAX_LEN+2];
+  
+  /* multiplication of A by b[0] */
+  for (i = 0; i < len; i++)  
+  { 
+    prod += (UINT32) a[i]*b[0];
+    t[i] = (UINT16) prod;
+    prod >>= 16;
+  }
+  t[len] = (UINT16) prod;
+  
+  /* multiplication of A by b[1] */
+  prod = 0;
+  for (i = 0; i < len; i++)  
+  { 
+    prod += (UINT32) a[i]*b[1] + t[i+1];
+    t[i+1] = (UINT16) prod;
+    prod >>= 16;
+  }
+  t[len+1] = (UINT16) prod;
+  
+  prod = 0;
+  msw = t[len-1] & 0x7FFF;
+  
+  // compute words r[0] and r[1]
+  for (i = 0; i < 2; i ++)
+  {
+    word = (t[i+len] << 1) | (t[i+len-1] >> 15);
+    prod += (UINT32) word*c + t[i];
+    r[i] = (UINT16) prod;
+    prod >>= 16;
+  }
+  
+  // compute word r[2]
+  word = -(t[len+1] >> 15);  // either 0 or 0xFFFF
+  prod += (UINT32) (word&c) + t[2];
+  r[2] = (UINT16) prod;
+  prod >>= 16;
+  
+  // compute r[i] = a[i] + carry
+  for (i = 3; i < len-1; i++)
+  {
+    prod += (UINT32) t[i];
     r[i] = (UINT16) prod;
     prod >>= 16;
   }
