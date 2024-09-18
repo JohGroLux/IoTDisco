@@ -27,7 +27,7 @@ void gfp_set(UINT16 *r, UINT16 c, int len)
   int i;
   
   r[len-1] = 0x7FFF;
-  for (i = len-2; i > 0; i--) r[i] = 0xFFFF;
+  for (i = len - 2; i > 0; i--) r[i] = 0xFFFF;
   r[0] = -c;
 }
 
@@ -38,8 +38,10 @@ int gfp_isp(const UINT16 *a, UINT16 c, int len)
   int i;
   
   if (a[len-1] != 0x7FFF) return 0;  // a != p
-  for (i = len-2; i > 0; i--) { if (a[i] != 0xFFFF) return 0; }  // a != p
-  if (a[0] != -c) return 0;  // a != p
+  for (i = len - 2; i > 0; i--) {
+    if (a[i] != 0xFFFF) return 0;    // a != p
+  }
+  if (a[0] != -c) return 0;          // a != p
   
   return 1;  // a == p
 }
@@ -48,16 +50,15 @@ int gfp_isp(const UINT16 *a, UINT16 c, int len)
 /*------Modular addition------*/
 void gfp_add_c99(UINT16 *r, const UINT16 *a, const UINT16 *b, UINT16 c, int len)
 {
-  int i;
-  UINT16 msw;
   UINT32 sum;
+  UINT16 msw;
+  int i;
   
   sum = (UINT32) a[len-1] + b[len-1];
   msw = ((UINT16) sum) & 0x7FFF;
   sum = (UINT32) c*((UINT16) (sum >> 15));
   
-  for (i = 0; i < len-1; i++)
-  {
+  for (i = 0; i < len - 1; i++) {
     sum += (UINT32) a[i] + b[i];
     r[i] = (UINT16) sum;
     sum >>= 16;  // sum is <= 2
@@ -69,18 +70,17 @@ void gfp_add_c99(UINT16 *r, const UINT16 *a, const UINT16 *b, UINT16 c, int len)
 /*------Modular subtraction------*/
 void gfp_sub_c99(UINT16 *r, const UINT16 *a, const UINT16 *b, UINT16 c, int len)
 {
-  int i;
-  UINT16 msw;
   INT32 sum;
+  UINT16 msw;
+  int i;
   
-  /* we compute r = 4*p + a - b mod p = 2^(16*len+1) + a - b - 4*c mod p */
+  // we compute r = 4*p + a - b mod p = 2^(16*len+1) + a - b - 4*c mod p
   sum = (INT32) 0x1FFFC + a[len-1] - b[len-1];
   msw = ((UINT16) sum) & 0x7FFF;
   sum = (INT32) c*((UINT16) (sum >> 15));
-  sum = sum - (c<<1) - (c<<1);  // (c<<1) can be up to 16 bits long!
+  sum = sum - (c << 1) - (c << 1);  // (c << 1) can be up to 16 bits long!
   
-  for (i = 0; i < len-1; i++)
-  {
+  for (i = 0; i < len - 1; i++) {
     sum += (INT32) a[i] - b[i];
     r[i] = (UINT16) sum;
     sum = ars32(sum, 16);  // arithmetic right-shift; now sum is in [-2,1]
@@ -92,18 +92,17 @@ void gfp_sub_c99(UINT16 *r, const UINT16 *a, const UINT16 *b, UINT16 c, int len)
 /*------Modular subtraction (2nd variant)------*/
 void gfp_sub_c99_v2(UINT16 *r, const UINT16 *a, const UINT16 *b, UINT16 c, int len)
 {
-  int i;
-  UINT16 msw;
   UINT32 sum;
+  UINT16 msw;
+  int i;
   
-  /* we compute r = 4*p + a - b */
+  // we compute r = 4*p + a - b
   sum = (UINT32) 0x1FFFC + a[len-1] - b[len-1];
   msw = ((UINT16) sum) & 0x7FFF;
   sum = (UINT32) c*((UINT16) (sum >> 15));
-  sum = sum - (c<<1) - (c<<1) + 4;  // (c<<1) can be up to 16 bits long!
+  sum = sum - (c << 1) - (c << 1) + 4;  // (c << 1) can be up to 16 bits long!
   
-  for (i = 0; i < len-1; i++)
-  {
+  for (i = 0; i < len - 1; i++) {
     sum += (UINT32) 0x3FFFC + a[i] - b[i];
     r[i] = (UINT16) sum;
     sum >>= 16;
@@ -115,9 +114,9 @@ void gfp_sub_c99_v2(UINT16 *r, const UINT16 *a, const UINT16 *b, UINT16 c, int l
 /*------Conditional negation------*/
 void gfp_cneg_c99(UINT16 *r, const UINT16 *a, UINT16 c, int neg, int len)
 {
-  int i;
-  UINT16 msw, mask;
   INT32 sum;
+  UINT16 msw, mask;
+  int i;
   
   mask = ~(((UINT16) (neg&1)) - 1);
   
@@ -131,10 +130,9 @@ void gfp_cneg_c99(UINT16 *r, const UINT16 *a, UINT16 c, int neg, int len)
   sum = (INT32) (mask & 0xFFFC) + (mask ^ a[len-1]);
   msw = ((UINT16) sum) & 0x7FFF;
   sum = (INT32) c*((UINT16) (sum >> 15));
-  sum = sum - (mask & (c<<1)) - (mask & (c<<1)) + (mask & 1);
+  sum = sum - (mask & (c << 1)) - (mask & (c << 1)) + (mask & 1);
   
-  for (i = 0; i < len-1; i++)
-  {
+  for (i = 0; i < len - 1; i++) {
     sum += (INT32) (mask ^ a[i]);
     r[i] = (UINT16) sum;
     sum = ars32(sum, 16);  // arithmetic right-shift; now sum is in [-1,1]
@@ -146,9 +144,9 @@ void gfp_cneg_c99(UINT16 *r, const UINT16 *a, UINT16 c, int neg, int len)
 /*------Modular halving------*/
 void gfp_hlv_c99(UINT16 *r, const UINT16 *a, UINT16 c, int len)
 {
-  int i;
-  UINT16 tmp, mask;
   INT32 sum;
+  UINT16 tmp, mask;
+  int i;
   
   // masked addition of prime p to a
   mask = ~((a[0] & 1) - 1);  // 0 or 0xFFFF
@@ -156,8 +154,7 @@ void gfp_hlv_c99(UINT16 *r, const UINT16 *a, UINT16 c, int len)
   tmp = (UINT16) sum;
   sum = ars32(sum, 16);  // arithmetic right-shift; now sum is in [-1,0]
   
-  for (i = 1; i < len-1; i ++)
-  {
+  for (i = 1; i < len - 1; i++) {
     sum += (INT32) a[i];
     r[i-1] = (((UINT16) sum) << 15) | (tmp >> 1);
     tmp = (UINT16) sum;
@@ -172,18 +169,18 @@ void gfp_hlv_c99(UINT16 *r, const UINT16 *a, UINT16 c, int len)
 /*------Modular halving (2nd variant)------*/
 void gfp_hlv_c99_v2(UINT16 *r, const UINT16 *a, UINT16 c, int len)
 {
-  int i;
-  UINT16 tmp, mask;
   UINT32 sum;
+  UINT16 tmp, mask;
+  int i;
   
   // masked addition of prime p to a
   mask = ~((a[0] & 1) - 1);  // 0 or 0xFFFF
   // mask = 0 - (a[0] & 1);  // 0 or 0xFFFF
-  sum = (UINT32) a[0] + ((0-c) & mask);
+  sum = (UINT32) a[0] + ((0 - c) & mask);
   tmp = (UINT16) sum;
   sum >>= 16;
-  for (i = 1; i < len-1; i ++)
-  {
+  
+  for (i = 1; i < len - 1; i++) {
     sum += (UINT32) a[i] + mask;
     r[i-1] = (((UINT16) sum) << 15) | (tmp >> 1);
     tmp = (UINT16) sum;
@@ -198,25 +195,23 @@ void gfp_hlv_c99_v2(UINT16 *r, const UINT16 *a, UINT16 c, int len)
 /*------Reduction by a pseudo-Mersenne prime p=2^n-c------*/
 void gfp_red_c99(UINT16 *r, const UINT16 *a, UINT16 c, int len)
 {
-  int i;
-  UINT16 msw, d = (c<<1);
   UINT32 prod, sum;
+  UINT16 msw, d = (c << 1);
+  int i;
   
-  /* first round */
+  // first round
   prod = 0;
-  for (i = 0; i < len-1; i++)
-  {
+  for (i = 0; i < len - 1; i++) {
     prod += (UINT32) a[i+len]*d + a[i];
     r[i] = (UINT16) prod;
     prod >>= 16;
   }
   prod += (UINT32) a[2*len-1]*d + a[len-1];
   
-  /* second round */
+  // second round
   msw = ((UINT16) prod) & 0x7FFF;
   sum = (UINT32) c*(prod >>= 15);  // sum is max 32 bits if c is max 15 bits
-  for (i = 0; i < len-1; i++)
-  {
+  for (i = 0; i < len - 1; i++) {
     sum += r[i];
     r[i] = (UINT16) sum;
     sum >>= 16; 
@@ -228,26 +223,23 @@ void gfp_red_c99(UINT16 *r, const UINT16 *a, UINT16 c, int len)
 /*------Modular multiplication------*/
 void gfp_mul_c99(UINT16 *r, const UINT16 *a, const UINT16 *b, UINT16 c, int len)
 {
-  int i, j;
-  UINT16 msw, d = (c<<1);
-  UINT32 prod = 0;
   UINT16 t[2*MSPECC_MAX_LEN];
+  UINT32 prod = 0;
+  UINT16 msw, d = (c << 1);
+  int i, j;
   
-  /* multiplication of A by b[0] */
-  for(j = 0; j < len; j ++) 
-  {
+  // multiplication of A by b[0]
+  for(j = 0; j < len; j++) {
     prod += (UINT32) a[j]*b[0];
     t[j] = (UINT16) prod;
     prod >>= 16;
   }
   t[j] = (UINT16) prod;
   
- /* multiplication of A by b[i] for 1 <= i < len */
-  for(i = 1; i < len; i ++) 
-  {
+  // multiplication of A by b[i] for 1 <= i < len
+  for(i = 1; i < len; i++) {
     prod = 0;
-    for(j = 0; j < len; j ++) 
-    {
+    for(j = 0; j < len; j++) {
       prod += (UINT32) a[j]*b[i];
       prod += t[i+j];
       t[i+j] = (UINT16) prod;
@@ -256,21 +248,19 @@ void gfp_mul_c99(UINT16 *r, const UINT16 *a, const UINT16 *b, UINT16 c, int len)
     t[i+j] = (UINT16) prod;
   }
   
-  /* first round of modular reduction */
+  // first round of modular reduction
   prod = 0;
-  for (i = 0; i < len-1; i ++)
-  {
+  for (i = 0; i < len - 1; i++) {
     prod += (UINT32) t[i+len]*d + t[i];
     t[i] = (UINT16) prod;
     prod >>= 16;
   }
   prod += (UINT32) t[2*len-1]*d + t[len-1];
   
-  /* second round of modular reduction */
+  // second round of modular reduction
   msw = ((UINT16) prod) & 0x7FFF;
   prod = (UINT32) c*(prod >> 15);  // prod is max 32 bits if c is max 15 bits
-  for (i = 0; i < len-1; i ++)
-  {
+  for (i = 0; i < len - 1; i++) {
     prod += t[i];
     r[i] = (UINT16) prod;
     prod >>= 16; 
@@ -282,27 +272,24 @@ void gfp_mul_c99(UINT16 *r, const UINT16 *a, const UINT16 *b, UINT16 c, int len)
 /*------Modular squaring------*/
 void gfp_sqr_c99(UINT16 *r, const UINT16 *a, UINT16 c, int len)
 {
-  int i, j;
-  UINT16 msw, d = (c<<1);
-  UINT32 prod = 0, sum = 0;
   UINT16 t[2*MSPECC_MAX_LEN];
+  UINT32 prod = 0, sum = 0;
+  UINT16 msw, d = (c << 1);
+  int i, j;
   
-  /* compute A[1,...,len-1]*a[0] */
+  // compute A[1,...,len-1]*a[0]
   t[0] = 0;
-  for(j = 1; j < len; j ++) 
-  {
+  for(j = 1; j < len; j++) {
     prod += (UINT32) a[j]*a[0];
     t[j] = (UINT16) prod;
     prod >>= 16;
   }
   t[j] = (UINT16) prod;
   
-  /* compute A[i+1,...,len-1]*a[i] for 1 <= i < len */
-  for(i = 1; i < len; i ++) 
-  {
+  // compute A[i+1,...,len-1]*a[i] for 1 <= i < len
+  for(i = 1; i < len; i++) {
     prod = 0;
-    for(j = i+1; j < len; j ++) 
-    {
+    for(j = i + 1; j < len; j++) {
       prod += (UINT32) a[j]*a[i];
       prod += t[i+j];
       t[i+j] = (UINT16) prod;
@@ -311,10 +298,9 @@ void gfp_sqr_c99(UINT16 *r, const UINT16 *a, UINT16 c, int len)
     t[i+j] = (UINT16) prod;
   }
   
-  /* double the result obtained so far and */
-  /* add the partial products a[i]*a[i]    */
-  for (i = 0; i < len; i ++)
-  {
+  // double the result obtained so far and
+  // add the partial products a[i]*a[i]
+  for (i = 0; i < len; i++) {
     prod = (UINT32) a[i]*a[i];
     sum += (UINT16) prod;
     sum += (UINT32) t[2*i] + t[2*i];
@@ -326,21 +312,19 @@ void gfp_sqr_c99(UINT16 *r, const UINT16 *a, UINT16 c, int len)
     sum >>= 16;
   }
   
-  /* first round of modular reduction */
+  // first round of modular reduction
   prod = 0;
-  for (i = 0; i < len-1; i ++)
-  {
+  for (i = 0; i < len - 1; i++) {
     prod += (UINT32) t[i+len]*d + t[i];
     t[i] = (UINT16) prod;
     prod >>= 16;
   }
   prod += (UINT32) t[2*len-1]*d + t[len-1];
   
-  /* second round of modular reduction */
+  // second round of modular reduction
   msw = ((UINT16) prod) & 0x7FFF;
   prod = (UINT32) c*(prod >> 15);  // prod is max 32 bits if c is max 15 bits
-  for (i = 0; i < len-1; i ++)
-  {
+  for (i = 0; i < len - 1; i++) {
     prod += t[i];
     r[i] = (UINT16) prod;
     prod >>= 16; 
@@ -352,16 +336,15 @@ void gfp_sqr_c99(UINT16 *r, const UINT16 *a, UINT16 c, int len)
 /*------Reduction of a (16*len+32)-bit integer------*/
 void gfp_red32_c99(UINT16 *r, const UINT16 *a, UINT16 c, int len)
 {
-  int i;
-  UINT16 msw, word;
   UINT32 prod;
+  UINT16 msw, word;
+  int i;
   
   prod = 0;
   msw = a[len-1] & 0x7FFF;
   
   // compute words r[0] and r[1]
-  for (i = 0; i < 2; i ++)
-  {
+  for (i = 0; i < 2; i++) {
     word = (a[i+len] << 1) | (a[i+len-1] >> 15);
     prod += (UINT32) word*c + a[i];
     r[i] = (UINT16) prod;
@@ -375,8 +358,7 @@ void gfp_red32_c99(UINT16 *r, const UINT16 *a, UINT16 c, int len)
   prod >>= 16;
   
   // compute r[i] = a[i] + carry
-  for (i = 3; i < len-1; i++)
-  {
+  for (i = 3; i < len - 1; i++) {
     prod += (UINT32) a[i];
     r[i] = (UINT16) prod;
     prod >>= 16;
@@ -388,24 +370,22 @@ void gfp_red32_c99(UINT16 *r, const UINT16 *a, UINT16 c, int len)
 /*------Modular Multiplication by 32-bit integer------*/
 void gfp_mul32_c99(UINT16 *r, const UINT16 *a, const UINT16 *b, UINT16 c, int len)
 {
-  int i;
-  UINT16 msw, word;
-  UINT32 prod = 0;
   UINT16 t[MSPECC_MAX_LEN+2];
+  UINT32 prod = 0;
+  UINT16 msw, word;
+  int i;
   
-  /* multiplication of A by b[0] */
-  for (i = 0; i < len; i++)  
-  { 
+  // multiplication of A by b[0]
+  for (i = 0; i < len; i++) { 
     prod += (UINT32) a[i]*b[0];
     t[i] = (UINT16) prod;
     prod >>= 16;
   }
   t[len] = (UINT16) prod;
   
-  /* multiplication of A by b[1] */
+  // multiplication of A by b[1]
   prod = 0;
-  for (i = 0; i < len; i++)  
-  { 
+  for (i = 0; i < len; i++) { 
     prod += (UINT32) a[i]*b[1] + t[i+1];
     t[i+1] = (UINT16) prod;
     prod >>= 16;
@@ -416,14 +396,12 @@ void gfp_mul32_c99(UINT16 *r, const UINT16 *a, const UINT16 *b, UINT16 c, int le
   msw = t[len-1] & 0x7FFF;
   
   // compute words r[0] and r[1]
-  for (i = 0; i < 2; i ++)
-  {
+  for (i = 0; i < 2; i++) {
     word = (t[i+len] << 1) | (t[i+len-1] >> 15);
     prod += (UINT32) word*c + t[i];
     r[i] = (UINT16) prod;
     prod >>= 16;
   }
-  
   // compute word r[2]
   word = -(t[len+1] >> 15);  // either 0 or 0xFFFF
   prod += (UINT32) (word&c) + t[2];
@@ -431,8 +409,7 @@ void gfp_mul32_c99(UINT16 *r, const UINT16 *a, const UINT16 *b, UINT16 c, int le
   prod >>= 16;
   
   // compute r[i] = a[i] + carry
-  for (i = 3; i < len-1; i++)
-  {
+  for (i = 3; i < len - 1; i++) {
     prod += (UINT32) t[i];
     r[i] = (UINT16) prod;
     prod >>= 16;
@@ -444,13 +421,12 @@ void gfp_mul32_c99(UINT16 *r, const UINT16 *a, const UINT16 *b, UINT16 c, int le
 /*------Least non-negative residue------*/
 void gfp_lnr(UINT16 *r, const UINT16 *a, UINT16 c, int len)
 {
-  int i;
-  UINT16 mask;
   UINT32 sum = c;
+  UINT16 mask;
+  int i;
   
   // we first compute r = a - p by adding the two's complement of p
-  for (i = 0; i < len-1; i++)
-  {
+  for (i = 0; i < len - 1; i++) {
     sum += (UINT32) a[i];
     r[i] = (UINT16) sum;
     sum >>= 16;
@@ -465,8 +441,7 @@ void gfp_lnr(UINT16 *r, const UINT16 *a, UINT16 c, int len)
   sum = (UINT32) r[0] + ((-c) & mask);
   r[0] = (UINT16) sum;
   sum >>= 16;
-  for (i = 1; i < len-1; i++)
-  {
+  for (i = 1; i < len - 1; i++) {
     sum += (UINT32) r[i] + mask;
     r[i] = (UINT16) sum;
     sum >>= 16;
@@ -479,13 +454,13 @@ void gfp_lnr(UINT16 *r, const UINT16 *a, UINT16 c, int len)
 /*------compare two gfp elements that may be incompletely reduced------*/
 int gfp_cmp(UINT16 *a, UINT16 *b, UINT16 c, int len)
 {
-  int i;
   UINT16 diff = 0;
+  int i;
   
   gfp_lnr(a, a, c, len);
   gfp_lnr(b, b, c, len);
   // compare a and b in constant time
-  for (i = len-1; i >= 0; i--) diff |= (a[i] ^ b[i]);
+  for (i = len - 1; i >= 0; i--) diff |= (a[i] ^ b[i]);
   
   return (diff != 0);
 }
@@ -513,25 +488,19 @@ int gfp_inv(UINT16 *r, const UINT16 *a, UINT16 c, int len)
   while (int_cmp(ux, vx, len) >= 0) int_sub(ux, ux, vx, len);
   if (int_is0(ux, len)) return MSPECC_ERR_INVERSION_ZERO;
   
-  while((!int_is1(ux, uvlen)) && (!int_is1(vx, uvlen)))
-  {
-    while((ux[0]&1) == 0)   // ux is even
-    {
+  while((!int_is1(ux, uvlen)) && (!int_is1(vx, uvlen))) {
+    while((ux[0] & 1) == 0) {  // ux is even
       int_shr(ux, ux, uvlen);
       gfp_hlv(x1, x1, c, len);
     }
-    while((vx[0]&1) == 0)   // vx is even
-    {
+    while((vx[0] & 1) == 0) {  // vx is even
       int_shr(vx, vx, uvlen);
       gfp_hlv(x2, x2, c, len);
     }
-    if (int_cmp(ux, vx, uvlen) >= 0)
-    {
+    if (int_cmp(ux, vx, uvlen) >= 0) {
       int_sub(ux, ux, vx, uvlen);
       gfp_sub(x1, x1, x2, c, len);
-    }
-    else
-    {
+    } else {
       int_sub(vx, vx, ux, uvlen);
       gfp_sub(x2, x2, x1, c, len);
     }
