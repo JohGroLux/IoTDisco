@@ -1,14 +1,20 @@
-#include <string.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "config.h"
 #include "intarith.h"
 
 
+typedef uint16_t Word;   // single-length word
+typedef uint32_t DWord;  // double-length word
+typedef int32_t SDWord;  // signed double-length word
+
+
 /*------check whether a multiprecision integer is 0------*/
-int int_is0(const UINT16 *a, int len)
+int int_is0(const Word *a, int len)
 {
-  UINT16 word = 0;
+  Word word = 0;
   int i;
   
   for (i = len - 1; i >= 0; i--) word |= a[i];
@@ -17,9 +23,9 @@ int int_is0(const UINT16 *a, int len)
 
 
 /*------check whether a multiprecision integer is 1------*/
-int int_is1(const UINT16 *a, int len)
+int int_is1(const Word *a, int len)
 {
-  UINT16 word = 0;
+  Word word = 0;
   int i;
   
   for (i = len - 1; i > 0; i--) word |= a[i];
@@ -28,7 +34,7 @@ int int_is1(const UINT16 *a, int len)
 
 
 /*------set a multiprecision integer to a word------*/
-void int_set(UINT16 *r, UINT16 a, int len)
+void int_set(Word *r, Word a, int len)
 {
   int i;
   
@@ -38,7 +44,7 @@ void int_set(UINT16 *r, UINT16 a, int len)
 
 
 /*------comparison of multi-precision integers------*/
-int int_cmp(const UINT16 *a, const UINT16 *b, int len)
+int int_cmp(const Word *a, const Word *b, int len)
 {
   int i;
   
@@ -52,7 +58,7 @@ int int_cmp(const UINT16 *a, const UINT16 *b, int len)
 
 
 /*------copy a multi-precision integer------*/
-void int_copy(UINT16 *r, const UINT16 *a, int len)
+void int_copy(Word *r, const Word *a, int len)
 {
   int i;
   
@@ -61,7 +67,7 @@ void int_copy(UINT16 *r, const UINT16 *a, int len)
 
 
 /*------printing of a multi-precision integer------*/
-void int_print(const char *c, const UINT16 *a, int len)
+void int_print(const char *c, const Word *a, int len)
 {
   int i;
   
@@ -72,7 +78,7 @@ void int_print(const char *c, const UINT16 *a, int len)
 
 
 /*------multiprecision right-shift------*/
-int int_shr_c99(UINT16 *r, const UINT16 *a, int len)
+int int_shr_c99(Word *r, const Word *a, int len)
 {
   int i, retval;
   
@@ -85,15 +91,15 @@ int int_shr_c99(UINT16 *r, const UINT16 *a, int len)
 
 
 /*------multiprecision addition------*/
-int int_add_c99(UINT16 *r, const UINT16 *a, const UINT16 *b, int len)
+int int_add_c99(Word *r, const Word *a, const Word *b, int len)
 {
-  UINT32 sum;
+  DWord sum;
   int i;
   
   sum = 0;
   for (i = 0; i < len; i++) {
-    sum += (UINT32) a[i] + b[i];
-    r[i] = (UINT16) sum;
+    sum += (DWord) a[i] + b[i];
+    r[i] = (Word) sum;
     sum >>= 16;
   }
   
@@ -102,15 +108,15 @@ int int_add_c99(UINT16 *r, const UINT16 *a, const UINT16 *b, int len)
 
 
 /*------Multiprecision subtraction------*/
-int int_sub_c99(UINT16 *r, const UINT16 *a, const UINT16 *b, int len)
+int int_sub_c99(Word *r, const Word *a, const Word *b, int len)
 {
-  UINT32 dif;
+  DWord dif;
   int i;
   
   dif = 1;
   for (i = 0; i < len; i++) {
-    dif += (UINT32) a[i] + (~b[i]);
-    r[i] = (UINT16) dif;
+    dif += (DWord) a[i] + (~b[i]);
+    r[i] = (Word) dif;
     dif >>= 16;
   }
   
@@ -119,97 +125,97 @@ int int_sub_c99(UINT16 *r, const UINT16 *a, const UINT16 *b, int len)
 
 
 /*------Multiprecision multiplication------*/
-void int_mul_c99(UINT16 *r, const UINT16 *a, const UINT16 *b, int len)
+void int_mul_c99(Word *r, const Word *a, const Word *b, int len)
 {
-  UINT32 prod = 0;
+  DWord prod = 0;
   int i, j;
   
   // multiplication of A by b[0]
   for(j = 0; j < len; j++) {
-    prod += (UINT32) a[j]*b[0];
-    r[j] = (UINT16) prod;
+    prod += (DWord) a[j]*b[0];
+    r[j] = (Word) prod;
     prod >>= 16;
   }
-  r[j] = (UINT16) prod;
+  r[j] = (Word) prod;
   
   // multiplication of A by b[i] for 1 <= i < len
   for(i = 1; i < len; i ++) {
     prod = 0;
     for(j = 0; j < len; j ++) {
-      prod += (UINT32) a[j]*b[i];
+      prod += (DWord) a[j]*b[i];
       prod += r[i+j];
-      r[i+j] = (UINT16) prod;
+      r[i+j] = (Word) prod;
       prod >>= 16;
     }
-    r[i+j] = (UINT16) prod;
+    r[i+j] = (Word) prod;
   }
 }
 
 
 /*------Multiplication by 32-bit integer------*/
-void int_mul32_c99(UINT16 *r, const UINT16 *a, const UINT16 *b, int len)
+void int_mul32_c99(Word *r, const Word *a, const Word *b, int len)
 {
-  UINT32 prod;
+  DWord prod;
   int i;
   
   // multiplication of A by b[0]
   prod = 0;
   for (i = 0; i < len; i++) {
-    prod += (UINT32) a[i]*b[0];
-    r[i] = (UINT16) prod;
+    prod += (DWord) a[i]*b[0];
+    r[i] = (Word) prod;
     prod >>= 16;
   }
-  r[len] = (UINT16) prod;
+  r[len] = (Word) prod;
   
   // multiplication of A by b[1]
   prod = 0;
   for (i = 0; i < len; i++) {
-    prod += (UINT32) a[i]*b[1] + r[i+1];
-    r[i+1] = (UINT16) prod;
+    prod += (DWord) a[i]*b[1] + r[i+1];
+    r[i+1] = (Word) prod;
     prod >>= 16;
   }
-  r[len+1] = (UINT16) prod;
+  r[len+1] = (Word) prod;
 }
 
 
 /*------Multiprecision squaring------*/
-void int_sqr_c99(UINT16 *r, const UINT16 *a, int len)
+void int_sqr_c99(Word *r, const Word *a, int len)
 {
-  UINT32 prod = 0, sum = 0;
+  DWord prod = 0, sum = 0;
   int i, j;
   
   // compute A[1,...,len-1]*a[0]
   r[0] = 0;
   for(j = 1; j < len; j++) {
-    prod += (UINT32) a[j]*a[0];
-    r[j] = (UINT16) prod;
+    prod += (DWord) a[j]*a[0];
+    r[j] = (Word) prod;
     prod >>= 16;
   }
-  r[j] = (UINT16) prod;
+  r[j] = (Word) prod;
   
   // compute A[i+1,...,len-1]*a[i] for 1 <= i < len
   for(i = 1; i < len; i++) {
     prod = 0;
     for(j = i + 1; j < len; j++) {
-      prod += (UINT32) a[j]*a[i];
+      prod += (DWord) a[j]*a[i];
       prod += r[i+j];
-      r[i+j] = (UINT16) prod;
+      r[i+j] = (Word) prod;
       prod >>= 16;
     }
-    r[i+j] = (UINT16) prod;
+    r[i+j] = (Word) prod;
   }
   
   // double the result obtained so far and
   // add the partial products a[i]*a[i]
   for (i = 0; i < len; i++) {
-    prod = (UINT32) a[i]*a[i];
-    sum += (UINT16) prod;
-    sum += (UINT32) r[2*i] + r[2*i];
-    r[2*i] = (UINT16) sum;
+    prod = (DWord) a[i]*a[i];
+    sum += (Word) prod;
+    sum += (DWord) r[2*i] + r[2*i];
+    r[2*i] = (Word) sum;
     sum >>= 16;
-    sum += ((UINT16) (prod>>16));
-    sum += (UINT32) r[2*i+1] + r[2*i+1];
-    r[2*i+1] = (UINT16) sum;
+    sum += ((Word) (prod>>16));
+    sum += (DWord) r[2*i+1] + r[2*i+1];
+    r[2*i+1] = (Word) sum;
     sum >>= 16;
   }
 }
