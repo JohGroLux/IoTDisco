@@ -12,6 +12,22 @@ typedef uint32_t DWord;  // double-length word
 typedef int32_t SDWord;  // signed double-length word
 
 
+// Bitlength of a Word
+#define WSIZE (8*sizeof(Word))
+// All-1 Mask: 0xFF..FF
+#define ALL1MASK ((Word) -1L)
+// MSB-1 Mask: 0x80..00
+#define MSB1MASK ((Word) (1L << (WSIZE - 1)))
+// MSB-0 Mask: 0x7F..FF
+#define MSB0MASK (ALL1MASK >> 1)
+// Minus-4 Mask: 0xFF..FC
+#define MIN4MASK  ((Word) -4L)
+// 4*p[len-1] (WSIZE+1 bits long)
+#define FOURXPHI (((DWord) MSB0MASK) << 2)
+// 4*p[i], 1 <= i < len-1 (WSIZE+2 bits long)
+#define FOURXPMI (((DWord) ALL1MASK) << 2)
+
+
 #ifdef MSPECC_USE_VLA  // use variable-length arrays for field elements
 #define _len len       // requires "Allow VLA" in C/C++ Compiler Options
 #else
@@ -19,11 +35,13 @@ typedef int32_t SDWord;  // signed double-length word
 #endif
 
 
-// arithmetic right-shift of a signed 32-bit integer
+// Arithmetic Right-Shift (ARS) of a SDWord
 #if ((((SDWord) -1) >> 1) == ((SDWord) -1))
-#define ars32(x,y) ((x) >> (y))
+#define SDWARS(x,y) ((x) >> (y))
 #else
-#define ars32(x,y) (((x) >> (y)) | ((~(((x) >> 31) - 1)) << (32 - (y))))
+// SDMASK is all-1 if x is negative, 0 otherwise
+#define SDMASK(x) (~(((x) >> (2*WSIZE - 1)) - 1))
+#define SDWARS(x,y) (((x) >> (y)) | (SDMASK(x) << (2*WSIZE - (y))))
 #endif
 
 
@@ -32,8 +50,8 @@ void gfp_set(Word *r, Word c, int len)
 {
   int i;
   
-  r[len-1] = 0x7FFF;
-  for (i = len - 2; i > 0; i--) r[i] = 0xFFFF;
+  r[len-1] = MSB0MASK;  // 0x7F..FF
+  for (i = len - 2; i > 0; i--) r[i] = ALL1MASK;  // 0xFF..FF
   r[0] = -c;
 }
 
@@ -43,9 +61,9 @@ int gfp_isp(const Word *a, Word c, int len)
 {
   int i;
   
-  if (a[len-1] != 0x7FFF) return 0;  // a != p
+  if (a[len-1] != MSB0MASK) return 0;  // 0x7F..FF
   for (i = len - 2; i > 0; i--) {
-    if (a[i] != 0xFFFF) return 0;    // a != p
+    if (a[i] != ALL1MASK) return 0;    // 0xFF..FF
   }
   if (a[0] != -c) return 0;          // a != p
   
@@ -61,13 +79,13 @@ void gfp_add_c99(Word *r, const Word *a, const Word *b, Word c, int len)
   int i;
   
   sum = (DWord) a[len-1] + b[len-1];
-  msw = ((Word) sum) & 0x7FFF;
-  sum = (DWord) c*((Word) (sum >> 15));
+  msw = ((Word) sum) & MSB0MASK;  // 0x7F..FF
+  sum = (DWord) c*((Word) (sum >> (WSIZE - 1)));
   
   for (i = 0; i < len - 1; i++) {
     sum += (DWord) a[i] + b[i];
     r[i] = (Word) sum;
-    sum >>= 16;  // sum is <= 2
+    sum >>= WSIZE;  // sum is <= 2
   }
   r[len-1] = msw + ((Word) sum);
 }
@@ -81,17 +99,17 @@ void gfp_sub_c99(Word *r, const Word *a, const Word *b, Word c, int len)
   int i;
   
   // we compute r = 4*p + a - b mod p = 2^(16*len+1) + a - b - 4*c mod p
-  sum = (SDWord) 0x1FFFC + a[len-1] - b[len-1];
-  msw = ((Word) sum) & 0x7FFF;
-  sum = (SDWord) c*((Word) (sum >> 15));
-  sum = sum - (c << 1) - (c << 1);  // (c << 1) can be up to 16 bits long!
+  sum = (SDWord) FOURXPHI + a[len-1] - b[len-1];  // 0x1FF..FC
+  msw = ((Word) sum) & MSB0MASK;  // 0x7F..FF
+  sum = (SDWord) c*((Word) (sum >> (WSIZE - 1)));
+  sum = sum - (c << 1) - (c << 1);  // (c << 1) can be up to WSIZE bits long!
   
   for (i = 0; i < len - 1; i++) {
     sum += (SDWord) a[i] - b[i];
     r[i] = (Word) sum;
-    sum = ars32(sum, 16);  // arithmetic right-shift; now sum is in [-2,1]
+    sum = SDWARS(sum, WSIZE);  // arithmetic right-shift; now sum is in [-2,1]
   }
-  r[len-1] = msw + ((Word) sum) + 4;  // 0x1FFFC+4 = 0x20000 = 4*p>>16*(len-1)
+  r[len-1] = msw + ((Word) sum) + 4;  // 0x1FF..FC+4=0x200..00 = MSW of 2^(k+2)
 }
 
 
@@ -103,15 +121,15 @@ void gfp_sub_c99_v2(Word *r, const Word *a, const Word *b, Word c, int len)
   int i;
   
   // we compute r = 4*p + a - b
-  sum = (DWord) 0x1FFFC + a[len-1] - b[len-1];
-  msw = ((Word) sum) & 0x7FFF;
-  sum = (DWord) c*((Word) (sum >> 15));
-  sum = sum - (c << 1) - (c << 1) + 4;  // (c << 1) can be up to 16 bits long!
+  sum = (DWord) FOURXPHI + a[len-1] - b[len-1];  // 0x1FF..FC
+  msw = ((Word) sum) & MSB0MASK;  // 0x7F..FF
+  sum = (DWord) c*((Word) (sum >> (WSIZE - 1)));
+  sum = sum - (c << 1) - (c << 1) + 4;  // (c<<1) can be up to WSIZE bits long!
   
   for (i = 0; i < len - 1; i++) {
-    sum += (DWord) 0x3FFFC + a[i] - b[i];
+    sum += (DWord) FOURXPMI + a[i] - b[i];  // 0x3FF..FC
     r[i] = (Word) sum;
-    sum >>= 16;
+    sum >>= WSIZE;
   }
   r[len-1] = msw + ((Word) sum);
 }
@@ -133,15 +151,15 @@ void gfp_cneg_c99(Word *r, const Word *a, Word c, int neg, int len)
   // all-1 mask. On the other hand, when the LSB of neg = 0, we simply compute
   // r = a mod p.
   
-  sum = (SDWord) (mask & 0xFFFC) + (mask ^ a[len-1]);
-  msw = ((Word) sum) & 0x7FFF;
-  sum = (SDWord) c*((Word) (sum >> 15));
+  sum = (SDWord) (mask & MIN4MASK) + (mask ^ a[len-1]);  // 0xFF..FC
+  msw = ((Word) sum) & MSB0MASK;  // 0x7F..FF
+  sum = (SDWord) c*((Word) (sum >> (WSIZE - 1)));
   sum = sum - (mask & (c << 1)) - (mask & (c << 1)) + (mask & 1);
   
   for (i = 0; i < len - 1; i++) {
     sum += (SDWord) (mask ^ a[i]);
     r[i] = (Word) sum;
-    sum = ars32(sum, 16);  // arithmetic right-shift; now sum is in [-1,1]
+    sum = SDWARS(sum, WSIZE);  // arithmetic right-shift; now sum is in [-1,1]
   }
   r[len-1] = msw + ((Word) sum) + (mask & 4);
 }
@@ -155,19 +173,19 @@ void gfp_hlv_c99(Word *r, const Word *a, Word c, int len)
   int i;
   
   // masked addition of prime p to a
-  mask = ~((a[0] & 1) - 1);  // 0 or 0xFFFF
+  mask = ~((a[0] & 1) - 1);  // 0 or all-1
   sum = (SDWord) a[0] - (c & mask);
   tmp = (Word) sum;
-  sum = ars32(sum, 16);  // arithmetic right-shift; now sum is in [-1,0]
+  sum = SDWARS(sum, WSIZE);  // arithmetic right-shift; now sum is in [-1,0]
   
   for (i = 1; i < len - 1; i++) {
     sum += (SDWord) a[i];
-    r[i-1] = (((Word) sum) << 15) | (tmp >> 1);
+    r[i-1] = (((Word) sum) << (WSIZE - 1)) | (tmp >> 1);
     tmp = (Word) sum;
-    sum = ars32(sum, 16);  // arithmetic right-shift; now sum is in [-1,0]
+    sum = SDWARS(sum, WSIZE);  // arithmetic right-shift; now sum is in [-1,0]
   }
-  sum += (SDWord) a[len-1] + (0x8000 & mask);
-  r[len-2] = (((Word) sum) << 15) | (tmp >> 1);
+  sum += (SDWord) a[len-1] + (MSB1MASK & mask);  // 0x80..00
+  r[len-2] = (((Word) sum) << (WSIZE - 1)) | (tmp >> 1);
   r[len-1] = (Word) (sum >> 1);
 }
 
@@ -180,20 +198,20 @@ void gfp_hlv_c99_v2(Word *r, const Word *a, Word c, int len)
   int i;
   
   // masked addition of prime p to a
-  mask = ~((a[0] & 1) - 1);  // 0 or 0xFFFF
-  // mask = 0 - (a[0] & 1);  // 0 or 0xFFFF
+  mask = ~((a[0] & 1) - 1);  // 0 or all-1
+  // mask = 0 - (a[0] & 1);  // 0 or all-1
   sum = (DWord) a[0] + ((0 - c) & mask);
   tmp = (Word) sum;
-  sum >>= 16;
+  sum >>= WSIZE;
   
   for (i = 1; i < len - 1; i++) {
     sum += (DWord) a[i] + mask;
-    r[i-1] = (((Word) sum) << 15) | (tmp >> 1);
+    r[i-1] = (((Word) sum) << (WSIZE - 1)) | (tmp >> 1);
     tmp = (Word) sum;
-    sum >>= 16;
+    sum >>= WSIZE;
   }
-  sum += (DWord) a[len-1] + (0x7FFF & mask);
-  r[len-2] = (((Word) sum) << 15) | (tmp >> 1);
+  sum += (DWord) a[len-1] + (mask >> 1);
+  r[len-2] = (((Word) sum) << (WSIZE - 1)) | (tmp >> 1);
   r[len-1] = (Word) (sum >> 1);
 }
 
@@ -210,17 +228,17 @@ void gfp_red_c99(Word *r, const Word *a, Word c, int len)
   for (i = 0; i < len - 1; i++) {
     prod += (DWord) a[i+len]*d + a[i];
     r[i] = (Word) prod;
-    prod >>= 16;
+    prod >>= WSIZE;
   }
   prod += (DWord) a[2*len-1]*d + a[len-1];
   
   // second round
-  msw = ((Word) prod) & 0x7FFF;
-  sum = (DWord) c*(prod >>= 15);  // sum is max 32 bits if c is max 15 bits
+  msw = ((Word) prod) & MSB0MASK;  // 0x7F..FF
+  sum = (DWord) c*(prod >>= (WSIZE - 1));  // sum is max 2*WSIZE bits long!
   for (i = 0; i < len - 1; i++) {
     sum += r[i];
     r[i] = (Word) sum;
-    sum >>= 16; 
+    sum >>= WSIZE;
   }
   r[len-1] = msw + ((Word) sum);
 }
@@ -238,7 +256,7 @@ void gfp_mul_c99(Word *r, const Word *a, const Word *b, Word c, int len)
   for(j = 0; j < len; j++) {
     prod += (DWord) a[j]*b[0];
     t[j] = (Word) prod;
-    prod >>= 16;
+    prod >>= WSIZE;
   }
   t[j] = (Word) prod;
   
@@ -249,7 +267,7 @@ void gfp_mul_c99(Word *r, const Word *a, const Word *b, Word c, int len)
       prod += (DWord) a[j]*b[i];
       prod += t[i+j];
       t[i+j] = (Word) prod;
-      prod >>= 16;
+      prod >>= WSIZE;
     }
     t[i+j] = (Word) prod;
   }
@@ -259,17 +277,17 @@ void gfp_mul_c99(Word *r, const Word *a, const Word *b, Word c, int len)
   for (i = 0; i < len - 1; i++) {
     prod += (DWord) t[i+len]*d + t[i];
     t[i] = (Word) prod;
-    prod >>= 16;
+    prod >>= WSIZE;
   }
   prod += (DWord) t[2*len-1]*d + t[len-1];
   
   // second round of modular reduction
-  msw = ((Word) prod) & 0x7FFF;
-  prod = (DWord) c*(prod >> 15);  // prod is max 32 bits if c is max 15 bits
+  msw = ((Word) prod) & MSB0MASK;  // 0x7F..FF
+  prod = (DWord) c*(prod >> (WSIZE - 1));  // prod is max 2*WSIZE bits long!
   for (i = 0; i < len - 1; i++) {
     prod += t[i];
     r[i] = (Word) prod;
-    prod >>= 16; 
+    prod >>= WSIZE;
   }
   r[len-1] = msw + ((Word) prod);
 }
@@ -288,7 +306,7 @@ void gfp_sqr_c99(Word *r, const Word *a, Word c, int len)
   for(j = 1; j < len; j++) {
     prod += (DWord) a[j]*a[0];
     t[j] = (Word) prod;
-    prod >>= 16;
+    prod >>= WSIZE;
   }
   t[j] = (Word) prod;
   
@@ -299,7 +317,7 @@ void gfp_sqr_c99(Word *r, const Word *a, Word c, int len)
       prod += (DWord) a[j]*a[i];
       prod += t[i+j];
       t[i+j] = (Word) prod;
-      prod >>= 16;
+      prod >>= WSIZE;
     }
     t[i+j] = (Word) prod;
   }
@@ -311,11 +329,11 @@ void gfp_sqr_c99(Word *r, const Word *a, Word c, int len)
     sum += (Word) prod;
     sum += (DWord) t[2*i] + t[2*i];
     t[2*i] = (Word) sum;
-    sum >>= 16;
-    sum += ((Word) (prod>>16));
+    sum >>= WSIZE;
+    sum += ((Word) (prod >> WSIZE));
     sum += (DWord) t[2*i+1] + t[2*i+1];
     t[2*i+1] = (Word) sum;
-    sum >>= 16;
+    sum >>= WSIZE;
   }
   
   // first round of modular reduction
@@ -323,17 +341,17 @@ void gfp_sqr_c99(Word *r, const Word *a, Word c, int len)
   for (i = 0; i < len - 1; i++) {
     prod += (DWord) t[i+len]*d + t[i];
     t[i] = (Word) prod;
-    prod >>= 16;
+    prod >>= WSIZE;
   }
   prod += (DWord) t[2*len-1]*d + t[len-1];
   
   // second round of modular reduction
-  msw = ((Word) prod) & 0x7FFF;
-  prod = (DWord) c*(prod >> 15);  // prod is max 32 bits if c is max 15 bits
+  msw = ((Word) prod) & MSB0MASK;  // 0x7F..FF
+  prod = (DWord) c*(prod >> (WSIZE - 1));  // prod is max 2*WSIZE bits long!
   for (i = 0; i < len - 1; i++) {
     prod += t[i];
     r[i] = (Word) prod;
-    prod >>= 16; 
+    prod >>= WSIZE;
   }
   r[len-1] = msw + ((Word) prod);
 }
@@ -347,27 +365,27 @@ void gfp_red32_c99(Word *r, const Word *a, Word c, int len)
   int i;
   
   prod = 0;
-  msw = a[len-1] & 0x7FFF;
+  msw = a[len-1] & MSB0MASK;  // 0x7F..FF
   
   // compute words r[0] and r[1]
   for (i = 0; i < 2; i++) {
-    word = (a[i+len] << 1) | (a[i+len-1] >> 15);
+    word = (a[i+len] << 1) | (a[i+len-1] >> (WSIZE - 1));
     prod += (DWord) word*c + a[i];
     r[i] = (Word) prod;
-    prod >>= 16;
+    prod >>= WSIZE;
   }
   
   // compute word r[2]
-  word = -(a[len+1] >> 15);  // either 0 or 0xFFFF
+  word = -(a[len+1] >> (WSIZE - 1));  // either 0 or all-1
   prod += (DWord) (word&c) + a[2];
   r[2] = (Word) prod;
-  prod >>= 16;
+  prod >>= WSIZE;
   
   // compute r[i] = a[i] + carry
   for (i = 3; i < len - 1; i++) {
     prod += (DWord) a[i];
     r[i] = (Word) prod;
-    prod >>= 16;
+    prod >>= WSIZE;
   }
   r[len-1] = ((Word) prod) + msw;
 }
@@ -385,7 +403,7 @@ void gfp_mul32_c99(Word *r, const Word *a, const Word *b, Word c, int len)
   for (i = 0; i < len; i++) { 
     prod += (DWord) a[i]*b[0];
     t[i] = (Word) prod;
-    prod >>= 16;
+    prod >>= WSIZE;
   }
   t[len] = (Word) prod;
   
@@ -394,31 +412,31 @@ void gfp_mul32_c99(Word *r, const Word *a, const Word *b, Word c, int len)
   for (i = 0; i < len; i++) { 
     prod += (DWord) a[i]*b[1] + t[i+1];
     t[i+1] = (Word) prod;
-    prod >>= 16;
+    prod >>= WSIZE;
   }
   t[len+1] = (Word) prod;
   
   prod = 0;
-  msw = t[len-1] & 0x7FFF;
+  msw = t[len-1] & MSB0MASK;  // 0x7F..FF
   
   // compute words r[0] and r[1]
   for (i = 0; i < 2; i++) {
-    word = (t[i+len] << 1) | (t[i+len-1] >> 15);
+    word = (t[i+len] << 1) | (t[i+len-1] >> (WSIZE - 1));
     prod += (DWord) word*c + t[i];
     r[i] = (Word) prod;
-    prod >>= 16;
+    prod >>= WSIZE;
   }
   // compute word r[2]
-  word = -(t[len+1] >> 15);  // either 0 or 0xFFFF
+  word = -(t[len+1] >> (WSIZE - 1));  // either 0 or all-1
   prod += (DWord) (word&c) + t[2];
   r[2] = (Word) prod;
-  prod >>= 16;
+  prod >>= WSIZE;
   
   // compute r[i] = a[i] + carry
   for (i = 3; i < len - 1; i++) {
     prod += (DWord) t[i];
     r[i] = (Word) prod;
-    prod >>= 16;
+    prod >>= WSIZE;
   }
   r[len-1] = ((Word) prod) + msw;
 }
@@ -435,24 +453,24 @@ void gfp_lnr(Word *r, const Word *a, Word c, int len)
   for (i = 0; i < len - 1; i++) {
     sum += (DWord) a[i];
     r[i] = (Word) sum;
-    sum >>= 16;
+    sum >>= WSIZE;
   }
-  sum += (DWord) a[len-1] + 0x8000;
+  sum += (DWord) a[len-1] + MSB1MASK;  // 0x80..00
   r[len-1] = (Word) sum;
   
-  // mask is 0 when the addition produced a carry, 0xFFFF otherwise
-  mask = ((Word) (sum>>16)) - 1;
+  // mask is 0 when the addition produced a carry, all-1 otherwise
+  mask = ((Word) (sum >> WSIZE)) - 1;
   
   // perform masked addition of p (i.e. if r < 0 compute r = r + p)
   sum = (DWord) r[0] + ((-c) & mask);
   r[0] = (Word) sum;
-  sum >>= 16;
+  sum >>= WSIZE;
   for (i = 1; i < len - 1; i++) {
     sum += (DWord) r[i] + mask;
     r[i] = (Word) sum;
-    sum >>= 16;
+    sum >>= WSIZE;
   }
-  sum += (DWord) r[len-1] + (0x7FFF & mask);
+  sum += (DWord) r[len-1] + (MSB0MASK & mask);  // 0x7F..FF   FIX-ME
   r[len-1] = (Word) sum;
 }
 
