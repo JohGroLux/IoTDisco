@@ -252,7 +252,7 @@ void gfp_mul_c99(Word *r, const Word *a, const Word *b, Word c, int len)
   int i, j;
   
   // multiplication of A by b[0]
-  for(j = 0; j < len; j++) {
+  for (j = 0; j < len; j++) {
     prod += (DWord) a[j]*b[0];
     t[j] = (Word) prod;
     prod >>= WSIZE;
@@ -260,9 +260,9 @@ void gfp_mul_c99(Word *r, const Word *a, const Word *b, Word c, int len)
   t[j] = (Word) prod;
   
   // multiplication of A by b[i] for 1 <= i < len
-  for(i = 1; i < len; i++) {
+  for (i = 1; i < len; i++) {
     prod = 0;
-    for(j = 0; j < len; j++) {
+    for (j = 0; j < len; j++) {
       prod += (DWord) a[j]*b[i];
       prod += t[i+j];
       t[i+j] = (Word) prod;
@@ -302,7 +302,7 @@ void gfp_sqr_c99(Word *r, const Word *a, Word c, int len)
   
   // compute A[1,...,len-1]*a[0]
   t[0] = 0;
-  for(j = 1; j < len; j++) {
+  for (j = 1; j < len; j++) {
     prod += (DWord) a[j]*a[0];
     t[j] = (Word) prod;
     prod >>= WSIZE;
@@ -310,9 +310,9 @@ void gfp_sqr_c99(Word *r, const Word *a, Word c, int len)
   t[j] = (Word) prod;
   
   // compute A[i+1,...,len-1]*a[i] for 1 <= i < len
-  for(i = 1; i < len; i++) {
+  for (i = 1; i < len; i++) {
     prod = 0;
-    for(j = i + 1; j < len; j++) {
+    for (j = i + 1; j < len; j++) {
       prod += (DWord) a[j]*a[i];
       prod += t[i+j];
       t[i+j] = (Word) prod;
@@ -359,28 +359,22 @@ void gfp_sqr_c99(Word *r, const Word *a, Word c, int len)
 /*------Reduction of a (w*len+32)-bit integer------*/
 void gfp_red32_c99(Word *r, const Word *a, Word c, int len)
 {
-  DWord prod = 0;
-  Word msw, word;
+  DWord prod;
+  Word msw, d = (c << 1);
   int i;
   
+  prod = (DWord) c*(a[len-1] >> (WSIZE - 1));
   msw = a[len-1] & MSB0MASK;  // 0x7F..FF
   
-  // compute words r[0] and r[1]
-  for (i = 0; i < 2; i++) {
-    word = (a[i+len] << 1) | (a[i+len-1] >> (WSIZE - 1));
-    prod += (DWord) word*c + a[i];
+  // compute first 32 bits of result
+  for (i = 0; i < 32/WSIZE; i++) {
+    prod += (DWord) a[i+len]*d + a[i];
     r[i] = (Word) prod;
     prod >>= WSIZE;
   }
-  
-  // compute word r[2]
-  word = -(a[len+1] >> (WSIZE - 1));  // either 0 or all-1
-  prod += (DWord) (word & c) + a[2];
-  r[2] = (Word) prod;
-  prod >>= WSIZE;
-  
-  // compute r[i] = a[i] + carry
-  for (i = 3; i < len - 1; i++) {
+    
+  // compute r[i] = t[i] + carry
+  for (i = 32/WSIZE; i < len - 1; i++) {
     prod += (DWord) a[i];
     r[i] = (Word) prod;
     prod >>= WSIZE;
@@ -392,46 +386,43 @@ void gfp_red32_c99(Word *r, const Word *a, Word c, int len)
 /*------Modular Multiplication by 32-bit integer------*/
 void gfp_mul32_c99(Word *r, const Word *a, const Word *b, Word c, int len)
 {
-  Word t[_len+2];
+  Word t[_len+(32/WSIZE)];
   DWord prod = 0;
-  Word msw, word;
-  int i;
+  Word msw, d = (c << 1);
+  int i, j;
   
   // multiplication of A by b[0]
-  for (i = 0; i < len; i++) { 
-    prod += (DWord) a[i]*b[0];
-    t[i] = (Word) prod;
+  for (j = 0; j < len; j++) {
+    prod += (DWord) a[j]*b[0];
+    t[j] = (Word) prod;
     prod >>= WSIZE;
   }
-  t[len] = (Word) prod;
+  t[j] = (Word) prod;
   
-  // multiplication of A by b[1]
-  prod = 0;
-  for (i = 0; i < len; i++) { 
-    prod += (DWord) a[i]*b[1] + t[i+1];
-    t[i+1] = (Word) prod;
-    prod >>= WSIZE;
+  // multiplication of A by b[i] for 1 <= i < 32/WSIZE
+  for (i = 1; i < 32/WSIZE; i++) {
+    prod = 0;
+    for (j = 0; j < len; j++) {
+      prod += (DWord) a[j]*b[i];
+      prod += t[i+j];
+      t[i+j] = (Word) prod;
+      prod >>= WSIZE;
+    }
+    t[i+j] = (Word) prod;
   }
-  t[len+1] = (Word) prod;
   
-  prod = 0;
+  prod = (DWord) c*(t[len-1] >> (WSIZE - 1));
   msw = t[len-1] & MSB0MASK;  // 0x7F..FF
   
-  // compute words r[0] and r[1]
-  for (i = 0; i < 2; i++) {
-    word = (t[i+len] << 1) | (t[i+len-1] >> (WSIZE - 1));
-    prod += (DWord) word*c + t[i];
+  // compute first 32 bits of result
+  for (i = 0; i < 32/WSIZE; i++) {
+    prod += (DWord) t[i+len]*d + t[i];
     r[i] = (Word) prod;
     prod >>= WSIZE;
   }
-  // compute word r[2]
-  word = -(t[len+1] >> (WSIZE - 1));  // either 0 or all-1
-  prod += (DWord) (word&c) + t[2];
-  r[2] = (Word) prod;
-  prod >>= WSIZE;
-  
-  // compute r[i] = a[i] + carry
-  for (i = 3; i < len - 1; i++) {
+    
+  // compute r[i] = t[i] + carry
+  for (i = 32/WSIZE; i < len - 1; i++) {
     prod += (DWord) t[i];
     r[i] = (Word) prod;
     prod >>= WSIZE;

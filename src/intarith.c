@@ -87,7 +87,7 @@ int int_shr_c99(Word *r, const Word *a, int len)
   int i, retval;
   
   retval = a[0] & 1;  // return value
-  for(i = 0; i < len - 1; i++) r[i] = (a[i+1] << (WSIZE - 1)) | (a[i] >> 1);
+  for (i = 0; i < len - 1; i++) r[i] = (a[i+1] << (WSIZE - 1)) | (a[i] >> 1);
   r[len-1] = a[len-1] >> 1;
   
   return retval;
@@ -135,7 +135,7 @@ void int_mul_c99(Word *r, const Word *a, const Word *b, int len)
   int i, j;
   
   // multiplication of A by b[0]
-  for(j = 0; j < len; j++) {
+  for (j = 0; j < len; j++) {
     prod += (DWord) a[j]*b[0];
     r[j] = (Word) prod;
     prod >>= WSIZE;
@@ -143,9 +143,9 @@ void int_mul_c99(Word *r, const Word *a, const Word *b, int len)
   r[j] = (Word) prod;
   
   // multiplication of A by b[i] for 1 <= i < len
-  for(i = 1; i < len; i++) {
+  for (i = 1; i < len; i++) {
     prod = 0;
-    for(j = 0; j < len; j++) {
+    for (j = 0; j < len; j++) {
       prod += (DWord) a[j]*b[i];
       prod += r[i+j];
       r[i+j] = (Word) prod;
@@ -160,24 +160,27 @@ void int_mul_c99(Word *r, const Word *a, const Word *b, int len)
 void int_mul32_c99(Word *r, const Word *a, const Word *b, int len)
 {
   DWord prod = 0;
-  int i;
+  int i, j;
   
   // multiplication of A by b[0]
-  for (i = 0; i < len; i++) {
-    prod += (DWord) a[i]*b[0];
-    r[i] = (Word) prod;
+  for (j = 0; j < len; j++) {
+    prod += (DWord) a[j]*b[0];
+    r[j] = (Word) prod;
     prod >>= WSIZE;
   }
-  r[len] = (Word) prod;
+  r[j] = (Word) prod;
   
-  // multiplication of A by b[1]
-  prod = 0;
-  for (i = 0; i < len; i++) {
-    prod += (DWord) a[i]*b[1] + r[i+1];
-    r[i+1] = (Word) prod;
-    prod >>= WSIZE;
+  // multiplication of A by b[i] for 1 <= i < 32/WSIZE
+  for (i = 1; i < 32/WSIZE; i++) {
+    prod = 0;
+    for (j = 0; j < len; j++) {
+      prod += (DWord) a[j]*b[i];
+      prod += r[i+j];
+      r[i+j] = (Word) prod;
+      prod >>= WSIZE;
+    }
+    r[i+j] = (Word) prod;
   }
-  r[len+1] = (Word) prod;
 }
 
 
@@ -189,7 +192,7 @@ void int_sqr_c99(Word *r, const Word *a, int len)
   
   // compute A[1,...,len-1]*a[0]
   r[0] = 0;
-  for(j = 1; j < len; j++) {
+  for (j = 1; j < len; j++) {
     prod += (DWord) a[j]*a[0];
     r[j] = (Word) prod;
     prod >>= WSIZE;
@@ -197,9 +200,9 @@ void int_sqr_c99(Word *r, const Word *a, int len)
   r[j] = (Word) prod;
   
   // compute A[i+1,...,len-1]*a[i] for 1 <= i < len
-  for(i = 1; i < len; i++) {
+  for (i = 1; i < len; i++) {
     prod = 0;
-    for(j = i + 1; j < len; j++) {
+    for (j = i + 1; j < len; j++) {
       prod += (DWord) a[j]*a[i];
       prod += r[i+j];
       r[i+j] = (Word) prod;
