@@ -159,11 +159,10 @@ void int_mul_c99(Word *r, const Word *a, const Word *b, int len)
 /*------Multiplication by 32-bit integer------*/
 void int_mul32_c99(Word *r, const Word *a, const Word *b, int len)
 {
-  DWord prod;
+  DWord prod = 0;
   int i;
   
   // multiplication of A by b[0]
-  prod = 0;
   for (i = 0; i < len; i++) {
     prod += (DWord) a[i]*b[0];
     r[i] = (Word) prod;
