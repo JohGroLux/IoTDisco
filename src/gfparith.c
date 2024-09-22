@@ -2,17 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "config.h"
-#include "typedefs.h"
 #include "intarith.h"
 #include "gfparith.h"
-
-
-typedef uint16_t Word;   // single-length word
-typedef uint32_t DWord;  // double-length word
-typedef int32_t SDWord;  // signed double-length word
-// Bitlength of a Word
-#define WSIZE (8*sizeof(Word))
 
 
 // All-1 Mask: 0xFF..FF

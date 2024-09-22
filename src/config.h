@@ -1,16 +1,34 @@
 #ifndef _CONFIG_H
 #define _CONFIG_H
 
-#define MSPECC_MIN_LEN 10 
 
-#define MSPECC_MAX_LEN 16
+#include <stdint.h>
+#include <limits.h>
+
+
+#if (UINT_MAX <= 65535)
+typedef uint16_t Word;   // single-length word
+typedef uint32_t DWord;  // double-length word
+typedef int32_t SDWord;  // signed double-length word
+#define WSIZE 16
+#else  // 32/64-bit CPU
+typedef uint32_t Word;   // single-length word
+typedef uint64_t DWord;  // double-length word
+typedef int64_t SDWord;  // signed double-length word
+#define WSIZE 32
+#endif
+
+
+#define MSPECC_MIN_LEN 160
+
+#define MSPECC_MAX_LEN 256
 
 // 
 #define MSPECC_USE_ASM
 
 // define MSPECC_USE_VLA to use Variable-Length Arrays (VLA)
 // undefine it to use static arrays of length MSPECC_MAX_LEN
-#define MSPECC_USE_VLA
+// #define MSPECC_USE_VLA
 
 #ifndef NDEBUG
 #define MSPECC_DEBUG_PRINT

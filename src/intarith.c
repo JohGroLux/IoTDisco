@@ -3,16 +3,7 @@
 #include <stdio.h>   // printf()
 #include <stdlib.h>  // ??
 #include <string.h>  // strlen()
-#include "config.h"
 #include "intarith.h"
-
-
-typedef uint16_t Word;   // single-length word
-typedef uint32_t DWord;  // double-length word
-typedef int32_t SDWord;  // signed double-length word
-// Bitlength of a Word
-// #define WSIZE (8*sizeof(Word))
-#define WSIZE 16
 
 
 // printf() formatstring
