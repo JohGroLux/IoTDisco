@@ -32,13 +32,27 @@
 #endif
 
 
-#define get_bit(k, i) ((k[((i)>>4)] >> ((i)&0xF)) & 1)
+#if (WSIZE == 16)
+#define GET_BIT(k, i) ((k[((i)>>4)] >> ((i) & 0x0F)) & 1)
+#else  // 32 bits
+#define GET_BIT(k, i) ((k[((i)>>5)] >> ((i) & 0x1F)) & 1)
+#endif
 
 
-#if (MSPECC_MAX_LEN <= 256)
-static const Word SECC_INV_MASK[16] = { 0x5F58, 0xE072, 0x28DB, 0x1703, 0xBC96, \
-  0x22E6, 0x97C4, 0xA158, 0x646A, 0xCED0, 0x2D36, 0xE628, 0x9A79, 0x4908,    \
-  0x4D46, 0x76F9 };
+#if (WSIZE == 16)
+static const Word SECC_INV_MASK[16] = {                           \
+  0x5F58, 0xE072, 0x28DB, 0x1703, 0xBC96, 0x22E6, 0x97C4, 0xA158, \
+  0x646A, 0xCED0, 0x2D36, 0xE628, 0x9A79, 0x4908, 0x4D46, 0x76F9 };
+#if ((MSPECC_MAX_LEN/WSIZE) > 16)
+#error "Multiplicative mask for secure inversion must be extended!"
+#endif // MSPECC_MAX_LEN/WSIZE) > 16)
+#else  // 32 bits
+static const Word SECC_INV_MASK[8] = {            \
+  0xE0725F58, 0x170328DB, 0x22E6BC96, 0xA15897C4, \
+  0xCED0646A, 0xE6282D36, 0x49089A79, 0x76F94D46  };
+#if ((MSPECC_MAX_LEN/WSIZE) > 8)
+#error "Multiplicative mask for secure inversion must be extended!"
+#endif // MSPECC_MAX_LEN/WSIZE) > 8)
 #endif
 
 
@@ -155,7 +169,7 @@ int mon_check_order(PROPOINT *r, const Word *xp, const ECDPARAM *m)
 void mon_mul_ladder(PROPOINT *r, const Word *k, const Word *xp,
                     const ECDPARAM *m)
 {
-  int ki, len = m->len, i = (len << 4) - 1;
+  int ki, len = m->len, i = WSIZE*len - 1;
   Word tmp[3*_len]; // temporary space for three gfp elements
   PROPOINT q = { tmp, &tmp[len], &tmp[2*len], NULL, r->slack };
   PROPOINT *t[2] = { r, &q };
@@ -165,7 +179,7 @@ void mon_mul_ladder(PROPOINT *r, const Word *k, const Word *xp,
   // leading "1" in a secret scalar is fixed. For example, a secret scalar in
   // Curve25519 consists of 32 bytes, whereby the highest bit of the most
   // significant byte is always "0" and the second-highest bit is always "1".
-  while ((get_bit(k, i) == 0) && (i > 0)) i--;
+  while ((GET_BIT(k, i) == 0) && (i > 0)) i--;
   
   // initialize T[0] with (X,Z) = (xp,1)  
   int_copy(t[0]->x, xp, len);
@@ -176,7 +190,7 @@ void mon_mul_ladder(PROPOINT *r, const Word *k, const Word *xp,
   
   // simple left-to-right Montgomery ladder
   for(i = i - 1; i >= 0; i--) {
-    ki = get_bit(k, i);
+    ki = GET_BIT(k, i);
     mon_add(t[1-ki], t[ki], xp, m);
     mon_double(t[ki], m);
   }
@@ -231,8 +245,8 @@ void mon_mul_ladder_consttime(PROPOINT *r, const Word *k, const Word *xp,
   int_set(t[1]->z, 1, len);
   
   // simple left-to-right Montgomery ladder
-  for(i = (len << 4) - 1; i >= 0; i--) {
-    ki = get_bit(k, i);
+  for(i = WSIZE*len - 1; i >= 0; i--) {
+    ki = GET_BIT(k, i);
     mon_add(t[1-ki], t[ki], xp, m);
     mon_double(t[ki], m);
   }
