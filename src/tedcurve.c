@@ -37,7 +37,7 @@
 
 
 #if (MSPECC_MAX_LEN <= 16)
-static const UINT16 INV_MASK[16] = { 0x5F58, 0xE072, 0x28DB, 0x1703, 0xBC96, \
+static const Word INV_MASK[16] = { 0x5F58, 0xE072, 0x28DB, 0x1703, 0xBC96, \
   0x22E6, 0x97C4, 0xA158, 0x646A, 0xCED0, 0x2D36, 0xE628, 0x9A79, 0x4908,    \
   0x4D46, 0x76F9 };
 #endif
@@ -115,11 +115,11 @@ void ted_copy(PROPOINT *r, const PROPOINT *p, int len, int num)
 
 void ted_add(PROPOINT *p, const PROPOINT *q, const ECDPARAM *m)
 {
-  int len = m->len; UINT16 c = m->c;
-  UINT16 *x1 = p->x, *y1 = p->y, *z1 = p->z;
-  UINT16 *e1 = p->extra, *h1 = &(p->extra[len]);
-  UINT16 *t1 = p->slack, *prod = &(p->slack[len]);
-  const UINT16 *u2 = q->x, *v2 = q->y, *w2 = q->z;
+  int len = m->len; Word c = m->c;
+  Word *x1 = p->x, *y1 = p->y, *z1 = p->z;
+  Word *e1 = p->extra, *h1 = &(p->extra[len]);
+  Word *t1 = p->slack, *prod = &(p->slack[len]);
+  const Word *u2 = q->x, *v2 = q->y, *w2 = q->z;
   
   gfp_mul(t1, e1, h1, c, len);          // t1 := e1*h1;
   gfp_sub(e1, y1, x1, c, len);          // e3 := y1-x1;
@@ -146,10 +146,10 @@ void ted_add(PROPOINT *p, const PROPOINT *q, const ECDPARAM *m)
 
 void ted_double(PROPOINT *p, const ECDPARAM *m)
 {
-  int len = m->len; UINT16 c = m->c;
-  UINT16 *x1 = p->x, *y1 = p->y, *z1 = p->z;
-  UINT16 *e1 = p->extra, *h1 = &(p->extra[len]);
-  UINT16 *t1 = p->slack, *prod = &(p->slack[len]);
+  int len = m->len; Word c = m->c;
+  Word *x1 = p->x, *y1 = p->y, *z1 = p->z;
+  Word *e1 = p->extra, *h1 = &(p->extra[len]);
+  Word *t1 = p->slack, *prod = &(p->slack[len]);
   
   gfp_sqr(e1, x1, c, len);              // e3 := x1*x1;
   gfp_sqr(h1, y1, c, len);              // h3 := y1*y1;
@@ -175,11 +175,11 @@ void ted_double(PROPOINT *p, const ECDPARAM *m)
 
 void ted_add_pro(PROPOINT *r, const PROPOINT *p, const ECDPARAM *m)
 {
-  int len = m->len; UINT16 c = m->c;
-  UINT16 *x1 = r->x, *y1 = r->y, *z1 = r->z;  
-  UINT16 *t1 = r->extra, *t2 = &(r->extra[len]);
-  UINT16 *t3 = r->slack, *prod = &(r->slack[len]);
-  UINT16 *x2 = p->x, *y2 = p->y, *z2 = p->z;
+  int len = m->len; Word c = m->c;
+  Word *x1 = r->x, *y1 = r->y, *z1 = r->z;  
+  Word *t1 = r->extra, *t2 = &(r->extra[len]);
+  Word *t3 = r->slack, *prod = &(r->slack[len]);
+  Word *x2 = p->x, *y2 = p->y, *z2 = p->z;
   
   gfp_add(t1, x1, y1, c, len);          // t1 := x1+y1;
   gfp_add(t2, x2, y2, c, len);          // t2 := x2+y2;
@@ -210,10 +210,10 @@ void ted_add_pro(PROPOINT *r, const PROPOINT *p, const ECDPARAM *m)
 
 void ted_affine_extaff(PROPOINT *r, const AFFPOINT *p, const ECDPARAM *m)
 {
-  int len = m->len; UINT16 c = m->c;
-  UINT16 *x = p->x, *y = p->y;
-  UINT16 *u = r->x, *v = r->y, *w = r->z;
-  UINT16 *t1 = r->slack, *prod = &(r->slack[len]);
+  int len = m->len; Word c = m->c;
+  Word *x = p->x, *y = p->y;
+  Word *u = r->x, *v = r->y, *w = r->z;
+  Word *t1 = r->slack, *prod = &(r->slack[len]);
   
   gfp_add(t1, x, y, c, len);
   gfp_hlv(u, t1, c, len);
@@ -233,9 +233,9 @@ void ted_affine_extaff(PROPOINT *r, const AFFPOINT *p, const ECDPARAM *m)
 
 void ted_extaff_extpro(PROPOINT *r, const PROPOINT *p, const ECDPARAM *m)
 {
-  int len = m->len; UINT16 c = m->c;
-  UINT16 *u = p->x, *v = p->y;
-  UINT16 *x = r->x, *y = r->y, *z = r->z;
+  int len = m->len; Word c = m->c;
+  Word *u = p->x, *v = p->y;
+  Word *x = r->x, *y = r->y, *z = r->z;
   
   gfp_add(x, u, u, c, len);             // x := 2*u;
   gfp_add(y, v, v, c, len);             // y := 2*v;
@@ -259,8 +259,8 @@ void ted_extaff_extpro(PROPOINT *r, const PROPOINT *p, const ECDPARAM *m)
 void ted_aff_to_pro(PROPOINT *r, const AFFPOINT *p, const ECDPARAM *m)
 {
   int len = m->len;
-  UINT16 *xp = p->x, *yp = p->y;
-  UINT16 *xr = r->x, *yr = r->y, *zr = r->z;
+  Word *xp = p->x, *yp = p->y;
+  Word *xr = r->x, *yr = r->y, *zr = r->z;
   
   int_copy(xr, xp, len);
   int_copy(yr, yp, len);
@@ -281,11 +281,11 @@ void ted_aff_to_pro(PROPOINT *r, const AFFPOINT *p, const ECDPARAM *m)
 
 int ted_validate(const PROPOINT *p, const ECDPARAM *m)
 {
-  int r, len = m->len; UINT16 c = m->c;
-  UINT16 tmp[3*_len]; // temporary space for three gfp elements
-  UINT16 *t1 = tmp, *t2 = &tmp[len], *t3 = &tmp[2*len];
-  UINT16 *t4 = (UINT16 *) p->slack, *prod = (UINT16 *) &(p->slack[len]);
-  UINT16 *x = p->x, *y = p->y, *z = p->z;
+  int r, len = m->len; Word c = m->c;
+  Word tmp[3*_len]; // temporary space for three gfp elements
+  Word *t1 = tmp, *t2 = &tmp[len], *t3 = &tmp[2*len];
+  Word *t4 = (Word *) p->slack, *prod = (Word *) &(p->slack[len]);
+  Word *x = p->x, *y = p->y, *z = p->z;
   
   // compute t1 = (Y^2 - X^2)*Z^2 and t2 = Z^4 + d*X^2*Y^2
   gfp_sqr(t1, x, c, len);               // t1 := X^2;
@@ -313,11 +313,11 @@ int ted_validate(const PROPOINT *p, const ECDPARAM *m)
 /* E*H = T = X*Y/Z.                                                          */
 /*****************************************************************************/
 
-void ted_mul_binary(PROPOINT *r, const UINT16 *k, const AFFPOINT *p,
+void ted_mul_binary(PROPOINT *r, const Word *k, const AFFPOINT *p,
                     const ECDPARAM *m)
 {
   int ki, len = m->len, i = (len<<4)-1;
-  UINT16 tmp[3*_len]; // temporary space for three gfp elements
+  Word tmp[3*_len]; // temporary space for three gfp elements
   PROPOINT q = { tmp, &tmp[len], &tmp[2*len], NULL, r->slack };
   
   // find position of first non-zero bit in k
@@ -357,10 +357,10 @@ void ted_mul_binary(PROPOINT *r, const UINT16 *k, const AFFPOINT *p,
 
 int ted_proj_affine(PROPOINT *r, const PROPOINT *p, const ECDPARAM *m)
 {
-  int err, len = m->len; UINT16 c = m->c;
-  UINT16 *xp = p->x, *yp = p->y, *zp = p->z;
-  UINT16 *xr = r->x, *yr = r->y, *zr = r->z;
-  UINT16 *t1 = r->slack, *prod = &(r->slack[len]);
+  int err, len = m->len; Word c = m->c;
+  Word *xp = p->x, *yp = p->y, *zp = p->z;
+  Word *xr = r->x, *yr = r->y, *zr = r->z;
+  Word *t1 = r->slack, *prod = &(r->slack[len]);
   
   // "masked" inversion of Z to thwart timing attacks
   gfp_mul(t1, zp, INV_MASK, c, len);
@@ -390,11 +390,11 @@ int ted_proj_affine(PROPOINT *r, const PROPOINT *p, const ECDPARAM *m)
 /* (x,y). The result R is also given in standard affine coordinates.         */
 /*****************************************************************************/
 
-int ted_mul_varbase(AFFPOINT *r, const UINT16 *k, const AFFPOINT *p,
+int ted_mul_varbase(AFFPOINT *r, const Word *k, const AFFPOINT *p,
                     const ECDPARAM *m)
 {
   int err, len = m->len;
-  UINT16 tmp[8*_len]; // temporary space for eight gfp elements
+  Word tmp[8*_len]; // temporary space for eight gfp elements
   PROPOINT q = { tmp, &tmp[len], &tmp[2*len], &tmp[3*len], &tmp[5*len] };
   
   // validate point P (does P satisfy curve equation?)
@@ -426,7 +426,7 @@ int ted_mul_varbase(AFFPOINT *r, const UINT16 *k, const AFFPOINT *p,
 /* scalar consists of, i.e. maxd = 2*len.                                    */
 /*****************************************************************************/
 
-int get_digit(const UINT16 *k, int i, int len)
+int get_digit(const Word *k, int i, int len)
 {
   int maxd = (len<<2);
   int d = get_bit(k, i);
@@ -467,10 +467,10 @@ void ted_load_point(PROPOINT *r, int i, const ECDPARAM *m)
 /* E*H = T = X*Y/Z.                                                          */
 /*****************************************************************************/
 
-void ted_mul_comb4b(PROPOINT *r, const UINT16 *k, const ECDPARAM *m)
+void ted_mul_comb4b(PROPOINT *r, const Word *k, const ECDPARAM *m)
 {
   int di, len = m->len, i = (len<<2)-1;
-  UINT16 tmp[3*_len]; // temporary space for three gfp elements
+  Word tmp[3*_len]; // temporary space for three gfp elements
   PROPOINT q = { tmp, &tmp[len], &tmp[2*len], NULL, r->slack };
   
   // initialize R with di-th element from the pre-computed comb table
@@ -497,10 +497,10 @@ void ted_mul_comb4b(PROPOINT *r, const UINT16 *k, const ECDPARAM *m)
 /* affine coordinates.                                                       */
 /*****************************************************************************/
 
-int ted_mul_fixbase(AFFPOINT *r, const UINT16 *k, const ECDPARAM *m)
+int ted_mul_fixbase(AFFPOINT *r, const Word *k, const ECDPARAM *m)
 {
   int err, len = m->len;
-  UINT16 tmp[8*_len]; // temporary space for eight gfp elements
+  Word tmp[8*_len]; // temporary space for eight gfp elements
   PROPOINT q = { tmp, &tmp[len], &tmp[2*len], &tmp[3*len], &tmp[5*len] };
   
   // perform scalar multiplication via fixed-base comb method
@@ -532,11 +532,11 @@ int ted_mul_fixbase(AFFPOINT *r, const UINT16 *k, const ECDPARAM *m)
 
 void ted_to_mon(PROPOINT *r, const PROPOINT *p, const ECDPARAM *m)
 {
-  int len = m->len; UINT16 c = m->c;
-  UINT16 tmp[2*_len]; // temporary space for two gfp elements
-  UINT16 *t1 = tmp, *t2 = &tmp[len], *t3 = r->slack, *prod = &(r->slack[len]);
-  UINT16 *xt = p->x, *yt = p->y, *zt = p->z;
-  UINT16 *xm = r->x, *ym = r->y, *zm = r->z;
+  int len = m->len; Word c = m->c;
+  Word tmp[2*_len]; // temporary space for two gfp elements
+  Word *t1 = tmp, *t2 = &tmp[len], *t3 = r->slack, *prod = &(r->slack[len]);
+  Word *xt = p->x, *yt = p->y, *zt = p->z;
+  Word *xm = r->x, *ym = r->y, *zm = r->z;
   
   gfp_add(t1, zt, yt, c, len);
   gfp_sub(t2, zt, yt, c, len);
@@ -550,13 +550,13 @@ void ted_to_mon(PROPOINT *r, const PROPOINT *p, const ECDPARAM *m)
 void ted_test25519(void)  // based on test vectors from RFC 8032, Section 7.1
 {
   // base point P
-  UINT16 xp[16] = { 0xd51a, 0x8f25, 0x2d60, 0xc956, 0xa7b2, 0x9525, 0xc760, 0x692c, 0xdc5c, 0xfdd6, 0xe231, 0xc0a4, 0x53fe, 0xcd6e, 0x36d3, 0x2169 };
-  UINT16 yp[16] = { 0x6658, 0x6666, 0x6666, 0x6666, 0x6666, 0x6666, 0x6666, 0x6666, 0x6666, 0x6666, 0x6666, 0x6666, 0x6666, 0x6666, 0x6666, 0x6666 };
+  Word xp[16] = { 0xd51a, 0x8f25, 0x2d60, 0xc956, 0xa7b2, 0x9525, 0xc760, 0x692c, 0xdc5c, 0xfdd6, 0xe231, 0xc0a4, 0x53fe, 0xcd6e, 0x36d3, 0x2169 };
+  Word yp[16] = { 0x6658, 0x6666, 0x6666, 0x6666, 0x6666, 0x6666, 0x6666, 0x6666, 0x6666, 0x6666, 0x6666, 0x6666, 0x6666, 0x6666, 0x6666, 0x6666 };
   AFFPOINT p = { xp, yp };
   // scalar k (generated by hashing & pruning of sk as described in RFC 8032)
-  UINT16 k[16] = { 0x7c30, 0x8683, 0x284f, 0xcb33, 0x7a42, 0xf12e, 0x0ac0, 0x3c01, 0xfffd, 0x6827, 0x80d9, 0xa3c0, 0x20a5, 0x06f0, 0x4d90, 0x4fe9 };
+  Word k[16] = { 0x7c30, 0x8683, 0x284f, 0xcb33, 0x7a42, 0xf12e, 0x0ac0, 0x3c01, 0xfffd, 0x6827, 0x80d9, 0xa3c0, 0x20a5, 0x06f0, 0x4d90, 0x4fe9 };
   // result R
-  UINT16 xr[16], yr[16];
+  Word xr[16], yr[16];
   AFFPOINT r = { xr, yr };
   
   // make sure that k is a valid scalar
