@@ -37,7 +37,7 @@
 
 
 #if (MSPECC_MAX_LEN <= 16)
-static const UINT16 INV_MASK[16] = { 0x5F58, 0xE072, 0x28DB, 0x1703, 0xBC96, \
+static const Word INV_MASK[16] = { 0x5F58, 0xE072, 0x28DB, 0x1703, 0xBC96, \
   0x22E6, 0x97C4, 0xA158, 0x646A, 0xCED0, 0x2D36, 0xE628, 0x9A79, 0x4908,    \
   0x4D46, 0x76F9 };
 #endif
@@ -65,12 +65,12 @@ void mon_copy(PROPOINT *r, const PROPOINT *p, int len)
 /* multiplication according to the so-called Montgomery ladder.              */
 /*****************************************************************************/
 
-void mon_add(PROPOINT *p, const PROPOINT *q, const UINT16 *xd,
+void mon_add(PROPOINT *p, const PROPOINT *q, const Word *xd,
              const ECDPARAM *m)
 {
-  int len = m->len; UINT16 c = m->c;
-  UINT16 *xp = p->x, *zp = p->z, *xq = q->x, *zq = q->z;
-  UINT16 *t1 = p->y, *t2 = p->slack, *prod = &(p->slack[len]);
+  int len = m->len; Word c = m->c;
+  Word *xp = p->x, *zp = p->z, *xq = q->x, *zq = q->z;
+  Word *t1 = p->y, *t2 = p->slack, *prod = &(p->slack[len]);
   
   gfp_add(t1, xp, zp, c, len);          // t1 := xp+zp;
   gfp_sub(t2, xp, zp, c, len);          // t2 := xp-zp;
@@ -94,9 +94,9 @@ void mon_add(PROPOINT *p, const PROPOINT *q, const UINT16 *xd,
 
 void mon_double(PROPOINT *p, const ECDPARAM *m)
 {
-  int len = m->len; UINT16 c = m->c;
-  UINT16 *xp = p->x, *zp = p->z;
-  UINT16 *t1 = p->y, *t2 = p->slack, *prod = &(p->slack[len]);
+  int len = m->len; Word c = m->c;
+  Word *xp = p->x, *zp = p->z;
+  Word *t1 = p->y, *t2 = p->slack, *prod = &(p->slack[len]);
   
   gfp_add(t1, xp, zp, c, len);          // t1 := xp+zp;
   gfp_sqr(t2, t1, c, len);              // t2 := t1*t1;
@@ -119,10 +119,10 @@ void mon_double(PROPOINT *p, const ECDPARAM *m)
 /* on ECC Using Points of Low Order" (Proceedings of CHES 2011).             */
 /*****************************************************************************/
 
-int mon_check_order(PROPOINT *r, const UINT16 *xp, const ECDPARAM *m)
+int mon_check_order(PROPOINT *r, const Word *xp, const ECDPARAM *m)
 {
   int len = m->len;
-  UINT16 c = m->c;
+  Word c = m->c;
   
   // initialize point R with x-coordinate of P
   int_copy(r->x, xp, len); int_set(r->z, 1, len);
@@ -153,11 +153,11 @@ int mon_check_order(PROPOINT *r, const UINT16 *xp, const ECDPARAM *m)
 /* is not computed.                                                          */
 /*****************************************************************************/
 
-void mon_mul_ladder(PROPOINT *r, const UINT16 *k, const UINT16 *xp,
+void mon_mul_ladder(PROPOINT *r, const Word *k, const Word *xp,
                     const ECDPARAM *m)
 {
   int ki, len = m->len, i = (len<<4)-1;
-  UINT16 tmp[3*_len]; // temporary space for three gfp elements
+  Word tmp[3*_len]; // temporary space for three gfp elements
   PROPOINT q = { tmp, &tmp[len], &tmp[2*len], NULL, r->slack };
   PROPOINT *t[2] = { r, &q };
   
@@ -187,7 +187,7 @@ void mon_mul_ladder(PROPOINT *r, const UINT16 *k, const UINT16 *xp,
   // of R = k*P, while T[1] contains the X and Z coordinate of T[0]+P, i.e. we
   // have T[1] = k*P + P = (k+1)*P. These four coordinates, along with the x
   // and y-coordinate of the base point P, allow a recovery of the Y-coordinate
-  // of R. Hence, we store the X and Z-coordinate of T[1] in the UINT16 arrays
+  // of R. Hence, we store the X and Z-coordinate of T[1] in the Word arrays
   // addressed by the pointers 'y' and 'slack' of the PROPOINT structure for R.
   int_copy(r->y, q.x, len);
   int_copy(r->slack, q.z, len);
@@ -201,18 +201,18 @@ void mon_mul_ladder(PROPOINT *r, const UINT16 *k, const UINT16 *xp,
 /* Y-coordinate is not computed. However, besides the X and Z-coordinate of  */
 /* R = k*P, also the X and Z-coordinate of the point Q = R + P = (k+1)*P is  */
 /* computed by the Montgomery latter. These two coordinates are stored in    */
-/* the UINT16 arrays referenced by the two elements 'y' and 'slack' of the   */
+/* the Word arrays referenced by the two elements 'y' and 'slack' of the     */
 /* PROPOINT structure representing the result R. The X and Z-coordinate of   */
 /* Q, along with the X and Z-coordinate of R and the affine x and            */
 /* y-coordinate of the base point P, can be used to recover the Y coordinate */
 /* of R.                                                                     */
 /*****************************************************************************/
 
-void mon_mul_ladder_consttime(PROPOINT *r, const UINT16 *k, const UINT16 *xp,
+void mon_mul_ladder_consttime(PROPOINT *r, const Word *k, const Word *xp,
                               const ECDPARAM *m)
 {
   int i, ki, len = m->len;
-  UINT16 tmp[3*_len]; // temporary space for three gfp elements
+  Word tmp[3*_len]; // temporary space for three gfp elements
   PROPOINT q = { tmp, &tmp[len], &tmp[2*len], NULL, r->slack };
   PROPOINT *t[2] = { r, &q };
   
@@ -244,7 +244,7 @@ void mon_mul_ladder_consttime(PROPOINT *r, const UINT16 *k, const UINT16 *xp,
   // of R = k*P, while T[1] contains the X and Z coordinate of T[0]+P, i.e. we
   // have T[1] = k*P + P = (k+1)*P. These four coordinates, along with the x
   // and y-coordinate of the base point P, allow a recovery of the Y-coordinate
-  // of R. Hence, we store the X and Z-coordinate of T[1] in the UINT16 arrays
+  // of R. Hence, we store the X and Z-coordinate of T[1] in the Word arrays
   // addressed by the pointers 'y' and 'slack' of the PROPOINT structure for R.
   int_copy(r->y, q.x, len);
   int_copy(r->slack, q.z, len);
@@ -269,10 +269,10 @@ void mon_mul_ladder_consttime(PROPOINT *r, const UINT16 *k, const UINT16 *xp,
 
 int mon_proj_affine(PROPOINT *r, const PROPOINT *p, const ECDPARAM *m)
 {
-  int err, len = m->len; UINT16 c = m->c;
-  UINT16 *xp = p->x, *yp = p->y, *zp = p->z;
-  UINT16 *xr = r->x, *yr = r->y, *zr = r->z;
-  UINT16 *t1 = r->slack, *prod = &(r->slack[len]);
+  int err, len = m->len; Word c = m->c;
+  Word *xp = p->x, *yp = p->y, *zp = p->z;
+  Word *xr = r->x, *yr = r->y, *zr = r->z;
+  Word *t1 = r->slack, *prod = &(r->slack[len]);
   
   // "masked" inversion of Z to thwart timing attacks
   gfp_mul(t1, zp, INV_MASK, c, len);
@@ -303,20 +303,20 @@ int mon_proj_affine(PROPOINT *r, const PROPOINT *p, const ECDPARAM *m)
 /* Besides the X and Z-coordinate of Q = k*P, also the X and Z-coordinate of */
 /* the point Q + P = (k+1)*P as well as the affine x and y-coordinate of the */
 /* base point P are needed. The X and Z-coordinate of Q + P are expected to  */
-/* be contained in UINT16 arrays referenced by the elements 'y' and 't' of   */
-/* the PROPOINT structure representing the point Q. This implementation of   */
-/* the Y-coordinate recovery is optimized for Montgomery curves with B = 1.  */
+/* be contained in Word arrays referenced by the elements 'y' and 't' of the */
+/* PROPOINT structure representing the point Q. This implementation of the   */
+/* Y-coordinate recovery is optimized for Montgomery curves with B = 1.      */
 /*****************************************************************************/
 
 void mon_recover_y(PROPOINT *r, const PROPOINT *q, const PROPOINT *p,
                    const ECDPARAM *m)
 {
-  int len = m->len; UINT16 c = m->c;
-  UINT16 tmp[3*_len]; // temporary space for three gfp elements
-  UINT16 *t1 = tmp, *t2 = &tmp[len], *t3 = &tmp[2*len];
-  UINT16 *x1 = q->x, *z1 = q->z, *x2 = q->y, *z2 = q->slack;
-  UINT16 *xr = r->x, *yr = r->y, *zr = r->z, *xp = p->x, *yp = p->y;
-  UINT16 *prod = &(r->slack[len]);
+  int len = m->len; Word c = m->c;
+  Word tmp[3*_len]; // temporary space for three gfp elements
+  Word *t1 = tmp, *t2 = &tmp[len], *t3 = &tmp[2*len];
+  Word *x1 = q->x, *z1 = q->z, *x2 = q->y, *z2 = q->slack;
+  Word *xr = r->x, *yr = r->y, *zr = r->z, *xp = p->x, *yp = p->y;
+  Word *prod = &(r->slack[len]);
   
   gfp_mul(t1, xp, x1, c, len);          // t1 := xp*x1;
   gfp_sub(t1, t1, z1, c, len);          // t1 := t1-z1;
@@ -345,11 +345,11 @@ void mon_recover_y(PROPOINT *r, const PROPOINT *q, const PROPOINT *p,
 /* i.e. the y-coordinate is not computed.                                    */
 /*****************************************************************************/
 
-int mon_mul_varbase(UINT16 *r, const UINT16 *k, const UINT16 *xp,
+int mon_mul_varbase(Word *r, const Word *k, const Word *xp,
                     const ECDPARAM *m)
 {
   int err, len = m->len;
-  UINT16 tmp[6*_len]; // temporary space for six gfp elements
+  Word tmp[6*_len]; // temporary space for six gfp elements
   PROPOINT q = { tmp, &tmp[len], &tmp[2*len], NULL, &tmp[3*len] };  
   
   // set r to 0 when k is 0 (should normally never happen)
@@ -374,12 +374,12 @@ int mon_mul_varbase(UINT16 *r, const UINT16 *k, const UINT16 *xp,
 }
 
 
-int mon_mul_fixbase(UINT16 *r, const UINT16 *k, const ECDPARAM *m)
+int mon_mul_fixbase(Word *r, const Word *k, const ECDPARAM *m)
 {
   int err, len = m->len, c = m->c;
-  UINT16 tmp[8*_len];
+  Word tmp[8*_len];
   PROPOINT q = { tmp, &tmp[len], &tmp[2*len], &tmp[3*len], &tmp[5*len] };
-  UINT16 *prod = &(q.slack[len]);
+  Word *prod = &(q.slack[len]);
   
   // set r to 0 when k is 0 (should normally never happen)
   if (int_is0(k, len)) { int_set(r, 0, len); return MSPECC_ERR_INVALID_SCALAR; }
@@ -417,11 +417,11 @@ int mon_mul_fixbase(UINT16 *r, const UINT16 *k, const ECDPARAM *m)
 
 void mon_to_ted(PROPOINT *r, const PROPOINT *p, const ECDPARAM *m)
 {
-  int len = m->len; UINT16 c = m->c;
-  UINT16 tmp[2*_len]; // temporary space for two gfp elements
-  UINT16 *t1 = tmp, *t2 = &tmp[len], *t3 = r->slack, *prod = &(r->slack[len]);
-  UINT16 *xm = p->x, *ym = p->y, *zm = p->z;
-  UINT16 *xt = r->x, *yt = r->y, *zt = r->z; 
+  int len = m->len; Word c = m->c;
+  Word tmp[2*_len]; // temporary space for two gfp elements
+  Word *t1 = tmp, *t2 = &tmp[len], *t3 = r->slack, *prod = &(r->slack[len]);
+  Word *xm = p->x, *ym = p->y, *zm = p->z;
+  Word *xt = r->x, *yt = r->y, *zt = r->z; 
   
   gfp_add(t1, xm, zm, c, len);
   gfp_sub(t2, xm, zm, c, len);
@@ -434,13 +434,13 @@ void mon_to_ted(PROPOINT *r, const PROPOINT *p, const ECDPARAM *m)
 
 void mon_test25519(void)
 {
-  // UINT16 x[16]  = { 0x0009, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000 };
-  // UINT16 k[16]  = { 0xAB58, 0x7E08, 0x4A62, 0x4B8A, 0xE179, 0x8B7F, 0x8083, 0xE60E, 0x3B6F, 0x29B1, 0x1826, 0xFDB6, 0x2F1C, 0x278B, 0x88FF, 0x6BE0 };
+  // Word x[16]  = { 0x0009, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000 };
+  // Word k[16]  = { 0xAB58, 0x7E08, 0x4A62, 0x4B8A, 0xE179, 0x8B7F, 0x8083, 0xE60E, 0x3B6F, 0x29B1, 0x1826, 0xFDB6, 0x2F1C, 0x278B, 0x88FF, 0x6BE0 };
   // r = 0x4F2B886F147EFCAD4D67785BC843833F3735E4ECC2615BD3B4C17D7B7DDB9EDE
   // Test vectors from https://tools.ietf.org/html/draft-irtf-cfrg-curves-10
-  UINT16 x[16] = { 0xDBE6, 0x6768, 0x3058, 0xDB30, 0x9435, 0xA4C1, 0xB124, 0x7C5F, 0x6672, 0xEC24, 0xB326, 0x3B35, 0xA910, 0xA603, 0xABD0, 0x4C1C };
-  UINT16 k[16] = { 0x46A0, 0x6BE3, 0x52F0, 0x9D7C, 0x163B, 0x4B15, 0x4682, 0xDD5E, 0x1462, 0x0A4C, 0xFCC1, 0x185A, 0x6A50, 0x4422, 0x44BA, 0x449A };
-  UINT16 r[16];
+  Word x[16] = { 0xDBE6, 0x6768, 0x3058, 0xDB30, 0x9435, 0xA4C1, 0xB124, 0x7C5F, 0x6672, 0xEC24, 0xB326, 0x3B35, 0xA910, 0xA603, 0xABD0, 0x4C1C };
+  Word k[16] = { 0x46A0, 0x6BE3, 0x52F0, 0x9D7C, 0x163B, 0x4B15, 0x4682, 0xDD5E, 0x1462, 0x0A4C, 0xFCC1, 0x185A, 0x6A50, 0x4422, 0x44BA, 0x449A };
+  Word r[16];
   
   // make sure that k is a valid scalar
   k[15] &= 0x7FFF; k[15] |= 0x4000; k[0] &= 0xFFF8;
