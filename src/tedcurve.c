@@ -33,13 +33,27 @@
 #endif
 
 
-#define get_bit(k, i) ((k[((i)>>4)] >> ((i)&0xF)) & 1)
+#if (WSIZE == 16)
+#define GET_BIT(k, i) ((k[((i)>>4)] >> ((i) & 0x0F)) & 1)
+#else  // 32 bits
+#define GET_BIT(k, i) ((k[((i)>>5)] >> ((i) & 0x1F)) & 1)
+#endif
 
 
-#if (MSPECC_MAX_LEN <= 256)
-static const Word SECC_INV_MASK[16] = { 0x5F58, 0xE072, 0x28DB, 0x1703, 0xBC96, \
-  0x22E6, 0x97C4, 0xA158, 0x646A, 0xCED0, 0x2D36, 0xE628, 0x9A79, 0x4908,    \
-  0x4D46, 0x76F9 };
+#if (WSIZE == 16)
+static const Word SECC_INV_MASK[16] = {                           \
+  0x5F58, 0xE072, 0x28DB, 0x1703, 0xBC96, 0x22E6, 0x97C4, 0xA158, \
+  0x646A, 0xCED0, 0x2D36, 0xE628, 0x9A79, 0x4908, 0x4D46, 0x76F9 };
+#if ((MSPECC_MAX_LEN/WSIZE) > 16)
+#error "Multiplicative mask for secure inversion must be extended!"
+#endif // MSPECC_MAX_LEN/WSIZE) > 16)
+#else  // 32 bits
+static const Word SECC_INV_MASK[8] = {            \
+  0xE0725F58, 0x170328DB, 0x22E6BC96, 0xA15897C4, \
+  0xCED0646A, 0xE6282D36, 0x49089A79, 0x76F94D46  };
+#if ((MSPECC_MAX_LEN/WSIZE) > 8)
+#error "Multiplicative mask for secure inversion must be extended!"
+#endif // MSPECC_MAX_LEN/WSIZE) > 8)
 #endif
 
 
@@ -314,12 +328,12 @@ int ted_validate(const PROPOINT *p, const ECDPARAM *m)
 void ted_mul_binary(PROPOINT *r, const Word *k, const AFFPOINT *p,
                     const ECDPARAM *m)
 {
-  int ki, len = m->len, i = (len << 4) - 1;
+  int ki, len = m->len, i = WSIZE*len - 1;
   Word tmp[3*_len]; // temporary space for three gfp elements
   PROPOINT q = { tmp, &tmp[len], &tmp[2*len], NULL, r->slack };
   
   // find position of first non-zero bit in k
-  while ((get_bit(k, i) == 0) && (i >= 0)) i--;
+  while ((GET_BIT(k, i) == 0) && (i >= 0)) i--;
   if (i < 0) {  // k is 0
     ted_set0_pro(r, len);
     return;
@@ -333,7 +347,7 @@ void ted_mul_binary(PROPOINT *r, const Word *k, const AFFPOINT *p,
   // binary method for scalar multiplication
   for(i = i - 1; i >= 0; i--) {
     ted_double(r, m);
-    ki = get_bit(k, i);
+    ki = GET_BIT(k, i);
     if (ki) ted_add(r, &q, m);
   }
 }
@@ -436,20 +450,20 @@ int ted_mul_varbase(AFFPOINT *r, const Word *k, const AFFPOINT *p,
 /*****************************************************************************/
 /* Extract the 4-bit digit di = 8*k[3*maxd+i] + 4*k[2*maxd+i] + 2*k[maxd+i]  */
 /* + k[i] from a scalar 'k', where 'maxd' is the number of 4-bit digits the  */
-/* scalar consists of, i.e. maxd = 2*len.                                    */
+/* scalar consists of, i.e. maxd = (WSIZE/4)*len.                            */
 /*****************************************************************************/
 
 int get_digit(const Word *k, int i, int len)
 {
-  int maxd = (len << 2);
-  int d = get_bit(k, i);
+  int maxd = (WSIZE >> 2)*len;
+  int d = GET_BIT(k, i);
   
   i += maxd;
-  d += (get_bit(k, i) << 1);
+  d += (GET_BIT(k, i) << 1);
   i += maxd;
-  d += (get_bit(k, i) << 2);
+  d += (GET_BIT(k, i) << 2);
   i += maxd;
-  d += (get_bit(k, i) << 3);
+  d += (GET_BIT(k, i) << 3);
   
   return d;
 }
@@ -482,7 +496,7 @@ void ted_load_point(PROPOINT *r, int i, const ECDPARAM *m)
 
 void ted_mul_comb4b(PROPOINT *r, const Word *k, const ECDPARAM *m)
 {
-  int di, len = m->len, i = (len << 2) - 1;
+  int di, len = m->len, i = (WSIZE >> 2)*len - 1;
   Word tmp[3*_len]; // temporary space for three gfp elements
   PROPOINT q = { tmp, &tmp[len], &tmp[2*len], NULL, r->slack };
   
