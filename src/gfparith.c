@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "config.h"
+#include "typedefs.h"
 #include "intarith.h"
 #include "gfparith.h"
 
@@ -10,14 +11,14 @@
 typedef uint16_t Word;   // single-length word
 typedef uint32_t DWord;  // double-length word
 typedef int32_t SDWord;  // signed double-length word
-
-
 // Bitlength of a Word
 #define WSIZE (8*sizeof(Word))
+
+
 // All-1 Mask: 0xFF..FF
 #define ALL1MASK ((Word) -1L)
 // MSB-1 Mask: 0x80..00
-#define MSB1MASK ((Word) (1L << (WSIZE - 1)))
+#define MSB1MASK ((Word) (1U << (WSIZE - 1)))
 // MSB-0 Mask: 0x7F..FF
 #define MSB0MASK (ALL1MASK >> 1)
 // Minus-4 Mask: 0xFF..FC
@@ -29,9 +30,9 @@ typedef int32_t SDWord;  // signed double-length word
 
 
 #ifdef MSPECC_USE_VLA  // use variable-length arrays for field elements
-#define _len len     // requires "Allow VLA" in C/C++ Compiler Options
-#else
-#define _len MSPECC_MAX_LEN
+#define _len len       // requires "Allow VLA" in C/C++ Compiler Options
+#else  // use maximum-length arrays
+#define _len (MSPECC_MAX_LEN/WSIZE)
 #endif
 
 
@@ -300,7 +301,7 @@ void gfp_sqr_c99(Word *r, const Word *a, Word c, int len)
   Word msw, d = (c << 1);
   int i, j;
   
-  // compute A[1,...,len-1]*a[0]
+  // multiplication of A[1,...,len-1] by a[0]
   t[0] = 0;
   for (j = 1; j < len; j++) {
     prod += (DWord) a[j]*a[0];
@@ -309,7 +310,7 @@ void gfp_sqr_c99(Word *r, const Word *a, Word c, int len)
   }
   t[j] = (Word) prod;
   
-  // compute A[i+1,...,len-1]*a[i] for 1 <= i < len
+  // multiplication of A[i+1,...,len-1] by a[i] for 1 <= i < len
   for (i = 1; i < len; i++) {
     prod = 0;
     for (j = i + 1; j < len; j++) {
@@ -321,8 +322,7 @@ void gfp_sqr_c99(Word *r, const Word *a, Word c, int len)
     t[i+j] = (Word) prod;
   }
   
-  // double the result obtained so far and
-  // add the partial products a[i]*a[i]
+  // double existing result, add squares a[i]^2 for 0 <= i < len
   for (i = 0; i < len; i++) {
     prod = (DWord) a[i]*a[i];
     sum += (Word) prod;
@@ -372,7 +372,7 @@ void gfp_red32_c99(Word *r, const Word *a, Word c, int len)
     r[i] = (Word) prod;
     prod >>= WSIZE;
   }
-    
+  
   // compute r[i] = t[i] + carry
   for (i = 32/WSIZE; i < len - 1; i++) {
     prod += (DWord) a[i];
@@ -420,7 +420,7 @@ void gfp_mul32_c99(Word *r, const Word *a, const Word *b, Word c, int len)
     r[i] = (Word) prod;
     prod >>= WSIZE;
   }
-    
+  
   // compute r[i] = t[i] + carry
   for (i = 32/WSIZE; i < len - 1; i++) {
     prod += (DWord) t[i];
