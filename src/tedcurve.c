@@ -28,16 +28,16 @@
 
 #ifdef MSPECC_USE_VLA  // use variable-length arrays for field elements
 #define _len len       // requires "Allow VLA" in C/C++ Compiler Options
-#else
-#define _len MSPECC_MAX_LEN
+#else  // use maximum-length arrays
+#define _len (MSPECC_MAX_LEN/WSIZE)
 #endif
 
 
 #define get_bit(k, i) ((k[((i)>>4)] >> ((i)&0xF)) & 1)
 
 
-#if (MSPECC_MAX_LEN <= 16)
-static const Word INV_MASK[16] = { 0x5F58, 0xE072, 0x28DB, 0x1703, 0xBC96, \
+#if (MSPECC_MAX_LEN <= 256)
+static const Word SECC_INV_MASK[16] = { 0x5F58, 0xE072, 0x28DB, 0x1703, 0xBC96, \
   0x22E6, 0x97C4, 0xA158, 0x646A, 0xCED0, 0x2D36, 0xE628, 0x9A79, 0x4908,    \
   0x4D46, 0x76F9 };
 #endif
@@ -243,8 +243,7 @@ void ted_extaff_extpro(PROPOINT *r, const PROPOINT *p, const ECDPARAM *m)
   gfp_hlv(y, y, c, len);                // y := y/2;
   gfp_sub(x, x, y, c, len);             // x := x-y;
   int_set(z, 1, len);
-  if (r->extra != NULL)
-  {
+  if (r->extra != NULL) {
     int_copy(r->extra, x, len);
     int_copy(&(r->extra[len]), y, len);
   }
@@ -265,8 +264,7 @@ void ted_aff_to_pro(PROPOINT *r, const AFFPOINT *p, const ECDPARAM *m)
   int_copy(xr, xp, len);
   int_copy(yr, yp, len);
   int_set(zr, 1, len);
-  if (r->extra != NULL)
-  {
+  if (r->extra != NULL) {
     int_copy(r->extra, xr, len);
     int_copy(&(r->extra[len]), yr, len);
   }
@@ -316,13 +314,16 @@ int ted_validate(const PROPOINT *p, const ECDPARAM *m)
 void ted_mul_binary(PROPOINT *r, const Word *k, const AFFPOINT *p,
                     const ECDPARAM *m)
 {
-  int ki, len = m->len, i = (len<<4)-1;
+  int ki, len = m->len, i = (len << 4) - 1;
   Word tmp[3*_len]; // temporary space for three gfp elements
   PROPOINT q = { tmp, &tmp[len], &tmp[2*len], NULL, r->slack };
   
   // find position of first non-zero bit in k
   while ((get_bit(k, i) == 0) && (i >= 0)) i--;
-  if (i < 0) { ted_set0_pro(r, len); return; }
+  if (i < 0) {  // k is 0
+    ted_set0_pro(r, len);
+    return;
+  }
   
   // initialize Q with P
   ted_affine_extaff(&q, p, m);
@@ -330,8 +331,7 @@ void ted_mul_binary(PROPOINT *r, const Word *k, const AFFPOINT *p,
   ted_extaff_extpro(r, &q, m);
   
   // binary method for scalar multiplication
-  for(i = i-1; i >= 0; i--)
-  {
+  for(i = i - 1; i >= 0; i--) {
     ted_double(r, m);
     ki = get_bit(k, i);
     if (ki) ted_add(r, &q, m);
@@ -363,10 +363,13 @@ int ted_proj_affine(PROPOINT *r, const PROPOINT *p, const ECDPARAM *m)
   Word *t1 = r->slack, *prod = &(r->slack[len]);
   
   // "masked" inversion of Z to thwart timing attacks
-  gfp_mul(t1, zp, INV_MASK, c, len);
+  gfp_mul(t1, zp, SECC_INV_MASK, c, len);
   err = gfp_inv(t1, t1, c, len);
-  if (err != MSPECC_NO_ERROR) { ted_set0_pro(r, len); return err; }
-  gfp_mul(zr, t1, INV_MASK, c, len);
+  if (err != MSPECC_NO_ERROR) {
+    ted_set0_pro(r, len);
+    return err;
+  }
+  gfp_mul(zr, t1, SECC_INV_MASK, c, len);
   
   // get least non-negative residue of x = X*(1/Z)
   gfp_mul(t1, xp, zr, c, len);
@@ -400,21 +403,31 @@ int ted_mul_varbase(AFFPOINT *r, const Word *k, const AFFPOINT *p,
   // validate point P (does P satisfy curve equation?)
   ted_aff_to_pro(&q, p, m);
   err = ted_validate(&q, m);
-  if (err != MSPECC_NO_ERROR) { ted_set0_aff(r, len); return err; }
+  if (err != MSPECC_NO_ERROR) {
+    ted_set0_aff(r, len);
+    return err;
+  }
   
   // scalar multiplication according to the binary method
   ted_mul_binary(&q, k, p, m);
   
   // convert result from projective to affine coordinates
   err = ted_proj_affine(&q, &q, m);
-  if (err != MSPECC_NO_ERROR) { ted_set0_aff(r, len); return err; }
+  if (err != MSPECC_NO_ERROR) {
+    ted_set0_aff(r, len);
+    return err;
+  }
   
   // validate point Q (does Q satisfy curve equation?)
   err = ted_validate(&q, m);
-  if (err != MSPECC_NO_ERROR) { ted_set0_aff(r, len); return err; }
+  if (err != MSPECC_NO_ERROR) {
+    ted_set0_aff(r, len);
+    return err;
+  }
   
   // assign x and y-coordinate of point Q to output R
-  int_copy(r->x, q.x, len); int_copy(r->y, q.y, len);
+  int_copy(r->x, q.x, len);
+  int_copy(r->y, q.y, len);
   
   return MSPECC_NO_ERROR;
 }
@@ -428,7 +441,7 @@ int ted_mul_varbase(AFFPOINT *r, const Word *k, const AFFPOINT *p,
 
 int get_digit(const Word *k, int i, int len)
 {
-  int maxd = (len<<2);
+  int maxd = (len << 2);
   int d = get_bit(k, i);
   
   i += maxd;
@@ -469,7 +482,7 @@ void ted_load_point(PROPOINT *r, int i, const ECDPARAM *m)
 
 void ted_mul_comb4b(PROPOINT *r, const Word *k, const ECDPARAM *m)
 {
-  int di, len = m->len, i = (len<<2)-1;
+  int di, len = m->len, i = (len << 2) - 1;
   Word tmp[3*_len]; // temporary space for three gfp elements
   PROPOINT q = { tmp, &tmp[len], &tmp[2*len], NULL, r->slack };
   
@@ -479,8 +492,7 @@ void ted_mul_comb4b(PROPOINT *r, const Word *k, const ECDPARAM *m)
   ted_extaff_extpro(r, &q, m);
   
   // fixed-base comb method (4 bits of k are processed per iteration)
-  for(i = i-1; i >= 0; i--)
-  {
+  for(i = i - 1; i >= 0; i--) {
     ted_double(r, m);
     di = get_digit(k, i, len);
     ted_load_point(&q, di, m);
@@ -508,14 +520,21 @@ int ted_mul_fixbase(AFFPOINT *r, const Word *k, const ECDPARAM *m)
   
   // convert result from projective to affine coordinates
   err = ted_proj_affine(&q, &q, m);
-  if (err != MSPECC_NO_ERROR) { ted_set0_aff(r, len); return err; }
+  if (err != MSPECC_NO_ERROR) {
+    ted_set0_aff(r, len);
+    return err;
+  }
   
   // validate point Q (does Q satisfy curve equation?)
   err = ted_validate(&q, m);
-  if (err != MSPECC_NO_ERROR) { ted_set0_aff(r, len); return err; }
+  if (err != MSPECC_NO_ERROR) {
+    ted_set0_aff(r, len);
+    return err;
+  }
   
   // assign x, y-coordinate of affine point to output
-  int_copy(r->x, q.x, len); int_copy(r->y, q.y, len);
+  int_copy(r->x, q.x, len);
+  int_copy(r->y, q.y, len);
   
   return MSPECC_NO_ERROR;
 }
@@ -527,7 +546,8 @@ int ted_mul_fixbase(AFFPOINT *r, const Word *k, const ECDPARAM *m)
 /* to be given in standard projective coordinates and the result R is also   */
 /* given in standard projective coordinates. This conversion requires a      */
 /* pre-computed constant c = SquareRoot(-(A+2)/B) where A, B are the curve   */
-/* parameters of the Montgomery curve.                                       */
+/* parameters of the Montgomery curve. Note that (A+2)/B equals the          */
+/* parameter a of the birationally-equivalent twisted Edwards curve.         */
 /*****************************************************************************/
 
 void ted_to_mon(PROPOINT *r, const PROPOINT *p, const ECDPARAM *m)
