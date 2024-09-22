@@ -2,7 +2,7 @@
 // moncurve.c: Point arithmetic and scalar mul. on Montgomery curves.        //
 // This file is part of SECC430, a Scalable ECC implementation for MSP430.   //
 // Version 0.7.0 (2023-06-24), see <http://www.cryptolux.org/> for updates.  //
-/// License: GPLv3 (see LICENSE file), other licenses available upon request. //
+// License: GPLv3 (see LICENSE file), other licenses available upon request. //
 // ------------------------------------------------------------------------- //
 // This program is free software: you can redistribute it and/or modify it   //
 // under the terms of the GNU General Public License as published by the     //
@@ -18,26 +18,25 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "config.h"
 #include "intarith.h"
 #include "gfparith.h"
-#include "ecdparam.h"
-#include "tedcurve.h"
 #include "moncurve.h"
+#include "tedcurve.h"
+#include "ecdparam.h"
 
 
 #ifdef MSPECC_USE_VLA  // use variable-length arrays for field elements
 #define _len len       // requires "Allow VLA" in C/C++ Compiler Options
-#else
-#define _len MSPECC_MAX_LEN
+#else  // use maximum-length arrays
+#define _len (MSPECC_MAX_LEN/WSIZE)
 #endif
 
 
 #define get_bit(k, i) ((k[((i)>>4)] >> ((i)&0xF)) & 1)
 
 
-#if (MSPECC_MAX_LEN <= 16)
-static const Word INV_MASK[16] = { 0x5F58, 0xE072, 0x28DB, 0x1703, 0xBC96, \
+#if (MSPECC_MAX_LEN <= 256)
+static const Word SECC_INV_MASK[16] = { 0x5F58, 0xE072, 0x28DB, 0x1703, 0xBC96, \
   0x22E6, 0x97C4, 0xA158, 0x646A, 0xCED0, 0x2D36, 0xE628, 0x9A79, 0x4908,    \
   0x4D46, 0x76F9 };
 #endif
@@ -156,7 +155,7 @@ int mon_check_order(PROPOINT *r, const Word *xp, const ECDPARAM *m)
 void mon_mul_ladder(PROPOINT *r, const Word *k, const Word *xp,
                     const ECDPARAM *m)
 {
-  int ki, len = m->len, i = (len<<4)-1;
+  int ki, len = m->len, i = (len << 4) - 1;
   Word tmp[3*_len]; // temporary space for three gfp elements
   PROPOINT q = { tmp, &tmp[len], &tmp[2*len], NULL, r->slack };
   PROPOINT *t[2] = { r, &q };
@@ -166,7 +165,7 @@ void mon_mul_ladder(PROPOINT *r, const Word *k, const Word *xp,
   // leading "1" in a secret scalar is fixed. For example, a secret scalar in
   // Curve25519 consists of 32 bytes, whereby the highest bit of the most
   // significant byte is always "0" and the second-highest bit is always "1".
-  while ((get_bit(k, i) == 0) && (i > 0)) i --;
+  while ((get_bit(k, i) == 0) && (i > 0)) i--;
   
   // initialize T[0] with (X,Z) = (xp,1)  
   int_copy(t[0]->x, xp, len);
@@ -176,8 +175,7 @@ void mon_mul_ladder(PROPOINT *r, const Word *k, const Word *xp,
   mon_double(t[1], m);
   
   // simple left-to-right Montgomery ladder
-  for(i = i-1; i >= 0; i--)
-  {
+  for(i = i - 1; i >= 0; i--) {
     ki = get_bit(k, i);
     mon_add(t[1-ki], t[ki], xp, m);
     mon_double(t[ki], m);
@@ -233,8 +231,7 @@ void mon_mul_ladder_consttime(PROPOINT *r, const Word *k, const Word *xp,
   int_set(t[1]->z, 1, len);
   
   // simple left-to-right Montgomery ladder
-  for(i = (len<<4)-1; i >= 0; i--)
-  {
+  for(i = (len << 4) - 1; i >= 0; i--) {
     ki = get_bit(k, i);
     mon_add(t[1-ki], t[ki], xp, m);
     mon_double(t[ki], m);
@@ -275,17 +272,16 @@ int mon_proj_affine(PROPOINT *r, const PROPOINT *p, const ECDPARAM *m)
   Word *t1 = r->slack, *prod = &(r->slack[len]);
   
   // "masked" inversion of Z to thwart timing attacks
-  gfp_mul(t1, zp, INV_MASK, c, len);
+  gfp_mul(t1, zp, SECC_INV_MASK, c, len);
   err = gfp_inv(t1, t1, c, len);
   if (err != MSPECC_NO_ERROR) return err;
-  gfp_mul(zr, t1, INV_MASK, c, len);
+  gfp_mul(zr, t1, SECC_INV_MASK, c, len);
   
   // get least non-negative residue of x = X*(1/Z)
   gfp_mul(t1, xp, zr, c, len);
   gfp_lnr(xr, t1, c, len);
   
-  if ((yp != NULL) && (yr != NULL))
-  {
+  if ((yp != NULL) && (yr != NULL)) {
     // get least non-negative residue of x = X*(1/Z)
     gfp_mul(t1, yp, zr, c, len);
     gfp_lnr(yr, t1, c, len);
@@ -412,7 +408,8 @@ int mon_mul_fixbase(Word *r, const Word *k, const ECDPARAM *m)
 /* expected to to be given in standard projective coordinates and the result */
 /* R is also given in standard projective coordinates. This conversion       */
 /* requires a pre-computed constant c = SquareRoot(-(A+2)/B) where A, B are  */
-/* the curve parameters of the Montgomery curve.                             */
+/* the curve parameters of the Montgomery curve. Note that (A+2)/B equals    */
+/* the parameter a of the birationally-equivalent twisted Edwards curve.     */
 /*****************************************************************************/
 
 void mon_to_ted(PROPOINT *r, const PROPOINT *p, const ECDPARAM *m)
