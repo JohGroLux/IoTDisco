@@ -58,14 +58,19 @@ void int_set(Word *r, Word a, int len)
 /*------comparison of multi-precision integers------*/
 int int_cmp(const Word *a, const Word *b, int len)
 {
-  int i;
+  Word agb = 0, asb = 0;
+  int i, r = 0;
+  
+  // assert(WSIZE >= len);
   
   for (i = len - 1; i >= 0; i--) {
-    // printf("a[i] = %04x, b[i] = %04x\n", a[i], b[i]);
-    if (a[i] > b[i]) return 1;   // a > b
-    if (a[i] < b[i]) return -1;  // a < b
+    agb = (agb << 1) | (a[i] > b[i]);
+    asb = (asb << 1) | (a[i] < b[i]);
   }
-  return 0;  // a = b
+  r += (agb > asb);  // r = +1 if a is greater than b
+  r -= (agb < asb);  // r = -1 of a is smaller than b
+  
+  return r;  // r = 0 if a equals b
 }
 
 

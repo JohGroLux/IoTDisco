@@ -60,15 +60,15 @@ void gfp_set(Word *r, Word c, int len)
 /*------Compare a gfp element with p------*/
 int gfp_isp(const Word *a, Word c, int len)
 {
-  int i;
+  int i, same;
   
-  if (a[len-1] != MSB0MASK) return 0;  // 0x7F..FF
+  same = (a[len-1] == MSB0MASK);  // 0x7F..FF
   for (i = len - 2; i > 0; i--) {
-    if (a[i] != ALL1MASK) return 0;    // 0xFF..FF
+    same += (a[i] == ALL1MASK);   // 0xFF..FF
   }
-  if (a[0] != (0 - c)) return 0;       // a != p
+  same += (a[0] == (0 - c));      // 2's comp
   
-  return 1;  // a == p
+  return (same == len);
 }
 
 
