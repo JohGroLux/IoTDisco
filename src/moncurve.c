@@ -407,18 +407,17 @@ int mon_mul_fixbase(Word *r, const Word *k, const ECDPARAM *m)
   gfp_add(q.slack, q.z, q.y, c, len);
   
   // "masked" inversion of Z-Y to thwart timing attacks
-  gfp_mul(q.x, q.extra, INV_MASK, c, len);
+  gfp_mul(q.x, q.extra, SECC_INV_MASK, c, len);
   err = gfp_inv(q.x, q.x, c, len);
   if (err != MSPECC_NO_ERROR) return err;
-  gfp_mul(q.extra, q.x, INV_MASK, c, len);
-   
+  gfp_mul(q.extra, q.x, SECC_INV_MASK, c, len);
+  
   // get least non-negative residue of u = (Z+Y)/(Z-Y)
   gfp_mul(q.x, q.slack, q.extra, c, len);
   gfp_lnr(r, q.x, c, len);
   
   return MSPECC_NO_ERROR;
 }
-
 
 
 /*****************************************************************************/
