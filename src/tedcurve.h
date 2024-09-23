@@ -29,12 +29,12 @@ void ted_copy(PROPOINT *r, const PROPOINT *p, int len, int num);
 void ted_add(PROPOINT *p, const PROPOINT *q, const ECDPARAM *m);
 void ted_double(PROPOINT *p, const ECDPARAM *m);
 int  ted_validate(const PROPOINT *p, const ECDPARAM *m);
-void ted_mul_binary(PROPOINT *r, const UINT16 *k, const AFFPOINT *p, const ECDPARAM *m);
-void ted_mul_comb4b(PROPOINT *r, const UINT16 *k, const ECDPARAM *m);
+void ted_mul_binary(PROPOINT *r, const Word *k, const AFFPOINT *p, const ECDPARAM *m);
+void ted_mul_comb4b(PROPOINT *r, const Word *k, const ECDPARAM *m);
 void ted_to_mon(PROPOINT *r, const PROPOINT *p, const ECDPARAM *m);
 int  ted_proj_affine(PROPOINT *r, const PROPOINT *p, const ECDPARAM *m);
-int  ted_mul_varbase(AFFPOINT *q, const UINT16 *k, const AFFPOINT *p, const ECDPARAM *m);
-int  ted_mul_fixbase(AFFPOINT *r, const UINT16 *k, const ECDPARAM *m);
+int  ted_mul_varbase(AFFPOINT *q, const Word *k, const AFFPOINT *p, const ECDPARAM *m);
+int  ted_mul_fixbase(AFFPOINT *r, const Word *k, const ECDPARAM *m);
 int  ted_mul_dblbase(AFFPOINT *r, const DBLSCALAR *k, const AFFPOINT *p, const ECDPARAM *m);
 
 #endif

@@ -25,15 +25,16 @@
 /* function prototypes */
 /***********************/
 
-void mon_add(PROPOINT *p, const PROPOINT *q, const UINT16 *x, const ECDPARAM *m);
+void mon_add(PROPOINT *p, const PROPOINT *q, const Word *x, const ECDPARAM *m);
 void mon_double(PROPOINT *p, const ECDPARAM *m);
-int  mon_check_order(PROPOINT *r, const UINT16 *xp, const ECDPARAM *m);
-void mon_mul_ladder(PROPOINT *r, const UINT16 *k, const UINT16 *x, const ECDPARAM *m);
+int  mon_check_order(PROPOINT *r, const Word *xp, const ECDPARAM *m);
+void mon_mul_ladder(PROPOINT *r, const Word *k, const Word *x, const ECDPARAM *m);
 void mon_to_ted(PROPOINT *r, const PROPOINT *p, const ECDPARAM *m);
 int  mon_proj_affine(PROPOINT *r, const PROPOINT *p, const ECDPARAM *m);
 void mon_recover_y(PROPOINT *r, const PROPOINT *q, const PROPOINT *p, const ECDPARAM *m);
-int  mon_mul_varbase(UINT16 *r, const UINT16 *k, const UINT16 *p, const ECDPARAM *m);
-int mon_mul_fixbase(UINT16 *r, const UINT16 *k, const ECDPARAM *m);
+int  mon_mul_varbase(Word *r, const Word *k, const Word *p, const ECDPARAM *m);
+int mon_mul_fixbase(Word *r, const Word *k, const ECDPARAM *m);
 
 void mon_test25519(void);
+
 #endif
