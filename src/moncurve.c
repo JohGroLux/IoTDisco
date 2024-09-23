@@ -445,26 +445,56 @@ void mon_to_ted(PROPOINT *r, const PROPOINT *p, const ECDPARAM *m)
 
 void mon_test25519(void)
 {
-  // Word x[16]  = { 0x0009, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000 };
-  // Word k[16]  = { 0xAB58, 0x7E08, 0x4A62, 0x4B8A, 0xE179, 0x8B7F, 0x8083, 0xE60E, 0x3B6F, 0x29B1, 0x1826, 0xFDB6, 0x2F1C, 0x278B, 0x88FF, 0x6BE0 };
+  #if (WSIZE == 16)
+  // Word x[256/WSIZE] = {                                             \
+  //   0x0009, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, \
+  //   0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000 };
+  // Word k[256/WSIZE] = {                                             \
+  //   0xAB58, 0x7E08, 0x4A62, 0x4B8A, 0xE179, 0x8B7F, 0x8083, 0xE60E, \
+  //   0x3B6F, 0x29B1, 0x1826, 0xFDB6, 0x2F1C, 0x278B, 0x88FF, 0x6BE0 };
+  // Test vector from https://tools.ietf.org/html/draft-irtf-cfrg-curves-10
   // r = 0x4F2B886F147EFCAD4D67785BC843833F3735E4ECC2615BD3B4C17D7B7DDB9EDE
-  // Test vectors from https://tools.ietf.org/html/draft-irtf-cfrg-curves-10
-  Word x[16] = { 0xDBE6, 0x6768, 0x3058, 0xDB30, 0x9435, 0xA4C1, 0xB124, 0x7C5F, 0x6672, 0xEC24, 0xB326, 0x3B35, 0xA910, 0xA603, 0xABD0, 0x4C1C };
-  Word k[16] = { 0x46A0, 0x6BE3, 0x52F0, 0x9D7C, 0x163B, 0x4B15, 0x4682, 0xDD5E, 0x1462, 0x0A4C, 0xFCC1, 0x185A, 0x6A50, 0x4422, 0x44BA, 0x449A };
-  Word r[16];
-  
-  // make sure that k is a valid scalar
-  k[15] &= 0x7FFF; k[15] |= 0x4000; k[0] &= 0xFFF8;
-  
-  #ifdef MSPECC_DEBUG_PRINT
-  int_print("x = ", x, 16);
-  int_print("k = ", k, 16);
+  Word x[256/WSIZE] = {                                             \
+    0xDBE6, 0x6768, 0x3058, 0xDB30, 0x9435, 0xA4C1, 0xB124, 0x7C5F, \
+    0x6672, 0xEC24, 0xB326, 0x3B35, 0xA910, 0xA603, 0xABD0, 0x4C1C };
+  Word k[256/WSIZE] = {                                             \
+    0x46A0, 0x6BE3, 0x52F0, 0x9D7C, 0x163B, 0x4B15, 0x4682, 0xDD5E, \
+    0x1462, 0x0A4C, 0xFCC1, 0x185A, 0x6A50, 0x4422, 0x44BA, 0x449A };
+  #else  // WSIZE == 32
+  // Word x[256/WSIZE] = {                             \
+  //   0x00000009, 0x00000000, 0x00000000, 0x00000000, \
+  //   0x00000000, 0x00000000, 0x00000000, 0x00000000 };
+  // Word k[256/WSIZE]  = {                            \
+  //   0x7E08AB58, 0x4B8A4A62, 0x8B7FE179, 0xE60E8083, \
+  //   0x29B13B6F, 0xFDB61826, 0x278B2F1C, 0x6BE088FF };
+  // r = 0x4F2B886F147EFCAD4D67785BC843833F3735E4ECC2615BD3B4C17D7B7DDB9EDE
+  // Test vector from https://tools.ietf.org/html/draft-irtf-cfrg-curves-10
+  Word x[256/WSIZE] = {                             \
+    0x6768DBE6, 0xDB303058, 0xA4C19435, 0x7C5FB124, \
+    0xEC246672, 0x3B35B326, 0xA603A910, 0x4C1CABD0 };
+  Word k[256/WSIZE] = {                             \
+    0x6BE346A0, 0x9D7C52F0, 0x4B15163B, 0xDD5E4682, \
+    0x0A4C1462, 0x185AFCC1, 0x44226A50, 0x449A44BA };
   #endif
   
-  mon_mul_varbase(r, k, x, &CURVE25519); // F1611: 12,191,721 cycles, FR5969: 10,878,075
+  Word r[256/WSIZE];
+  int len = 256/WSIZE;
+
+  // pruning: make sure that scalar k is a valid scalar
+  k[len-1] &= (((Word) -1L) >> 1);            // 0x7F..FF 
+  k[len-1] |= ((Word) (1UL << (WSIZE - 2)));  // 0x40..00 
+  k[0]     &= ((Word) -8L);                   // 0xFF..F8
   
   #ifdef MSPECC_DEBUG_PRINT
-  int_print("r = ", r, 16);
+  int_print("x = ", x, len);
+  int_print("k = ", k, len);
+  #endif
+  
+  mon_mul_varbase(r, k, x, &CURVE25519);
+  // F1611: 12,191,721 cycles, FR5969: 10,878,075
+  
+  #ifdef MSPECC_DEBUG_PRINT
+  int_print("r = ", r, len);
   #endif
   // correct result:
   // r = 0x5285A2775507B454F7711C4903CFEC324F088DF24DEA948E90C6E99D3755DAC3
