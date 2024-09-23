@@ -203,7 +203,7 @@ void ted_add_pro(PROPOINT *r, const PROPOINT *p, const ECDPARAM *m)
   gfp_mul(x1, y1, y2, c, len);          // x3 := y1*y2;
   gfp_add(y1, z1, x1, c, len);          // y3 := z3+x3;
   gfp_mul(t2, z1, x1, c, len);          // t2 := z3*x3;
-  gfp_mul(x1, t2, m->d, c, len);        // x3 := d*t2;
+  gfp_mul(x1, t2, m->dte, c, len);      // x3 := d*t2;
   gfp_sqr(t2, t1, c, len);              // t2 := t1^2;
   gfp_sub(z1, t3, y1, c, len);          // z3 := t3-y3;
   gfp_sub(t3, t2, x1, c, len);          // t3 := t2-x3;
@@ -234,7 +234,7 @@ void ted_affine_extaff(PROPOINT *r, const AFFPOINT *p, const ECDPARAM *m)
   gfp_sub(t1, y, x, c, len);
   gfp_hlv(v, t1, c, len);
   gfp_mul(t1, x, y, c, len);
-  gfp_mul(w, t1, m->d, c, len);
+  gfp_mul(w, t1, m->dte, c, len);
 }
 
 
@@ -304,7 +304,7 @@ int ted_validate(const PROPOINT *p, const ECDPARAM *m)
   gfp_sqr(t2, y, c, len);               // t2 := Y^2;
   gfp_mul(t3, t1, t2, c, len);          // t3 := t1*t2;
   gfp_sub(t2, t2, t1, c, len);          // t2 := t2-t1;
-  gfp_mul(t4, t3, m->d, c, len);        // t4 := t3*d;
+  gfp_mul(t4, t3, m->dte, c, len);      // t4 := t3*d;
   gfp_sqr(t3, z, c, len);               // t3 := Z^2;
   gfp_mul(t1, t3, t2, c, len);          // t1 := t3*t2
   gfp_sqr(t2, t3, c, len);              // t2 := t3^2
@@ -476,11 +476,10 @@ int get_digit(const Word *k, int i, int len)
 void ted_load_point(PROPOINT *r, int i, const ECDPARAM *m)
 {
   int len = m->len;
-  FIXPOINT *f = (FIXPOINT *) &(m->ctab[(i&0xF)]);
   
-  int_copy(r->x, f->u, len);
-  int_copy(r->y, f->v, len);
-  int_copy(r->z, f->w, len);
+  int_copy(r->x, m->tbl + 3*i*len, len);
+  int_copy(r->y, m->tbl + (3*i + 1)*len, len);
+  int_copy(r->z, m->tbl + (3*i + 2)*len, len);
 }
 
 
@@ -574,7 +573,7 @@ void ted_to_mon(PROPOINT *r, const PROPOINT *p, const ECDPARAM *m)
   
   gfp_add(t1, zt, yt, c, len);
   gfp_sub(t2, zt, yt, c, len);
-  gfp_mul(t3, zt, m->cpc, c, len);
+  gfp_mul(t3, zt, m->rma, c, len);
   gfp_mul(ym, t3, t1, c, len);          // ym := c*(zt + yt)*zt;
   gfp_mul(zm, t2, xt, c, len);          // zm := (zt - yt)*xt;
   gfp_mul(xm, t1, xt, c, len);          // xm := (zt + yt)*xt;

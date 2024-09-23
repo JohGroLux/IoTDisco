@@ -436,7 +436,7 @@ void mon_to_ted(PROPOINT *r, const PROPOINT *p, const ECDPARAM *m)
   
   gfp_add(t1, xm, zm, c, len);
   gfp_sub(t2, xm, zm, c, len);
-  gfp_mul(t3, xm, m->cpc, c, len);
+  gfp_mul(t3, xm, m->rma, c, len);
   gfp_mul(xt, t3, t1, c, len);          // xt := c*xm*(xm + zm);
   gfp_mul(zt, ym, t1, c, len);          // zt := ym*(xm + zm);
   gfp_mul(yt, ym, t2, c, len);          // yt := ym*(xm - zm);
