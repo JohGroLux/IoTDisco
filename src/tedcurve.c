@@ -134,6 +134,7 @@ void ted_add(PROPOINT *p, const PROPOINT *q, const ECDPARAM *m)
   Word *e1 = p->extra, *h1 = &(p->extra[len]);
   Word *t1 = p->slack, *prod = &(p->slack[len]);
   const Word *u2 = q->x, *v2 = q->y, *w2 = q->z;
+  (void) prod;  // to silence a warning
   
   gfp_mul(t1, e1, h1, c, len);          // t1 := e1*h1;
   gfp_sub(e1, y1, x1, c, len);          // e3 := y1-x1;
@@ -164,6 +165,7 @@ void ted_double(PROPOINT *p, const ECDPARAM *m)
   Word *x1 = p->x, *y1 = p->y, *z1 = p->z;
   Word *e1 = p->extra, *h1 = &(p->extra[len]);
   Word *t1 = p->slack, *prod = &(p->slack[len]);
+  (void) prod;  // to silence a warning
   
   gfp_sqr(e1, x1, c, len);              // e3 := x1*x1;
   gfp_sqr(h1, y1, c, len);              // h3 := y1*y1;
@@ -194,6 +196,7 @@ void ted_add_pro(PROPOINT *r, const PROPOINT *p, const ECDPARAM *m)
   Word *t1 = r->extra, *t2 = &(r->extra[len]);
   Word *t3 = r->slack, *prod = &(r->slack[len]);
   Word *x2 = p->x, *y2 = p->y, *z2 = p->z;
+  (void) prod;  // to silence a warning
   
   gfp_add(t1, x1, y1, c, len);          // t1 := x1+y1;
   gfp_add(t2, x2, y2, c, len);          // t2 := x2+y2;
@@ -228,6 +231,7 @@ void ted_affine_extaff(PROPOINT *r, const AFFPOINT *p, const ECDPARAM *m)
   Word *x = p->x, *y = p->y;
   Word *u = r->x, *v = r->y, *w = r->z;
   Word *t1 = r->slack, *prod = &(r->slack[len]);
+  (void) prod;  // to silence a warning
   
   gfp_add(t1, x, y, c, len);
   gfp_hlv(u, t1, c, len);
@@ -298,6 +302,7 @@ int ted_validate(const PROPOINT *p, const ECDPARAM *m)
   Word *t1 = tmp, *t2 = &tmp[len], *t3 = &tmp[2*len];
   Word *t4 = (Word *) p->slack, *prod = (Word *) &(p->slack[len]);
   Word *x = p->x, *y = p->y, *z = p->z;
+  (void) prod;  // to silence a warning
   
   // compute t1 = (Y^2 - X^2)*Z^2 and t2 = Z^4 + d*X^2*Y^2
   gfp_sqr(t1, x, c, len);               // t1 := X^2;
@@ -375,6 +380,7 @@ int ted_proj_affine(PROPOINT *r, const PROPOINT *p, const ECDPARAM *m)
   Word *xp = p->x, *yp = p->y, *zp = p->z;
   Word *xr = r->x, *yr = r->y, *zr = r->z;
   Word *t1 = r->slack, *prod = &(r->slack[len]);
+  (void) prod;  // to silence a warning
   
   // "masked" inversion of Z to thwart timing attacks
   gfp_mul(t1, zp, SECC_INV_MASK, c, len);
@@ -570,6 +576,7 @@ void ted_to_mon(PROPOINT *r, const PROPOINT *p, const ECDPARAM *m)
   Word *t1 = tmp, *t2 = &tmp[len], *t3 = r->slack, *prod = &(r->slack[len]);
   Word *xt = p->x, *yt = p->y, *zt = p->z;
   Word *xm = r->x, *ym = r->y, *zm = r->z;
+  (void) prod;  // to silence a warning
   
   gfp_add(t1, zt, yt, c, len);
   gfp_sub(t2, zt, yt, c, len);
@@ -616,6 +623,9 @@ void ted_test25519(void)
   Word xr[256/WSIZE], yr[256/WSIZE];
   AFFPOINT r = { xr, yr };
   int len = 256/WSIZE;
+  
+  (void) p;    // to silence a warning
+  (void) len;  // to silence a warning
   
   // pruning: make sure that scalar k is a valid scalar
   // k[len-1] &= (((Word) -1L) >> 1);            // 0x7F..FF 

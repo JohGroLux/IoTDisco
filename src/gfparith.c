@@ -9,7 +9,7 @@
 // All-1 Mask: 0xFF..FF
 #define ALL1MASK ((Word) -1L)
 // MSB-1 Mask: 0x80..00
-#define MSB1MASK ((Word) (1U << (WSIZE - 1)))
+#define MSB1MASK ((Word) (1UL << (WSIZE - 1)))
 // MSB-0 Mask: 0x7F..FF
 #define MSB0MASK (ALL1MASK >> 1)
 // Minus-4 Mask: 0xFF..FC

@@ -84,6 +84,7 @@ void mon_add(PROPOINT *p, const PROPOINT *q, const Word *xd,
   int len = m->len; Word c = m->c;
   Word *xp = p->x, *zp = p->z, *xq = q->x, *zq = q->z;
   Word *t1 = p->y, *t2 = p->slack, *prod = &(p->slack[len]);
+  (void) prod;  // to silence a warning
   
   gfp_add(t1, xp, zp, c, len);          // t1 := xp+zp;
   gfp_sub(t2, xp, zp, c, len);          // t2 := xp-zp;
@@ -110,6 +111,7 @@ void mon_double(PROPOINT *p, const ECDPARAM *m)
   int len = m->len; Word c = m->c;
   Word *xp = p->x, *zp = p->z;
   Word *t1 = p->y, *t2 = p->slack, *prod = &(p->slack[len]);
+  (void) prod;  // to silence a warning
   
   gfp_add(t1, xp, zp, c, len);          // t1 := xp+zp;
   gfp_sqr(t2, t1, c, len);              // t2 := t1*t1;
@@ -284,6 +286,7 @@ int mon_proj_affine(PROPOINT *r, const PROPOINT *p, const ECDPARAM *m)
   Word *xp = p->x, *yp = p->y, *zp = p->z;
   Word *xr = r->x, *yr = r->y, *zr = r->z;
   Word *t1 = r->slack, *prod = &(r->slack[len]);
+  (void) prod;  // to silence a warning
   
   // "masked" inversion of Z to thwart timing attacks
   gfp_mul(t1, zp, SECC_INV_MASK, c, len);
@@ -327,6 +330,7 @@ void mon_recover_y(PROPOINT *r, const PROPOINT *q, const PROPOINT *p,
   Word *x1 = q->x, *z1 = q->z, *x2 = q->y, *z2 = q->slack;
   Word *xr = r->x, *yr = r->y, *zr = r->z, *xp = p->x, *yp = p->y;
   Word *prod = &(r->slack[len]);
+  (void) prod;  // to silence a warning
   
   gfp_mul(t1, xp, x1, c, len);          // t1 := xp*x1;
   gfp_sub(t1, t1, z1, c, len);          // t1 := t1-z1;
@@ -390,6 +394,7 @@ int mon_mul_fixbase(Word *r, const Word *k, const ECDPARAM *m)
   Word tmp[8*_len];
   PROPOINT q = { tmp, &tmp[len], &tmp[2*len], &tmp[3*len], &tmp[5*len] };
   Word *prod = &(q.slack[len]);
+  (void) prod;  // to silence a warning
   
   // set r to 0 when k is 0 (should normally never happen)
   if (int_is0(k, len)) { int_set(r, 0, len); return MSPECC_ERR_INVALID_SCALAR; }
@@ -433,6 +438,7 @@ void mon_to_ted(PROPOINT *r, const PROPOINT *p, const ECDPARAM *m)
   Word *t1 = tmp, *t2 = &tmp[len], *t3 = r->slack, *prod = &(r->slack[len]);
   Word *xm = p->x, *ym = p->y, *zm = p->z;
   Word *xt = r->x, *yt = r->y, *zt = r->z; 
+  (void) prod;  // to silence a warning
   
   gfp_add(t1, xm, zm, c, len);
   gfp_sub(t2, xm, zm, c, len);
@@ -479,7 +485,7 @@ void mon_test25519(void)
   
   Word r[256/WSIZE];
   int len = 256/WSIZE;
-
+  
   // pruning: make sure that scalar k is a valid scalar
   k[len-1] &= (((Word) -1L) >> 1);            // 0x7F..FF 
   k[len-1] |= ((Word) (1UL << (WSIZE - 2)));  // 0x40..00 
