@@ -1,19 +1,19 @@
-///////////////////////////////////////////////////////////////////////////////
-// int_mul.s: Multiple-Precision Squaring (Product-Scanning Method).         //
-// This file is part of SECCCM3, a Scalable ECC implementation for Cortex-M3 //
-// Version 0.9.0 (16-08-24), see <http://github.com/johgrolux/> for updates. //
-// License: GPLv3 (see LICENSE file), other licenses available upon request. //
-// ------------------------------------------------------------------------- //
-// This program is free software: you can redistribute it and/or modify it   //
-// under the terms of the GNU General Public License as published by the     //
-// Free Software Foundation, either version 3 of the License, or (at your    //
-// option) any later version. This program is distributed in the hope that   //
-// it will be useful, but WITHOUT ANY WARRANTY; without even the implied     //
-// warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the  //
-// GNU General Public License for more details. You should have received a   //
-// copy of the GNU General Public License along with this program. If not,   //
-// see <http://www.gnu.org/licenses/>.                                       //
-///////////////////////////////////////////////////////////////////////////////
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; int_sqr.s: Multiple-Precision Squaring (Product-Scanning Method).         ;;
+;; This file is part of SECCCM3, a Scalable ECC implementation for Cortex-M3 ;;
+;; Version 0.9.0 (16-08-24), see <http:;;github.com/johgrolux/> for updates. ;;
+;; License: GPLv3 (see LICENSE file), other licenses available upon request. ;;
+;; ------------------------------------------------------------------------- ;;
+;; This program is free software: you can redistribute it and/or modify it   ;;
+;; under the terms of the GNU General Public License as published by the     ;;
+;; Free Software Foundation, either version 3 of the License, or (at your    ;;
+;; option) any later version. This program is distributed in the hope that   ;;
+;; it will be useful, but WITHOUT ANY WARRANTY; without even the implied     ;;
+;; warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the  ;;
+;; GNU General Public License for more details. You should have received a   ;;
+;; copy of the GNU General Public License along with this program. If not,   ;;
+;; see <http:;;www.gnu.org/licenses/>.                                       ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
     AREA intarith, CODE, READONLY ; Name this block of code ARMex
@@ -43,10 +43,10 @@ outStop  RN r11
     
     
 ;;;;;;;;;;;;;;;;;;;;;;
-;; generic squaring ;;
+;; Generic Squaring ;;
 ;;;;;;;;;;;;;;;;;;;;;;
     
-int_sqr_asm FUNCTION
+int_sqr_asm PROC
     
     push  {r4-r12}          ; push callee-saved registers
     
@@ -153,7 +153,7 @@ OutLoop3
     pop   {r4-r12}
     bx    lr
     
-    ENDFUNC
+    ENDP
     
     
     END

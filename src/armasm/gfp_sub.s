@@ -1,19 +1,19 @@
-///////////////////////////////////////////////////////////////////////////////
-// gfp_sub.s: Multiple-Precision Subtraction Modulo a Pseudo-Mersenne Prime. //
-// This file is part of SECCCM3, a Scalable ECC implementation for Cortex-M3 //
-// Version 0.9.0 (16-08-24), see <http://github.com/johgrolux/> for updates. //
-// License: GPLv3 (see LICENSE file), other licenses available upon request. //
-// ------------------------------------------------------------------------- //
-// This program is free software: you can redistribute it and/or modify it   //
-// under the terms of the GNU General Public License as published by the     //
-// Free Software Foundation, either version 3 of the License, or (at your    //
-// option) any later version. This program is distributed in the hope that   //
-// it will be useful, but WITHOUT ANY WARRANTY; without even the implied     //
-// warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the  //
-// GNU General Public License for more details. You should have received a   //
-// copy of the GNU General Public License along with this program. If not,   //
-// see <http://www.gnu.org/licenses/>.                                       //
-///////////////////////////////////////////////////////////////////////////////
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; gfp_sub.s: Multiple-Precision Subtraction Modulo a Pseudo-Mersenne Prime. ;;
+;; This file is part of SECCCM3, a Scalable ECC implementation for Cortex-M3 ;;
+;; Version 0.9.0 (16-08-24), see <http:;;github.com/johgrolux/> for updates. ;;
+;; License: GPLv3 (see LICENSE file), other licenses available upon request. ;;
+;; ------------------------------------------------------------------------- ;;
+;; This program is free software: you can redistribute it and/or modify it   ;;
+;; under the terms of the GNU General Public License as published by the     ;;
+;; Free Software Foundation, either version 3 of the License, or (at your    ;;
+;; option) any later version. This program is distributed in the hope that   ;;
+;; it will be useful, but WITHOUT ANY WARRANTY; without even the implied     ;;
+;; warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the  ;;
+;; GNU General Public License for more details. You should have received a   ;;
+;; copy of the GNU General Public License along with this program. If not,   ;;
+;; see <http:;;www.gnu.org/licenses/>.                                       ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
     AREA gfparith, CODE, READONLY ; Name this block of code ARMex
@@ -21,6 +21,10 @@
     EXPORT gfp_sub_asm
     ALIGN 2
     
+    
+;;;;;;;;;;;;;;;;;;;;
+;; Register Names ;;
+;;;;;;;;;;;;;;;;;;;;
     
 rPtr     RN r0
 aPtr     RN r1
@@ -33,11 +37,11 @@ sumHi    RN r7
 msWord   RN r8
     
     
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Scalable Modular Subtraction ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Generic Modular Subtraction ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     
-gfp_sub_asm FUNCTION
+gfp_sub_asm PROC
     
     push  {r4-r8}
     ldr   Len, [sp, #20]  
@@ -77,7 +81,7 @@ loop
     pop   {r4-r8}
     bx    lr
     
-    ENDFUNC
+    ENDP
     
     
     END
