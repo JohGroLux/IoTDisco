@@ -59,7 +59,7 @@ gfp_sub_asm PROC
     lsr   sumLo, sumLo, #31
     orr   sumLo, sumLo, sumHi, LSL #1
     umull sumLo, sumHi, cWord, sumLo  ; sumLo contains lower part of product
-    subs  sumLo, sumLo, cWord, LSL #2
+    subs  sumLo, sumLo, cWord, LSL #2 ; subtraction of 4*c from sum
     sbc   sumHi, sumHi, #0
     
 loop
@@ -70,7 +70,7 @@ loop
     subs  sumLo, sumLo, opWord
     str   sumLo, [rPtr], #4
     sbc   sumLo, sumHi, #0
-    asr   sumHi, sumHi, #32
+    asr   sumHi, sumLo, #31
     subs  Len, Len, #1
     bne   loop
     
