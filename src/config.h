@@ -42,7 +42,7 @@ typedef int64_t SDWord;  // signed double-length word
 #ifdef MSPECC_USE_ASM
 #include "asmfncts.h"
 #define int_add(r, a, b, len) int_add_msp((r), (a), (b), (len))
-#define int_mul(r, a, b, len) int_mul_msp((r), (a), (b), (len))
+#define int_mul(r, a, b, len) int_mul_c99((r), (a), (b), (len))
 #define int_mul32(r, a, b, len) int_mul32_msp((r), (a), (b), (len))
 #define int_shr(r, a, len) int_shr_msp((r), (a), (len))
 #define int_sqr(r, a, len) int_sqr_msp((r), (a), (len))
@@ -51,10 +51,7 @@ typedef int64_t SDWord;  // signed double-length word
 #define gfp_cneg(r, a, neg, c, len) gfp_cneg_msp((r), (a), (neg), (c), (len))
 #define gfp_hlv(r, a, c, len) gfp_hlv_msp((r), (a), (c), (len))
 #define gfp_red(r, a, c, len) gfp_red_msp((r), (a), (c), (len))
-#define gfp_mul(r, a, b, c, len) do {   \
-  int_mul_msp(prod, a, b, len);         \
-  gfp_red_msp(r, prod, c, len);         \
-} while(0)
+#define gfp_mul(r, a, b, c, len) gfp_mul_msp((r), (a), (b), (c), (len))
 #define gfp_sqr(r, a, c, len) do {      \
   int_sqr_msp(prod, a, len);            \
   gfp_red_msp(r, prod, c, len);         \
