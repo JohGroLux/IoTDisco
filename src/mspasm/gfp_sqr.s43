@@ -1,0 +1,439 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; gfp_sqr.s43: Squaring of an element of a pseudo-Mersenne prime field.     ;;
+;; This file is part of SECC430, a Scalable implementation of Elliptic Curve ;;
+;; Cryptography with Assembly optimizations for MSP430(X) microcontrollers.  ;;
+;; Version 2.1.0 (13-09-24), see <http://github.com/johgrolux/> for updates. ;;
+;; License: GPLv3 (see LICENSE file), other licenses available upon request. ;;
+;; Copyright (C) 2014-2024 University of Luxembourg <http://www.uni.lu/>     ;;
+;; ------------------------------------------------------------------------- ;;
+;; This program is free software: you can redistribute it and/or modify it   ;;
+;; under the terms of the GNU General Public License as published by the     ;;
+;; Free Software Foundation, either version 3 of the License, or (at your    ;;
+;; option) any later version. This program is distributed in the hope that   ;;
+;; it will be useful, but WITHOUT ANY WARRANTY; without even the implied     ;;
+;; warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the  ;;
+;; GNU General Public License for more details. You should have received a   ;;
+;; copy of the GNU General Public License along with this program. If not,   ;;
+;; see <http://www.gnu.org/licenses/>.                                       ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;; Function prototype:
+;; -------------------
+;; void gfp_sqr_msp(Word *r, const Word *a, Word c, int len);
+;; 
+;; Description:
+;; ------------
+;; The function `gfp_sqr_msp` computes the square $r = a^2 \bmod p$ of an
+;; element $a$ of a pseudo-Mersenne prime field. The prime $p$ is given by
+;; $p = 2^k - c$, where $k$ is a multiple of the word-size minus 1 (determined
+;; by parameter `len`) and $c$ is at most 14 bits long. Operand $a$ is allowed
+;; to be larger than $p$. The result $r$ may not be fully reduced, but $r$ is
+;; always less than $2p$.
+;; 
+;; Parameters:
+;; -----------
+;; `r`: pointer to array for result, must have space for `len` words
+;; `a`: pointer to array containing 1st operand, has a length of `len` words
+;; `c`: word containing constant $c$ of prime $p$, $c \in [1, 2^{14}-1]$
+;; `len`: number of words of arrays `a`, `b`, and `r`, must be >= 4
+;; 
+;; Execution time (from `call` to `ret`, measured using Disassembly window):
+;; -------------------------------------------------------------------------
+;; MSP430F1611: len=10 (160 bits): 1907 cycles, len=12 (192 bits): 2471 cycles,
+;;              len=14 (224 bits): 3099 cycles, len=16 (256 bits): 3791 cycles
+;; 
+;; Version history:
+;; ----------------
+;; 1.0.0: Lin's original implementation from her M.Sc. project
+;; 1.1.0: Performance improvements and further documentation added by Johann
+;; 1.1.1: Jumps carried out by the loops use now `jlo` instruction.
+;; 1.1.2: Placed an instruction between multiplication and access of product.
+;; 2.0.0: Merged squaring (int_sqr) and modular reduction (gfp_red).
+;; 2.1.0: Reduced maximum length of constant `c` from 15 to 14 bits.
+
+
+#include "mspcfg.h"
+
+
+RSEG CODE
+NAME gfp_sqr_msp
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;; REGISTER NAMES, CONSTANTS, AND MACROS ;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Squaring: 2 nested loops
+
+;; Register `Rlptr` points to the location of RESLO in memory (0x013A)
+#define Rlptr r4
+;; Register `Rhptr` points to the location of RESHI in memory (0x013C)
+#define Rhptr r5
+;; Register `Exptr` points to the location of SUMEXT in memory (0x013E)
+#define Exptr r6
+;; Register `A1ptr` points to 1st word of `a` processed in inner loop
+#define A1ptr r7
+;; Register `B1ptr` points to 1st word of `b` processed in inner loop
+#define B1ptr r8
+;; Register `SumEx` contains the extension bits of a cumulative sum
+#define SumEx r9
+;; Register `Ostop` determines when the outer loop ends its iterations
+#define Ostop r10
+;; Register `Tptr` points to a word contained in the square-array `t`
+#define Tptr r11
+;; Register `Rptr` points to a word contained in the result-array `r`
+#define Rptr r12
+;; Register `Aptr` points to a word contained in the operand-array `a`
+#define Aptr r13
+;; Register `Bptr` points to a word contained in the operand-array `b`
+#define Bptr r14
+;; Register `Len` contains the length of the arrays (in words or bytes)
+#define Len r15
+
+;; Squaring: extra 3rd loop
+
+;; Register `SumLo` contains the lower word of a 2-word (32-bit) sum
+#define SumLo r7
+;; Register `SumHi` contains the upper word of a 2-word (32-bit) sum
+#define SumHi r8
+;; Register `SqrLo` contains the lower word of a 2-word (32-bit) square
+#define SqrLo r14
+;; Register `sqrHi` contains the upper word of a 2-word (32-bit) square
+#define SqrHi r15
+
+;; Reduction modulo prime p
+
+;; Register `Temp` contains temporary values (e.g., carry propagation)
+#define Temp r9
+;; Register `Cword` contains the 14-bit constant $c$ of the prime $p$
+#define Cword r11
+;; Register `Tlptr` points to a word in lower half of product-array `t`
+#define Tlptr r13
+;; Register `Thptr` points to a word in upper half of product-array `t`
+#define Thptr r14
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;; ASSEMBLY FUNCTION FOR SQUARING IN GF(P) ;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+PUBLIC gfp_sqr_msp
+gfp_sqr_msp:
+    
+    ;; At first, eight callee-saved registers are pushed on the stack and the
+    ;; pointers to RESLO, RESHI, and SUMEXT are initialized. Register `Len` is
+    ;; doubled so that it contains the operand-length in bytes instead of
+    ;; words, which simplifies the pointer arithmetic. Furthermore, space for
+    ;; the square $t = a^2$ is allocated on the stack and the parameter `c` is
+    ;; pushed on the stack to free up a register.
+    
+    PUSH_R4_TO_R11          ;; macro to push 8 registers r4-r11 (mspcfg.inc)
+    mov.w   #RESLO, Rlptr   ;; set Rl-pointer to address of RESLO
+    mov.w   #RESHI, Rhptr   ;; set Rh-pointer to address of RESHI
+    mov.w   #SUMEXT, Exptr  ;; set Ex-pointer to address of SUMEXT
+    add.w   Len, Len        ;; set Len to number of bytes of operands
+    sub.w   Len, sp         ;; allocate `len` words on the stack
+    sub.w   Len, sp         ;; allocate further `len` words on the stack
+    mov.w   sp, Tptr        ;; set T-pointer to address of t[0]
+    push.w  r14             ;; push parameter `c` on the stack
+    dint                    ;; disable interrupts (because multiplier is used)
+    nop                     ;; required for dint
+    
+    ;; FIX-ME
+    ;; The first nested loop computes the lower half (i.e., the $len$ least-
+    ;; significant words) of the product $t = a \cdot b$ stores it on the stack
+    ;; via push instructions (i.e., t[0] has a higher address than t[1]). To
+    ;; reduce the execution time, some pointers and variables are used, which
+    ;; need to be initialized. A1-pointer and B1-pointer contain the address of
+    ;; those words of array `a` and `b` that are multiplied in the very first
+    ;; iteration of the inner loop. Istop and Ostop are used to determine when
+    ;; the inner/outer loop has to terminate.
+    
+    mov.w   Aptr, A1ptr     ;; set A1-pointer to address of a[0]
+    mov.w   Aptr, B1ptr     ;; set B1-pointer to address of a[0]
+    mov.w   Tptr, Ostop     ;; set Ostop to address of t[0] (t is on stack!)
+    add.w   Len, Ostop      ;; set Ostop to address of t[len]
+    clr.w   SumEx           ;; clear SumEx
+    mov.w   SumEx, &RESLO   ;; clear word at &RESLO
+    mov.w   SumEx, &RESHI   ;; clear word at &RESHI
+    clr.w   0(Tptr)         ;; store 0 to t[0] on the stack
+    add.w   #2, Tptr        ;; increment T-pointer
+    
+    ;; FIX-ME
+    ;; Each iteration of the first outer loop produces a word of the lower half
+    ;; of the product. At the beginning of the i-th iteration, B1-pointer is
+    ;; initialized with the address of b[i]; for example, at the start of the
+    ;; third iteration of the outer loop (i.e., $i = 2$), B1-pointer has to
+    ;; point to b[2] and A1-pointer to a[0]. The first outer loop is iterated
+    ;; $len$ times and computes the product-words t[0] to t[len-1].
+    
+OUTLOOP1:
+    
+    add.w   #2, B1ptr       ;; increment B1-pointer to address of b[i]
+    mov.w   A1ptr, Aptr     ;; set A-pointer to address of a[0]
+    mov.w   B1ptr, Bptr     ;; set B-pointer to address of b[i]
+    
+    ;; In each iteration of the inner loop, a multiply-accumulate operation of
+    ;; the form sum = sum + a[j++]*b[k--] is carried out, whereby the two words
+    ;; of the sum are stored at &RESLO|&RESHI in memory and the extension bits
+    ;; in register SumEx. Furthermore, A-pointer is (automatically) incremented
+    ;; and B-pointer decremented. The inner loop ends when B-pointer reached
+    ;; the address of b[-1].
+    
+INNLOOP1:
+    mov.w   @Aptr+, &MAC    ;; load a[j] to &MAC via A-pointer (with increment)
+    mov.w   @Bptr, &OP2     ;; load b[k] to &OP2 via B-pointer
+    sub.w   #2, Bptr        ;; decrement B-pointer (otherwise nop is needed!)
+    add.w   @Exptr, SumEx   ;; add carry-bit at &SUMEXT to SumEx
+    cmp.w   Bptr, Aptr      ;; compare B-pointer with A-pointer
+    jlo     INNLOOP1        ;; continue loop if A-pointer < B-pointer
+    
+    ;; After termination of the inner loop, the least-significant word of the
+    ;; sum is written to t[i] (on the stack) and the sum is shifted one word
+    ;; to the right.
+    
+    mov.w   @Rlptr, 0(Tptr) ;; store word at &RESLO to t[i] on the stack
+    add.w   #2, Tptr        ;; increment T-pointer
+    mov.w   @Rhptr, &RESLO  ;; store word at &RESHI to word at &RESLO
+    mov.w   SumEx, &RESHI   ;; store SumEx to word at &RESHI
+    clr.w   SumEx           ;; clear SumEx
+    cmp.w   Ostop, Tptr     ;; compare address of t[len] (Ostop) with T-pointer
+    jlo     OUTLOOP1        ;; continue loop if T-pointer < address of t[len]
+    
+    ;; At the end of the first nested loop, A1-pointer contains the address of
+    ;; a[0] and B1-pointer contains the address of a[len-1]. The second nested
+    ;; loop computes the upper half (i.e., the $len$ most-significant words) of
+    ;; the product $t = a \cdot b$ stores it on the stack via push instructions
+    ;; (i.e., t[len] has a higher address than t[len+1]). Similar to the first
+    ;; nested loop, Istop and Ostop have to be initialized.
+    
+    add.w   Len, Ostop      ;; set Ostop to address of t[2*len]
+    sub.w   #4, Ostop       ;; set Ostop to address of t[2*len-2]
+    
+    ;; Each iteration of the second outer loop produces a word of the upper
+    ;; half of the product. At the beginning of the i-th iteration, A1-pointer
+    ;; is initialized with the address of a[i-len+1]; for example, at the start
+    ;; of the third iteration of the outer loop (i.e., $i = len+2$ because the
+    ;; outer loop started with $i = len$), A1-pointer has to point to a[3] and
+    ;; B1-pointer to b[len-1]. The second outer loop is iterated $len-1$ times
+    ;; and computes the words t[len] to t[2*len-1]. The last iteration of the
+    ;; outer loop, in which a[len-1]*b[len-1] is computed, actually contributes
+    ;; two words to the product, namely t[2*len-2] and t[2*len-1].
+    
+OUTLOOP2:
+    
+    add.w   #2, A1ptr       ;; increment A1-pointer to address of a[i-len+1]
+    mov.w   A1ptr, Aptr     ;; set A-pointer to address of a[i-len+1]
+    mov.w   B1ptr, Bptr     ;; set B-pointer to address of b[len-1]
+    
+    ;; In each iteration of the inner loop, a multiply-accumulate operation of
+    ;; the form sum = sum + a[j++]*b[k--] is carried out, whereby the two words
+    ;; of the sum are stored at &RESLO|&RESHI in memory and the extension bits
+    ;; in register SumEx. Furthermore, A-pointer is (automatically) incremented
+    ;; and B-pointer decremented. The inner loop ends when A-pointer reached
+    ;; the address of a[len].
+    
+INNLOOP2:
+    mov.w   @Aptr+, &MAC    ;; load a[j] to &MAC (with increment) via A-pointer
+    mov.w   @Bptr, &OP2     ;; load b[k] to &OP2 via B-pointer
+    sub.w   #2, Bptr        ;; decrement B-pointer (otherwise nop is needed!)
+    add.w   @Exptr, SumEx   ;; add carry-bit at &SUMEXT to SumEx
+    cmp.w   Bptr, Aptr      ;; compare B-pointer with A-pointer
+    jlo     INNLOOP2        ;; continue loop if A-pointer < B-pointer
+    
+    ;; After termination of the inner loop, the least-significant word of the
+    ;; sum is written to t[i] (on the stack) and the sum is shifted one word
+    ;; to the right.
+    
+    mov.w   @Rlptr, 0(Tptr) ;; store word at &RESLO to t[i] on the stack
+    add.w   #2, Tptr        ;; increment T-pointer
+    mov.w   @Rhptr, &RESLO  ;; store word at &RESHI to word at &RESLO
+    mov.w   SumEx, &RESHI   ;; store SumEx to word at &RESHI
+    clr.w   SumEx           ;; clear SumEx
+    cmp.w   Ostop, Tptr     ;; compare addr of t[2*len-2] (Ostop) with T-ptr
+    jlo     OUTLOOP2        ;; continue loop if T-pointer < addr of t[2*len-2]
+    
+    ;; Since the second outer loop is iterated only $len-2$ times, we still
+    ;; need to write the content of the accu registers (i.e., the 32-bit word
+    ;; in the &RESHI|&RESLO register pair) to r[2*len-2] and r[2*len-1].
+    
+    mov.w   @Rlptr, 0(Tptr) ;; store word at &RESLO to t[2*len-2] on the stack
+    mov.w   @Rhptr, 2(Tptr) ;; store word at &RESHI to t[2*len-1] on the stack
+    
+    ;; At the end of the second outer loop, A1-pointer contains the address of
+    ;; of a[len-2], while B1-pointer still contains the address of a[len-1].
+    ;; T-pointer holds the address of t[2*len-2]. Now we prepare for the third
+    ;; loop by setting A-pointer to the address of a[0] and T-pointer to the
+    ;; address of t[0].
+    
+    add.w   #4, Tptr        ;; set T-pointer to address of t[2*len]
+    sub.w   Len, Tptr       ;; set T-pointer to address of t[len]
+    sub.w   Len, Tptr       ;; set T-pointer to address of t[len]
+    mov.w   B1ptr, Aptr     ;; set A-pointer to address of a[len-1]
+    add.w   #2, Aptr        ;; set A-pointer to address of a[len]
+    sub.w   Len, Aptr       ;; set A-pointer to address of a[0]
+    add.w   #4, Ostop       ;; set Ostop to address of t[2*len]
+        
+    ;; The third loop doubles the intermediate result obtained so far and adds
+    ;; the suqares of the form a[i]*a[i]. In the i-th iteration, the word a[i] 
+    ;; is loaded (using APTR) and then the square a[i]*a[i] is computed. The
+    ;; carry from the previous iteration (contained in the SumEx register) is
+    ;; added to the square and the obtained result is placed in the SqrHi|SqrLo
+    ;; register pair.
+    
+OUTLOOP3:
+    
+    mov.w   SumEx, SqrLo    ;; copy SumEx to SqrLo
+    clr.w   SqrHi           ;; clear SqrHi
+    mov.w   @Aptr, &MPY     ;; load a[i] to &MPY using APTR as pointer
+    mov.w   @Aptr+, &OP2    ;; load a[i] to &OP2 via APTR (with increment)
+    clr.w   SumEx           ;; clear SumEx register (otherwise nop is needed!)
+    add.w   @Rlptr, SqrLo   ;; add &RESLO to SqrLo register
+    addc.w  @Rhptr, SqrHi   ;; add word at &RESHI with c-flag to SqrHi
+    
+    ;; Next, the two words r[2*i+1] and r[2*i] are loaded to the register pair
+    ;; SumHi|SumLo (using Tptr as pointer) and then doubled, whereby the
+    ;; carry bit is placed in the SumEx register. Furthermore, SqrHi|SqrLo is
+    ;; added to SumHi|SumLo and the carry bit is again added to SumEx.
+    
+    mov.w   @Tptr+, SumLo   ;; load r[2*i] to SumLo via Tptr (with increment)
+    mov.w   @Tptr+, SumHi   ;; load r[2*i+1] to SumHi via Tptr (with increment)
+    add.w   SumLo, SumLo    ;; double SumLo
+    addc.w  SumHi, SumHi    ;; double with c-flag SumHi
+    adc.w   SumEx           ;; add c-flag to SumEx
+    add.w   SqrLo, SumLo    ;; add SqrLo to SumLo
+    addc.w  SqrHi, SumHi    ;; add SqrHi with c-flag to SumHi
+    adc.w   SumEx           ;; add c-flag to SumEx
+    
+    ;; Finally, the content of the SumHi|SumLo register pair is written to
+    ;; r[2*i] and r[2*i+1], respectively. The carry bits in the SumEx register
+    ;; will be processed in the next iteration. Note that the Len register is
+    ;; used to count the iterations of the third loop. Since Len holds the
+    ;; bytelength (and not wordlength) of `a`, it is decremented by 2 in each
+    ;; iteration and the loop terminates when Len becomes 0.
+    
+    mov.w   SumLo, -4(Tptr) ;; store SumLo to r[2*i]
+    mov.w   SumHi, -2(Tptr) ;; store SumHi to r[2*i+1]
+    cmp.w   Ostop, Tptr     ;; compare addr of t[2*len] (Ostop) with T-pointer
+    jlo     OUTLOOP3        ;; continue loop if T-pointer < address of t[2*len]
+    
+    ;; At this point the multiplication is finished and the $2len$ words of the
+    ;; product $t = a \cdot b$ are on the stack. The reduction modulo the prime
+    ;; $p = 2^k - c$ uses its own pointers, namely TL-pointer and TH-pointer,
+    ;; which have to be initialized. TH-pointer is used to access words of the
+    ;; upper half of the product, while TL-pointer enables fast access to words
+    ;; of the lower half. Also parameter `c` has to be loaded from the stack.
+    
+    pop.w   Cword
+    mov.w   sp, Tlptr       ;; set TL-pointer to address of t[0]
+    mov.w   Ostop, Len      ;; set Len to address of t[2*len]
+    sub.w   Tlptr, Len      ;; set Len to 4*len
+    rra.w   Len             ;; set Len to 2*len
+    mov.w   Tlptr, Thptr    ;; copy TL-pointer to TH-pointer
+    add.w   Len, Thptr      ;; set TH-pointer to address of t[len]
+    
+    ;; The first step of the modular reduction consists of the multiplication
+    ;; of the upper part of the product by $2c$ and the addition of the lower
+    ;; part to the result, i.e., a computation of the form $r = th*2*c + tl$.
+    ;; This computation is performed through a loop, for which a loop-stopper
+    ;; and some variables need to be initialized.
+    
+    add.w   Cword, Cword    ;; double Cword
+    mov.w   Cword, &MPY     ;; $2c$ is first operand for multiplication
+    mov.w   Rptr, Ostop     ;; set Ostop to address of r[0]
+    add.w   Len, Ostop      ;; set Ostop to address of r[len]
+    sub.w   #2, Ostop       ;; set Ostop to address of r[len-1]
+    clr.w   SumHi           ;; clear SumHi
+    clr.w   SumLo           ;; clear SumLo
+    
+    ;; In each iteration of the first reduction loop, a word t[len+i] from the
+    ;; upper part is multiplied by $d = 2c$ and a word t[i] from the lower part
+    ;; is added to the product, resulting in a sum consisting of two words, to
+    ;; which the upper word of the sum of the previous iteration is added. The
+    ;; lower word of the result is written to r[i] using R-pointer. This first
+    ;; reduction loop is iterated $len$ times, whereby the last iteration is
+    ;; done outside the loop-body (i.e., after termination of the loop).
+    
+REDLOOP1:
+    mov.w   @Thptr+, &OP2   ;; load t[i+len] to word at &OP2 via TH-pointer
+    add.w   #2, Rptr        ;; increment R-pointer (otherwise nop is needed!)
+    add.w   @Rlptr, SumLo   ;; add word at &RESLO to SumLo
+    addc.w  @Rhptr, SumHi   ;; add word at &RESHI with c-flag to SumHi
+    add.w   @Tlptr+, SumLo  ;; add t[i] to SumLo
+    adc.w   SumHi           ;; propagate c-flag to SumHi
+    mov.w   SumLo, -2(Rptr) ;; store SumLo to r[i]
+    mov.w   SumHi, SumLo    ;; copy SumHi to SumLo 
+    clr.w   SumHi           ;; clear SumHi
+    cmp.w   Ostop, Rptr     ;; compare addr of r[len-1] (Ostop) with R-pointer
+    jlo     REDLOOP1        ;; continue loop if R-pointer < address of r[len-1]
+    
+    ;; The computation carried out in the last iteration is the same as in the
+    ;; other iterations, but the sum is kept in the SumHi|SumLo register pair
+    ;; and not written to the result-array `r`.
+    
+    mov.w   @Thptr, &OP2    ;; load t[2*len-1] to word at &OP2 via TH-pointer
+    add.w   @Rlptr, SumLo   ;; add word at &RESLO to SumLo
+    addc.w  @Rhptr, SumHi   ;; add word at &RESHI with c-flag to SumHi
+    add.w   @Tlptr, SumLo   ;; add t[len-1] to SumLo
+    adc.w   SumHi           ;; propagate c-flag to SumHi
+    
+    ;; The first reduction step yielded an intermediate result consisting of
+    ;; $len+1$ words. Consequently, a second step is necessary to get a result
+    ;; of a length of $len$ words. For this second step, the original value of
+    ;; the constant `c` in Cword has to be restored to its original value and
+    ;; R-pointer has to be initialized.
+    
+    rra.w   Cword           ;; halve Cword
+    sub.w   Len, Rptr       ;; Rptr contains now address of r[-1]
+    add.w   #2, Rptr        ;; Rptr contains now address of r[0]
+    
+    ;; The sum in the SumHi|SumLo register pair is up to 31 bits long when the
+    ;; constant `c` has a length of at most 14 bits. The second reduction-step
+    ;; requires to split the 32-bit sum up into a lower part of 15 bits and an
+    ;; upper part of 16 bits, which is multiplied by $c$ to yield a product of
+    ;; up to 30 bits in length. This 30-bit product is added to r[0] and r[1].
+    
+    rla.w   SumLo           ;; shift SumLo left; c-flag holds previous MSB
+    rlc.w   SumHi           ;; shift SumHi left via c-flag; c-flag is now 0
+    mov.w   Cword, &MPY     ;; $c$ is first operand for multiplication
+    mov.w   SumHi, &OP2     ;; load SumHi to word at &OP2 
+    rrc.w   SumLo           ;; SumLo contains now (sum&0x7FFF)
+    clr.w   Temp            ;; clear Temp
+    add.w   @Rlptr, 0(Rptr) ;; add word ar &RESLO to r[0]
+    addc.w  @Rhptr, 2(Rptr) ;; add word at &RESHI with carrty to r[1]
+    adc.w   Temp            ;; propagate c-flag into Temp
+    add.w   #4, Rptr        ;; set R-pointer to address of r[2]
+    
+    ;; The addition of the 30-bit product to r[0] and r[1] may have produced a
+    ;; carry, which has to the propagated all the way up to r[len-1], which is
+    ;; done with a simple carry-propagation loop. This loop starts at r[2] and
+    ;; is iterated $len-2$ times, whereby the last iteration is done outside
+    ;; the loop-body (i.e., after termination of the loop).
+    
+REDLOOP2:
+    rra.w   Temp            ;; restore c-flag; Temp is now 0
+    adc.w   0(Rptr)         ;; add c-flag to r[i]
+    adc.w   Temp            ;; save c-flag in Temp
+    add.w   #2, Rptr        ;; increment R-pointer
+    cmp.w   Ostop, Rptr     ;; compare addr of r[len-1] (Ostop) with R-pointer
+    jlo     REDLOOP2        ;; continue loop if R-pointer < address of r[len-1]
+    
+    ;; The carry-propagation of the last iteration simply consists of adding
+    ;; the c-flag (in Temp) to r[len-1], which is the SumLo register.
+    
+    add.w   Temp, SumLo     ;; add c-flag to SumLo (contains r[len-1])
+    mov.w   SumLo, 0(Rptr)  ;; store SumLo to r[len-1]
+    
+    ;; The final task is to enable the interrupts, remove the space occupied by
+    ;; the product (i.e., $2len$ words) from the stack, and pop callee-saved
+    ;; registers.
+    
+    EINT_                   ;; macro to enable interrupts (see mspcfg.h)
+    add.w   Len, sp         ;; remove len words from stack
+    add.w   Len, sp         ;; remove len words from stack
+    POP_R11_TO_R4           ;; macro to pop registers R11-R4 (see mspcfg.h)
+    RET_                    ;; RET_ is either ret or reta (see mspcfg.h)
+    
+END

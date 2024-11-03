@@ -3,7 +3,6 @@
 ;; This file is part of SECC430, a Scalable implementation of Elliptic Curve ;;
 ;; Cryptography with Assembly optimizations for MSP430(X) microcontrollers.  ;;
 ;; Version 2.1.0 (13-09-24), see <http://github.com/johgrolux/> for updates. ;;
-;; Authors: Lin Li and Johann Groszschaedl (DCS, University of Luxembourg).  ;;
 ;; License: GPLv3 (see LICENSE file), other licenses available upon request. ;;
 ;; Copyright (C) 2014-2024 University of Luxembourg <http://www.uni.lu/>     ;;
 ;; ------------------------------------------------------------------------- ;;
