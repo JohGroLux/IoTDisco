@@ -1,0 +1,209 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; gfp_mul32.s43: Mult by 32-bit Integer in a pseudo-Mersenne prime field.   ;;
+;; This file is part of SECC430, a Scalable implementation of Elliptic Curve ;;
+;; Cryptography with Assembly optimizations for MSP430(X) microcontrollers.  ;;
+;; Version 2.1.0 (13-09-24), see <http://github.com/johgrolux/> for updates. ;;
+;; License: GPLv3 (see LICENSE file), other licenses available upon request. ;;
+;; Copyright (C) 2014-2024 University of Luxembourg <http://www.uni.lu/>     ;;
+;; ------------------------------------------------------------------------- ;;
+;; This program is free software: you can redistribute it and/or modify it   ;;
+;; under the terms of the GNU General Public License as published by the     ;;
+;; Free Software Foundation, either version 3 of the License, or (at your    ;;
+;; option) any later version. This program is distributed in the hope that   ;;
+;; it will be useful, but WITHOUT ANY WARRANTY; without even the implied     ;;
+;; warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the  ;;
+;; GNU General Public License for more details. You should have received a   ;;
+;; copy of the GNU General Public License along with this program. If not,   ;;
+;; see <http://www.gnu.org/licenses/>.                                       ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;; Function prototype:
+;; -------------------
+;; void gfp_mul32_msp(Word *r, const Word *a, const Word *b, Word c, int len);
+;; 
+;; Description:
+;; ------------
+;; The function `gfp_mul32_msp` computes the product $r = a \cdot b \bmod p$ of
+;; two elements $a$ and $b$ of a pseudo-Mersenne prime field, whereby element
+;; $b$ is at most 32 bits long. The prime $p$ is given by $p = 2^k - c$, where
+;; $k$ is a multiple of the word-size minus 1 (determined by parameter `len`)
+;; and $c$ is at most 14 bits long. Operand $a$ is allowed to be larger than
+;; $p$. The result $r$ may not be fully reduced, but $r$ is always less than
+;; $2p$.
+;; 
+;; Parameters:
+;; -----------
+;; `r`: pointer to array for result, must have space for `len` words
+;; `a`: pointer to array containing 1st operand, has a length of `len` words
+;; `b`: pointer to array containing 2nd operand, has a length of 2 words
+;; `c`: word containing constant $c$ of prime $p$, $c \in [1, 2^{14}-1]$
+;; `len`: number of words of arrays `a`, `b`, and `r`, must be >= 4
+;; 
+;; Execution time (from `call` to `ret`, measured using Disassembly window):
+;; -------------------------------------------------------------------------
+;; MSP430F1611: len=10 (160 bits): 634 cycles, len=12 (192 bits): 738 cycles,
+;;              len=14 (224 bits): 842 cycles, len=16 (256 bits): 946 cycles
+;; 
+;; Version history:
+;; ----------------
+;; 1.0.0: Lin's original implementation from her M.Sc. project
+;; 1.1.0: Performance improvements and further documentation added by Johann
+;; 1.1.1: Placed an instruction between multiplication and access of product.
+;; 2.0.0: Merged multiplication (int_mul32) and modular reduction (gfp_red32).
+;; 2.1.0: Reduced maximum length of constant `c` from 15 to 14 bits.
+
+
+#include "mspcfg.h"
+
+
+RSEG CODE
+NAME gfp_mul32_msp
+
+
+;; Multiplication - 2 loops
+
+;; Register `Rlptr` points to the location of RESLO in memory (0x013A)
+#define Rlptr r5
+;; Register `Rhptr` points to the location of RESHI in memory (0x013C)
+#define Rhptr r6
+;; Register `SumLo` contains the lower word of a 2-word (32-bit) sum
+#define SumLo r7
+;; Register `SumHi` contains the upper word of a 2-word (32-bit) sum
+#define SumHi r8
+;; Register `Lctr` contains the extension bits of a cumulative sum
+#define Lctr r9
+;; Register `Len` contains the length of the arrays (in words or bytes)
+#define Len r10
+;; Register `Tptr` points to a word contained in the product-array `t`
+#define Tptr r11
+;; Register `Rptr` points to a word contained in the result-array `r`
+#define Rptr r12
+;; Register `Aptr` points to a word contained in the operand-array `a`
+#define Aptr r13
+;; Register `Bptr` points to a word contained in the operand-array `b`
+#define Bptr r14
+
+;; Reduction modulo prime p
+
+;; Register `Tlptr` points to a word in lower half of product-array `t`
+#define Tlptr r11
+;; Register `Thptr` points to a word in upper half of product-array `t`
+#define Thptr r13
+;; Register `Temp` contains temporary values (e.g., MSW of the result)
+#define Temp r14
+;; Register `Cword` contains the 14-bit constant $c$ of the prime $p$
+#define Cword r15
+
+
+PUBLIC gfp_mul32_msp
+gfp_mul32_msp:
+    
+    PUSH_R5_TO_R11          ;; macro to push 7 registers r5-r11 (mspcfg.inc)
+    mov.w   OFS(7)(sp), Len ;; load param `len` from stack to Len (mspasm.inc)
+    mov.w   #RESLO, Rlptr   ;; set Rl-pointer to address of RESLO
+    mov.w   #RESHI, Rhptr   ;; set Rh-pointer to address of RESHI
+    add.w   Len, Len        ;; set Len to number of bytes of operands
+    sub.w   Len, sp         ;; allocate `len` words on the stack
+    sub.w   #4, sp          ;; allocate further 2 words on the stack
+    mov.w   sp, Tptr        ;; set T-pointer to address of 1st allocated word 
+    dint                    ;; disable interrupts (because multiplier is used)
+    nop                     ;; required for dint
+    
+    ;; prepare for 1st mul loop
+    
+    clr.w   SumLo           ;; clear SumLo
+    clr.w   SumHi           ;; clear SumHi
+    mov.w   @Bptr+, &MPY    ;; copy b[0] to &MPY (with increment of B-pointer)
+    mov.w   Len, Lctr       ;; set loop-counter to 2*len
+    
+MULLOOP1:
+    mov.w   @Aptr+, &OP2    ;; copy a[i] to &OP2 to start multiplication
+    add.w   #2, Tptr        ;; increment R-pointer
+    add.w   @Rlptr, SumLo   ;; add lo-word of product to SumLo
+    addc.w  @Rhptr, SumHi   ;; add hi-word of product with c-flag to SumHi
+    mov.w   SumLo, -2(Tptr) ;; store SumLo to t[i]
+    mov.w   SumHi, SumLo    ;; copy SumHi to SumLo
+    clr.w   SumHi           ;; clear SumHi
+    sub.w   #2, Lctr        ;; decrement loop-counter
+    jnz     MULLOOP1        ;; jump to start of loop if loop-counter != 0
+    
+    mov.w   SumLo, 0(Tptr)  ;; store SumLo to r[len]
+    
+    ;; prepare for 2nd mul loop
+    
+    mov.w   Len, Lctr       ;; set loop-counter to 2*len
+    sub.w   Len, Aptr       ;; set A-pointer to address of a[0]
+    sub.w   Len, Tptr       ;; set T-pointer to address of t[0]
+    clr.w   SumLo           ;; clear SumLo
+    mov.w   @Bptr, &MPY     ;; copy b[0] to &MPY
+    
+MULLOOP2:
+    mov.w   @Aptr+, &OP2    ;; copy a[i] to &OP2 to start multiplication
+    add.w   #2, Tptr        ;; increment R pointer
+    add.w   @Rlptr, SumLo   ;; add lo-word of product to SumLo
+    addc.w  @Rhptr, SumHi   ;; add hi-word of product with c-flag to SumHi
+    add.w   SumLo, 0(Tptr)  ;; add SumLo to t[i+1]
+    adc.w   SumHi           ;; add generated c-flag to SumHi
+    mov.w   SumHi, SumLo    ;; copy SumHi to SumLo
+    clr.w   SumHi           ;; clear SumHi
+    sub.w   #2, Lctr        ;; decrement loop-counter
+    jnz     MULLOOP2        ;; jump to start of loop if loop-counter != 0
+    
+    mov.w   SumLo, 2(Tptr)  ;; store lo-word of sum (in SumLo) to t[len+1]
+    
+    mov.w   -2(Tptr), Temp  ;; load t[len-1] to Temp
+    rlc.w   Temp            ;; shift t[len-1] left; c-flag is MSB of t[len-1]
+    subc.w  SumLo, SumLo    ;; generate mask: 0 if MSB was 1, 0xFFFF otherwise
+    inv.w   SumLo           ;; invert mask: 0xFFFF if MSB was 1, 0 otherwise
+    and.w   Cword, SumLo    ;; set SumLo to `c` if MSB was 1, 0 otherwise
+    clr.w   SumHi           ;; clear SumHi
+    
+    ;; prepare for reduction
+    
+    mov.w   Tlptr, Thptr    ;; set TH-pointer to address of t[len]
+    sub.w   Len, Tlptr      ;; set TL-pointer to address of t[0]
+    add.w   Cword, Cword    ;; set Cword to 2*c (c-flag is now 0!)
+    mov.w   Cword, &MPY     ;; copy 2*c to &MPY
+    rrc.w   Temp            ;; set Temp to (t[len-1]&0x7FFF)
+    mov.w   #4, Lctr        ;; set loop-counter to 4 (2 iterations)
+    
+REDLOOP1:
+    mov.w   @Thptr+, &OP2   ;; copy t[len+i] to &OP2 to start multiplication
+    add.w   #2, Rptr        ;; increment R-pointer
+    add.w   @Rlptr, SumLo   ;; add lo-word of product to SumLo
+    addc.w  @Rhptr, SumHi   ;; add hi-word of product with c-flag to SumHi
+    add.w   @Tlptr+, SumLo  ;; add t[i] to SumLo (with increment of Tl-pointer)
+    adc.w   SumHi           ;; add generated c-flag to SumHi
+    mov.w   SumLo, -2(Rptr) ;; store SumLo to r[i]
+    mov.w   SumHi, SumLo    ;; copy SumHi to SumLo
+    clr.w   SumHi           ;; clear SumHi
+    sub.w   #2, Lctr        ;; decrement loop-counter
+    jnz     REDLOOP1        ;; jump to start of loop if loop-counter != 0
+    
+    ;; prepare for carry prop
+    
+    mov.w   Len, Lctr       ;; set loop-counter to 2*len
+    sub.w   #6, Lctr        ;; set loop-counter to 2*len-6 (len-3 iterations)
+    
+REDLOOP2:
+    add.w   @Tlptr+, SumLo  ;; add r[i] to SumLo
+    adc.w   SumHi           ;; add generated c-flag to SumHi
+    mov.w   SumLo, 0(Rptr)  ;; write SumLo to r[i]
+    add.w   #2, Rptr        ;; increment R-pointer
+    mov.w   SumHi, SumLo    ;; copy SumHi to SumLo
+    clr.w   SumHi           ;; clear SumHi
+    sub.w   #2, Lctr        ;; decrement loop-counter
+    jnz     REDLOOP2        ;; jump to start of loop if loop-counter != 0
+    
+    add.w   SumLo, Temp     ;; add SumLo to (t[len-1]&0x7FFF) in Temp
+    mov.w   Temp, 0(Rptr)   ;; store Temp to r[len-1]
+    
+    EINT_                   ;; macro to enable interrupts (see mspcfg.h)
+    add.w   Len, sp         ;; remove `len` words from stack
+    add.w   #4, sp          ;; remove 2 words from stack
+    POP_R11_TO_R5           ;; macro to pop R11-R5 and return (see mspcfg.h)
+    
+    RET_                    ;; RET_ is either RET or RETA (see mspcfg.h)
+    
+END
