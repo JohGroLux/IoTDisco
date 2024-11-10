@@ -1,10 +1,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; gfp_add.s43: Addition of elements of a pseudo-Mersenne prime field.       ;;
-;; This file is part of SECC, a Scalable implementation of Elliptic Curve    ;;
-;; Cryptography with Assembly optimizations for 16/32-bit microcontrollers.  ;;
-;; Version 1.1.0 (13-09-24), see <http://github.com/johgrolux/> for updates. ;;
+;; This file is part of SECC430, a Scalable implementation of Elliptic Curve ;;
+;; Cryptography with Assembly optimizations for MSP430(X) microcontrollers.  ;;
+;; Version 1.1.1 (13-09-24), see <http://github.com/johgrolux/> for updates. ;;
 ;; License: GPLv3 (see LICENSE file), other licenses available upon request. ;;
-;; Copyright (C) 2014-2024 University of Luxembourg <http://www.uni.lu/>     ;;
 ;; ------------------------------------------------------------------------- ;;
 ;; This program is free software: you can redistribute it and/or modify it   ;;
 ;; under the terms of the GNU General Public License as published by the     ;;
@@ -39,16 +38,17 @@
 ;; `c`: word containing constant $c$ of prime $p$, $c \in [1, 2^{14}-1]$
 ;; `len`: number of words of arrays `a`, `b`, and `r`, must be >= 2
 ;; 
-;; Execution time (including function-call overhead):
-;; --------------------------------------------------
-;; MSP430F1611: len=10 (160 bit): 226 cycles, len=12 (192 bit): 258 cycles,
-;;              len=14 (224 bit): 290 cycles, len=16 (256 bit): 322 cycles
+;; Execution time (from `call` to `ret`, measured using Disassembly window):
+;; -------------------------------------------------------------------------
+;; MSP430F1611: len=10 (160 bit): 200 cycles, len=12 (192 bit): 232 cycles,
+;;              len=14 (224 bit): 264 cycles, len=16 (256 bit): 296 cycles
 ;; 
 ;; Version history:
 ;; ----------------
 ;; 1.0.0: Lin's original implementation from her M.Sc. project.
 ;; 1.0.1: Performance improvements and further documentation added by Johann.
 ;; 1.1.0: Reduced maximum length of constant `c` from 15 to 14 bits.
+;; 1.1.1: Replaced multiplication c*(sum>>15) by addition of masked values.
 
 
 #include "mspcfg.h"
@@ -88,76 +88,78 @@ NAME gfp_add_msp
 PUBLIC gfp_add_msp
 gfp_add_msp:
     
-    ;; At first, all callee-saved registers on pushed on the stack, the fifth
-    ;; parameter `len` is copied from the stack, and interrupts are disabled.
+    ;; At first, all callee-saved registers are pushed on the stack and the
+    ;; fifth parameter `len` is copied from the stack.
     
-    PUSH_R8_TO_R11          ;; macro to push registers r8-r11 (see mspasm.h)
-    mov.w   OFS(4)(sp), Len ;; copy parameter `len` from stack (see mspasm.h)
-    dint                    ;; disable interrupts (because we use multiplier!)
-    nop                     ;; required for dint
+    PUSH_R8_TO_R11          ;; macro to push 4 registers r8-r11 (mspcfg.inc)
+    mov.w   OFS(4)(sp), Len ;; load param `len` from stack to Len (mspasm.inc)
     
     ;; The sum of the two most significant words of `a` and `b` (i.e., a[len-1]
     ;; and b[len-1]) is computed first so that the main addition loop needs to
-    ;; be executed only once. This sum, which can be up to 17 bits long, is put
-    ;; in the SumHi|SumLo register-pair.
+    ;; be executed only once. This sum can be up to 17 bits long. The lower 16
+    ;; bits are put in the Msw register and the 17th bit (i.e., the carry from
+    ;; the addition) in the SumHi register in the form of an inverse bit-mask,
+    ;; which is either 0xFFFF (if there is no carry) or 0 (there is a carry).
     
-    clr.w   SumHi           ;; clear SumHi
-    add.w   Len, Len        ;; set Len to number of bytes of array `a`
-    sub.w   #2, Len         ;; set Len to offset (in bytes) to MSW of array `a`
+    add.w   Len, Len        ;; set Len to $2len$ (number of bytes of operands)
+    sub.w   #2, Len         ;; set Len to $2len-2$
     add.w   Len, Aptr       ;; set A-pointer to address of a[len-1]
-    mov.w   @Aptr, SumLo    ;; load a[len-1] to SumLo
+    mov.w   @Aptr, Msw      ;; load a[len-1] to Msw
     sub.w   Len, Aptr       ;; set A-pointer to address of a[0]
     add.w   Len, Bptr       ;; set B-pointer to address of b[len-1]
-    add.w   @Bptr, SumLo    ;; add b[len-1] to SumLo
-    adc.w   SumHi           ;; propagate c-flag to SumHi
+    add.w   @Bptr, Msw      ;; add b[len-1] to Msw
+    subc.w  SumHi, SumHi    ;; SumHi is 0 if 17th bit is 1, 0xFFFF otherwise
     sub.w   Len, Bptr       ;; set B-pointer to address of b[0]
     
     ;; As part of the reduction, the product c*(sum>>15) and most-significant
-    ;; result-word (sum&0x7FFF) are computed. The product can be up to 17 bits
-    ;; long and is put in the SumHi|SumLo register-pair.
+    ;; result-word (sum&0x7FFF) are computed. The product can be up to 16 bits
+    ;; long (since (sum>>15) is max 2 bits long) and is put in SumLo register.
+    ;; It is more efficient to compute the product by an addition of two masked
+    ;; values (generated from the two bits of (sum>>15)) than a multiplication.
+    ;; The first bit-mask (actually the inverse bit-mask) was already computed
+    ;; above based on the value of the 17th bit of the sum.
     
-    rla.w   SumLo           ;; shift SumLo left; c-flag is SumLo's previous MSB
-    rlc.w   SumHi           ;; shift SumHi left via c-flag; c-flag is now 0
-    rrc.w   SumLo           ;; shift SumLo right; MSB of SumLo is now 0
-    mov.w   SumLo, Msw      ;; copy SumLo to Msw (contains now sum&0x7FFF)
-    mov.w   SumHi, &MPY     ;; copy SumHi (contains the 2 MSBs of sum) to &MPY
-    mov.w   Cword, &OP2     ;; copy $c$ to &OP2 to start multiplication
-    mov.w   &RESLO, SumLo   ;; load lo-word of product to SumLo
-    mov.w   &RESHI, SumHi   ;; load hi-word of product to SumHi
+    rla.w   Msw             ;; shift Msw left; c-flag is 16th bit of sum
+    subc.w  SumLo, SumLo    ;; SumLo is 0 if 16th bit is 1, 0xFFFF otherwise
+    inv.w   SumLo           ;; SumLo is 0xFFFF if 16th bit is 1, 0 otherwise
+    and.w   Cword, SumLo    ;; set SumLo to `c` if 16th bit is 1, 0 otherwise
+    bic.w   SumHi, Cword    ;; set Cword to `c` if 17th bit is 1, 0 otherwise
+    add.w   Cword, Cword    ;; set Cword to 2*c if 17th bit is 1, 0 otherwise
+    add.w   Cword, SumLo    ;; set SumLo to c*(sum>>15) (c-flag is now 0!)
+    rrc.w   Msw             ;; set Msw to (sum&0x7FFF)
+    clr.w   SumHi           ;; clear SumHi
     
-    ;; In the i-th iteration of the addition loop, the words a[i] and b[i] are
-    ;; added to the content of the SumHi|SumLo register-pair. Then, SumLo is
-    ;; written to r[i] (via R-pointer) and the SumHi|SumLo register-pair is
-    ;; shifted to the right by 16 bits to prepare for the next iteration. The
-    ;; loop is iterated len-1 instead of len times since the sum of the two
-    ;; most significant words a[len-1] and b[len-1] was already computed above.
+    ;; In each iteration of the addition loop, the two words a[i] and b[i] are
+    ;; added to the sum in the SumHi|SumLo register-pair. Then, the lower word
+    ;; of the sum is written to r[i] using R-pointer and the sum is shifted one
+    ;; word to the right. This addition loop is iterated $len-1$ times (i.e.,
+    ;; from $i = 0$ to $i = len-2$) since the sum of the two most-significant
+    ;; words a[len-1] and b[len-1] was already computed above.
     
 ADDLOOP:
-    add.w   @Aptr+, SumLo   ;; add a[i] to SumLo via A-pointer (with increment)
-    adc.w   SumHi           ;; add c-flag to SumHi
-    add.w   @Bptr+, SumLo   ;; add b[i] to SumLo via B-pointer (with increment)
-    adc.w   SumHi           ;; add c-flag to SumHi
-    mov.w   SumLo, 0(Rptr)  ;; store SumLo to r[i] via R-pointer
+    add.w   @Aptr+, SumLo   ;; add a[i] to SumLo (with increment of A-pointer)
+    adc.w   SumHi           ;; add generated c-flag to SumHi
+    add.w   @Bptr+, SumLo   ;; add b[i] to SumLo (with increment of B-pointer)
+    adc.w   SumHi           ;; add generated c-flag to SumHi
+    mov.w   SumLo, 0(Rptr)  ;; store SumLo to r[i]
     add.w   #2, Rptr        ;; increment R-pointer
     mov.w   SumHi, SumLo    ;; copy SumHi to SumLo
     clr.w   SumHi           ;; clear SumHi
-    sub.w   #2, Len         ;; decrement Len by 2
-    jnz     ADDLOOP         ;; is Len == 0? if not then branch to start of loop
+    sub.w   #2, Len         ;; decrement loop-counter
+    jnz     ADDLOOP         ;; jump to start of loop if loop-counter != 0
     
-    ;; After loop-termination, R-pointer contains the address of r[len-1]. The
-    ;; sum of the two most significant words a[len-1] and b[len-1] is already
-    ;; in register Msw, but still needs to be added to the SumLo register. The
-    ;; result (which can be at most 16 bits long) is stored to r[len-1].
+    ;; After termination of the addition-loop, R-pointer contains the address
+    ;; of r[len-1]. The most-significant result-word (sum&0x7FFF) is already in
+    ;; register Msw, but the carry from the addition-loop still needs to be
+    ;; added to it. This last result-word, which can be up to 16 bits long, is
+    ;; stored to r[len-1].
     
-    add.w   Msw, SumLo      ;; add Msw (i.e., sum&0x7FFF) to SumLo
-    mov.w   SumLo, 0(Rptr)  ;; store SumLo to r[len-1] via R-pointer
+    add.w   SumLo, Msw      ;; add SumLo to (sum&0x7FFF) in Msw
+    mov.w   Msw, 0(Rptr)    ;; store Msw to r[len-1]
     
-    ;; Finally, the interrupts are enabled again and all callee-saved registers
-    ;; are popped from the stack.
+    ;; The final task is to pop the callee-saved registers from the stack.
     
-    EINT_                   ;; macro to enable interrupts (see mspcfg.h)
     POP_R11_TO_R8           ;; macro to pop registers R11-R8 (see mspcfg.h)
-    
     RET_                    ;; RET_ is either ret or reta (see mspcfg.h)
     
 END
