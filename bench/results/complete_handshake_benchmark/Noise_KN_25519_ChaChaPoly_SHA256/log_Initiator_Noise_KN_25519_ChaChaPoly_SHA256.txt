@@ -1,0 +1,30 @@
+W (18949) ESP32_NOISE_TEST: SETUP: Initiator_Noise_KN_25519_ChaChaPoly_SHA256
+W (19079) BENCH: [Handshake] Took 139714 us and 10575340 cycles
+W (19089) LOOP COUNTER: Remaining handshakes for current pattern: 9
+W (19199) ESP32_NOISE_TEST: SETUP: Initiator_Noise_KN_25519_ChaChaPoly_SHA256
+W (19329) BENCH: [Handshake] Took 139307 us and 10553818 cycles
+W (19329) LOOP COUNTER: Remaining handshakes for current pattern: 8
+W (19449) ESP32_NOISE_TEST: SETUP: Initiator_Noise_KN_25519_ChaChaPoly_SHA256
+W (19579) BENCH: [Handshake] Took 139503 us and 10586378 cycles
+W (19579) LOOP COUNTER: Remaining handshakes for current pattern: 7
+W (19699) ESP32_NOISE_TEST: SETUP: Initiator_Noise_KN_25519_ChaChaPoly_SHA256
+W (19839) BENCH: [Handshake] Took 141075 us and 10651331 cycles
+W (19839) LOOP COUNTER: Remaining handshakes for current pattern: 6
+W (19949) ESP32_NOISE_TEST: SETUP: Initiator_Noise_KN_25519_ChaChaPoly_SHA256
+W (20079) BENCH: [Handshake] Took 139678 us and 10553920 cycles
+W (20089) LOOP COUNTER: Remaining handshakes for current pattern: 5
+W (20199) ESP32_NOISE_TEST: SETUP: Initiator_Noise_KN_25519_ChaChaPoly_SHA256
+W (20329) BENCH: [Handshake] Took 139374 us and 10569112 cycles
+W (20329) LOOP COUNTER: Remaining handshakes for current pattern: 4
+W (20449) ESP32_NOISE_TEST: SETUP: Initiator_Noise_KN_25519_ChaChaPoly_SHA256
+W (20579) BENCH: [Handshake] Took 139426 us and 10624866 cycles
+W (20579) LOOP COUNTER: Remaining handshakes for current pattern: 3
+W (20699) ESP32_NOISE_TEST: SETUP: Initiator_Noise_KN_25519_ChaChaPoly_SHA256
+W (20829) BENCH: [Handshake] Took 139207 us and 10554696 cycles
+W (20829) LOOP COUNTER: Remaining handshakes for current pattern: 2
+W (20939) ESP32_NOISE_TEST: SETUP: Initiator_Noise_KN_25519_ChaChaPoly_SHA256
+W (21069) BENCH: [Handshake] Took 139204 us and 10553660 cycles
+W (21069) LOOP COUNTER: Remaining handshakes for current pattern: 1
+W (21179) ESP32_NOISE_TEST: SETUP: Initiator_Noise_KN_25519_ChaChaPoly_SHA256
+W (21319) BENCH: [Handshake] Took 148404 us and 10578572 cycles
+W (21319) BENCH: Switching to next pattern: Noise_KK_25519_ChaChaPoly_SHA256

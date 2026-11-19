@@ -1,0 +1,2 @@
+label,count,avg_time_us,median_time_us,min_time_us,max_time_us,avg_cycles,median_cycles,min_cycles,max_cycles
+Handshake,10,471627.8,474262.0,450025,480823,24108465.5,24083524.5,23946954,24712587

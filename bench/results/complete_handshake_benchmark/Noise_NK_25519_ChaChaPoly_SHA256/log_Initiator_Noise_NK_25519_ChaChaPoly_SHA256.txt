@@ -1,0 +1,30 @@
+W (6609) ESP32_NOISE_TEST: SETUP: Initiator_Noise_NK_25519_ChaChaPoly_SHA256
+W (6749) BENCH: [Handshake] Took 142080 us and 9115326 cycles
+W (6749) LOOP COUNTER: Remaining handshakes for current pattern: 9
+W (6859) ESP32_NOISE_TEST: SETUP: Initiator_Noise_NK_25519_ChaChaPoly_SHA256
+W (6999) BENCH: [Handshake] Took 141891 us and 9103112 cycles
+W (6999) LOOP COUNTER: Remaining handshakes for current pattern: 8
+W (7109) ESP32_NOISE_TEST: SETUP: Initiator_Noise_NK_25519_ChaChaPoly_SHA256
+W (7249) BENCH: [Handshake] Took 142013 us and 9103030 cycles
+W (7249) LOOP COUNTER: Remaining handshakes for current pattern: 7
+W (7359) ESP32_NOISE_TEST: SETUP: Initiator_Noise_NK_25519_ChaChaPoly_SHA256
+W (7499) BENCH: [Handshake] Took 141925 us and 9137855 cycles
+W (7499) LOOP COUNTER: Remaining handshakes for current pattern: 6
+W (7609) ESP32_NOISE_TEST: SETUP: Initiator_Noise_NK_25519_ChaChaPoly_SHA256
+W (7749) BENCH: [Handshake] Took 143916 us and 9212315 cycles
+W (7749) LOOP COUNTER: Remaining handshakes for current pattern: 5
+W (7859) ESP32_NOISE_TEST: SETUP: Initiator_Noise_NK_25519_ChaChaPoly_SHA256
+W (7999) BENCH: [Handshake] Took 142000 us and 9103808 cycles
+W (7999) LOOP COUNTER: Remaining handshakes for current pattern: 4
+W (8109) ESP32_NOISE_TEST: SETUP: Initiator_Noise_NK_25519_ChaChaPoly_SHA256
+W (8249) BENCH: [Handshake] Took 141979 us and 9102546 cycles
+W (8249) LOOP COUNTER: Remaining handshakes for current pattern: 3
+W (8359) ESP32_NOISE_TEST: SETUP: Initiator_Noise_NK_25519_ChaChaPoly_SHA256
+W (8499) BENCH: [Handshake] Took 141921 us and 9137335 cycles
+W (8499) LOOP COUNTER: Remaining handshakes for current pattern: 2
+W (8609) ESP32_NOISE_TEST: SETUP: Initiator_Noise_NK_25519_ChaChaPoly_SHA256
+W (8749) BENCH: [Handshake] Took 141942 us and 9105576 cycles
+W (8749) LOOP COUNTER: Remaining handshakes for current pattern: 1
+W (8859) ESP32_NOISE_TEST: SETUP: Initiator_Noise_NK_25519_ChaChaPoly_SHA256
+W (8999) BENCH: [Handshake] Took 140353 us and 9094278 cycles
+W (8999) BENCH: Switching to next pattern: Noise_NX_25519_ChaChaPoly_SHA256

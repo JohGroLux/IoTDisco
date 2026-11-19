@@ -1,0 +1,3 @@
+W (9379) ESP32_NOISE_TEST: SETUP: Initiator_Noise_KEMIN_Kyber768_ChaChaPoly_SHA256
+W (9929) BENCH: [Handshake] Took 557560 us and 32485228 cycles
+W (9929) BENCH: Switching to next pattern: Noise_KEMIK_Kyber768_ChaChaPoly_SHA256

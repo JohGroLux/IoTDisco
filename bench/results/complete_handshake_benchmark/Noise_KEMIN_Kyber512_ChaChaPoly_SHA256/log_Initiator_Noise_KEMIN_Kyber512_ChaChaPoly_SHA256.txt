@@ -1,0 +1,30 @@
+W (49469) ESP32_NOISE_TEST: SETUP: Initiator_Noise_KEMIN_Kyber512_ChaChaPoly_SHA256
+W (49969) BENCH: [Handshake] Took 501125 us and 22164479 cycles
+W (49969) LOOP COUNTER: Remaining handshakes for current pattern: 9
+W (50079) ESP32_NOISE_TEST: SETUP: Initiator_Noise_KEMIN_Kyber512_ChaChaPoly_SHA256
+W (50549) BENCH: [Handshake] Took 476235 us and 22216278 cycles
+W (50549) LOOP COUNTER: Remaining handshakes for current pattern: 8
+W (50659) ESP32_NOISE_TEST: SETUP: Initiator_Noise_KEMIN_Kyber512_ChaChaPoly_SHA256
+W (51129) BENCH: [Handshake] Took 476078 us and 22015253 cycles
+W (51129) LOOP COUNTER: Remaining handshakes for current pattern: 7
+W (51239) ESP32_NOISE_TEST: SETUP: Initiator_Noise_KEMIN_Kyber512_ChaChaPoly_SHA256
+W (51709) BENCH: [Handshake] Took 475879 us and 22037777 cycles
+W (51709) LOOP COUNTER: Remaining handshakes for current pattern: 6
+W (51819) ESP32_NOISE_TEST: SETUP: Initiator_Noise_KEMIN_Kyber512_ChaChaPoly_SHA256
+W (52299) BENCH: [Handshake] Took 483045 us and 22075549 cycles
+W (52299) LOOP COUNTER: Remaining handshakes for current pattern: 5
+W (52409) ESP32_NOISE_TEST: SETUP: Initiator_Noise_KEMIN_Kyber512_ChaChaPoly_SHA256
+W (52879) BENCH: [Handshake] Took 476041 us and 22096354 cycles
+W (52879) LOOP COUNTER: Remaining handshakes for current pattern: 4
+W (52989) ESP32_NOISE_TEST: SETUP: Initiator_Noise_KEMIN_Kyber512_ChaChaPoly_SHA256
+W (53459) BENCH: [Handshake] Took 476450 us and 22192198 cycles
+W (53459) LOOP COUNTER: Remaining handshakes for current pattern: 3
+W (53569) ESP32_NOISE_TEST: SETUP: Initiator_Noise_KEMIN_Kyber512_ChaChaPoly_SHA256
+W (54039) BENCH: [Handshake] Took 476094 us and 22072442 cycles
+W (54039) LOOP COUNTER: Remaining handshakes for current pattern: 2
+W (54149) ESP32_NOISE_TEST: SETUP: Initiator_Noise_KEMIN_Kyber512_ChaChaPoly_SHA256
+W (54619) BENCH: [Handshake] Took 476112 us and 22089605 cycles
+W (54619) LOOP COUNTER: Remaining handshakes for current pattern: 1
+W (54729) ESP32_NOISE_TEST: SETUP: Initiator_Noise_KEMIN_Kyber512_ChaChaPoly_SHA256
+W (55199) BENCH: [Handshake] Took 474884 us and 22070048 cycles
+W (55199) BENCH: Switching to next pattern: Noise_KEMIK_Kyber512_ChaChaPoly_SHA256

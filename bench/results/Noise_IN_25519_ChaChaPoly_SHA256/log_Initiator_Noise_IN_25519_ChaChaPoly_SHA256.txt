@@ -1,0 +1,2300 @@
+W (384209) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (384209) BENCH: [Handshake creation] Took 295 us and 47170 cycles
+W (384219) BENCH: [Handshake start] Took 394 us and 62900 cycles
+W (384229) BENCH: [Write message] Took 10965 us and 1754382 cycles
+I (384239) ESP32_NOISE_TEST: Handshake message size: 64
+I (384239) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (384239) BENCH: [Zigbee Packet TX] Took 181 us and 28930 cycles
+I (384249) ESP32_NOISE_TEST: Sent first handshake message.
+I (384429) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (384439) ESP32_NOISE_TEST: Received APS Data Indication
+I (384439) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (384439) ESP32_NOISE_TEST: Processing handshake response...
+I (384449) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (384449) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (384489) BENCH: [Read message] Took 34147 us and 5463453 cycles
+I (384489) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (384489) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (384499) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (384509) BENCH: [Handshake split] Took 514 us and 82220 cycles
+I (384509) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (384519) BENCH: [Handshake] Took 307096 us and 21200387 cycles
+W (384529) LOOP COUNTER: Remaining handshakes for current pattern: 99
+I (384639) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (384639) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (384639) BENCH: [Handshake creation] Took 300 us and 47863 cycles
+W (384649) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (384659) BENCH: [Write message] Took 10947 us and 1751578 cycles
+I (384669) ESP32_NOISE_TEST: Handshake message size: 64
+I (384669) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (384669) BENCH: [Zigbee Packet TX] Took 181 us and 28990 cycles
+I (384679) ESP32_NOISE_TEST: Sent first handshake message.
+I (384859) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (384869) ESP32_NOISE_TEST: Received APS Data Indication
+I (384869) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (384869) ESP32_NOISE_TEST: Processing handshake response...
+I (384879) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (384879) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (384919) BENCH: [Read message] Took 33963 us and 5434153 cycles
+I (384919) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (384929) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (384929) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (384939) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (384949) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (384949) BENCH: [Handshake] Took 310074 us and 21167650 cycles
+W (384959) LOOP COUNTER: Remaining handshakes for current pattern: 98
+I (385069) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (385069) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (385069) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (385079) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (385099) BENCH: [Write message] Took 11048 us and 1767618 cycles
+I (385099) ESP32_NOISE_TEST: Handshake message size: 64
+I (385099) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (385099) BENCH: [Zigbee Packet TX] Took 159 us and 25558 cycles
+I (385109) ESP32_NOISE_TEST: Sent first handshake message.
+I (385289) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (385299) ESP32_NOISE_TEST: Received APS Data Indication
+I (385299) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (385299) ESP32_NOISE_TEST: Processing handshake response...
+I (385309) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (385309) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (385349) BENCH: [Read message] Took 33962 us and 5433909 cycles
+I (385349) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (385349) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (385359) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (385369) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (385369) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (385379) BENCH: [Handshake] Took 306846 us and 21212581 cycles
+W (385379) LOOP COUNTER: Remaining handshakes for current pattern: 97
+I (385499) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (385499) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (385499) BENCH: [Handshake creation] Took 303 us and 48542 cycles
+W (385509) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (385519) BENCH: [Write message] Took 10954 us and 1752722 cycles
+I (385529) ESP32_NOISE_TEST: Handshake message size: 64
+I (385529) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (385529) BENCH: [Zigbee Packet TX] Took 182 us and 29006 cycles
+I (385539) ESP32_NOISE_TEST: Sent first handshake message.
+I (385719) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (385729) ESP32_NOISE_TEST: Received APS Data Indication
+I (385729) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (385729) ESP32_NOISE_TEST: Processing handshake response...
+I (385739) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (385739) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (385779) BENCH: [Read message] Took 33959 us and 5433485 cycles
+I (385779) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (385779) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (385789) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (385799) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (385799) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (385809) BENCH: [Handshake] Took 306911 us and 21142335 cycles
+W (385819) LOOP COUNTER: Remaining handshakes for current pattern: 96
+I (385929) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (385929) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (385929) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (385939) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (385949) BENCH: [Write message] Took 10952 us and 1752182 cycles
+I (385959) ESP32_NOISE_TEST: Handshake message size: 64
+I (385959) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (385959) BENCH: [Zigbee Packet TX] Took 182 us and 29114 cycles
+I (385969) ESP32_NOISE_TEST: Sent first handshake message.
+I (386149) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (386159) ESP32_NOISE_TEST: Received APS Data Indication
+I (386159) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (386159) ESP32_NOISE_TEST: Processing handshake response...
+I (386169) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (386169) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (386209) BENCH: [Read message] Took 33961 us and 5433905 cycles
+I (386209) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (386209) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (386219) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (386229) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (386229) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (386239) BENCH: [Handshake] Took 306970 us and 21156851 cycles
+W (386249) LOOP COUNTER: Remaining handshakes for current pattern: 95
+I (386359) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (386359) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (386359) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (386369) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (386379) BENCH: [Write message] Took 10949 us and 1751818 cycles
+I (386389) ESP32_NOISE_TEST: Handshake message size: 64
+I (386389) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (386389) BENCH: [Zigbee Packet TX] Took 181 us and 29114 cycles
+I (386399) ESP32_NOISE_TEST: Sent first handshake message.
+I (386579) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (386589) ESP32_NOISE_TEST: Received APS Data Indication
+I (386589) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (386589) ESP32_NOISE_TEST: Processing handshake response...
+I (386599) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (386599) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (386639) BENCH: [Read message] Took 33962 us and 5433905 cycles
+I (386639) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (386639) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (386649) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (386659) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (386659) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (386669) BENCH: [Handshake] Took 306884 us and 21207929 cycles
+W (386679) LOOP COUNTER: Remaining handshakes for current pattern: 94
+I (386789) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (386789) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (386789) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (386799) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (386809) BENCH: [Write message] Took 10950 us and 1751866 cycles
+I (386819) ESP32_NOISE_TEST: Handshake message size: 64
+I (386819) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (386819) BENCH: [Zigbee Packet TX] Took 180 us and 28934 cycles
+I (386829) ESP32_NOISE_TEST: Sent first handshake message.
+I (387009) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (387019) ESP32_NOISE_TEST: Received APS Data Indication
+I (387019) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (387019) ESP32_NOISE_TEST: Processing handshake response...
+I (387029) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (387029) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (387069) BENCH: [Read message] Took 33964 us and 5434237 cycles
+I (387069) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (387079) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (387079) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (387089) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (387089) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (387099) BENCH: [Handshake] Took 309671 us and 21209472 cycles
+W (387109) LOOP COUNTER: Remaining handshakes for current pattern: 93
+I (387219) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (387219) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (387219) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (387229) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (387239) BENCH: [Write message] Took 10950 us and 1751898 cycles
+I (387249) ESP32_NOISE_TEST: Handshake message size: 64
+I (387249) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (387249) BENCH: [Zigbee Packet TX] Took 181 us and 28954 cycles
+I (387259) ESP32_NOISE_TEST: Sent first handshake message.
+I (387439) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (387449) ESP32_NOISE_TEST: Received APS Data Indication
+I (387449) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (387449) ESP32_NOISE_TEST: Processing handshake response...
+I (387459) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (387459) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (387499) BENCH: [Read message] Took 33962 us and 5433889 cycles
+I (387499) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (387499) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (387509) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (387519) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (387519) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (387529) BENCH: [Handshake] Took 306855 us and 21145215 cycles
+W (387529) LOOP COUNTER: Remaining handshakes for current pattern: 92
+I (387649) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (387649) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (387649) BENCH: [Handshake creation] Took 300 us and 47863 cycles
+W (387659) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (387669) BENCH: [Write message] Took 10952 us and 1752270 cycles
+I (387679) ESP32_NOISE_TEST: Handshake message size: 64
+I (387679) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (387679) BENCH: [Zigbee Packet TX] Took 181 us and 28970 cycles
+I (387689) ESP32_NOISE_TEST: Sent first handshake message.
+I (387869) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (387879) ESP32_NOISE_TEST: Received APS Data Indication
+I (387879) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (387879) ESP32_NOISE_TEST: Processing handshake response...
+I (387889) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (387889) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (387929) BENCH: [Read message] Took 33961 us and 5433733 cycles
+I (387929) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (387929) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (387939) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (387949) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (387949) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (387959) BENCH: [Handshake] Took 306852 us and 21142827 cycles
+W (387959) LOOP COUNTER: Remaining handshakes for current pattern: 91
+I (388079) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (388079) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (388079) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (388089) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (388109) BENCH: [Write message] Took 11045 us and 1767230 cycles
+I (388109) ESP32_NOISE_TEST: Handshake message size: 64
+I (388109) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (388109) BENCH: [Zigbee Packet TX] Took 159 us and 25502 cycles
+I (388119) ESP32_NOISE_TEST: Sent first handshake message.
+I (388299) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (388309) ESP32_NOISE_TEST: Received APS Data Indication
+I (388309) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (388309) ESP32_NOISE_TEST: Processing handshake response...
+I (388319) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (388319) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (388359) BENCH: [Read message] Took 33965 us and 5434245 cycles
+I (388359) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (388359) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (388369) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (388379) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (388379) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (388389) BENCH: [Handshake] Took 306903 us and 21220911 cycles
+W (388399) LOOP COUNTER: Remaining handshakes for current pattern: 90
+I (388509) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (388509) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (388509) BENCH: [Handshake creation] Took 303 us and 48542 cycles
+W (388519) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (388529) BENCH: [Write message] Took 10954 us and 1752686 cycles
+I (388539) ESP32_NOISE_TEST: Handshake message size: 64
+I (388539) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (388539) BENCH: [Zigbee Packet TX] Took 181 us and 28930 cycles
+I (388549) ESP32_NOISE_TEST: Sent first handshake message.
+I (388729) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (388739) ESP32_NOISE_TEST: Received APS Data Indication
+I (388739) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (388739) ESP32_NOISE_TEST: Processing handshake response...
+I (388749) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (388749) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (388789) BENCH: [Read message] Took 33963 us and 5434153 cycles
+I (388789) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (388789) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (388799) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (388809) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (388809) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (388819) BENCH: [Handshake] Took 306856 us and 21143803 cycles
+W (388819) LOOP COUNTER: Remaining handshakes for current pattern: 89
+I (388939) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (388939) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (388939) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (388949) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (388959) BENCH: [Write message] Took 10951 us and 1752230 cycles
+I (388969) ESP32_NOISE_TEST: Handshake message size: 64
+I (388969) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (388969) BENCH: [Zigbee Packet TX] Took 181 us and 28930 cycles
+I (388979) ESP32_NOISE_TEST: Sent first handshake message.
+I (389159) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (389169) ESP32_NOISE_TEST: Received APS Data Indication
+I (389169) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (389169) ESP32_NOISE_TEST: Processing handshake response...
+I (389179) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (389179) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (389219) BENCH: [Read message] Took 33959 us and 5433397 cycles
+I (389219) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (389219) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (389229) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (389239) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (389239) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (389249) BENCH: [Handshake] Took 309502 us and 21166762 cycles
+W (389259) LOOP COUNTER: Remaining handshakes for current pattern: 88
+I (389369) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (389369) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (389369) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (389379) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (389389) BENCH: [Write message] Took 10951 us and 1752238 cycles
+I (389399) ESP32_NOISE_TEST: Handshake message size: 64
+I (389399) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (389399) BENCH: [Zigbee Packet TX] Took 182 us and 29186 cycles
+I (389409) ESP32_NOISE_TEST: Sent first handshake message.
+I (389589) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (389599) ESP32_NOISE_TEST: Received APS Data Indication
+I (389599) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (389599) ESP32_NOISE_TEST: Processing handshake response...
+I (389609) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (389609) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (389649) BENCH: [Read message] Took 33963 us and 5434073 cycles
+I (389649) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (389649) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (389659) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (389669) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (389669) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (389679) BENCH: [Handshake] Took 306961 us and 21209853 cycles
+W (389689) LOOP COUNTER: Remaining handshakes for current pattern: 87
+I (389799) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (389799) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (389799) BENCH: [Handshake creation] Took 300 us and 47863 cycles
+W (389809) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (389819) BENCH: [Write message] Took 10951 us and 1752150 cycles
+I (389829) ESP32_NOISE_TEST: Handshake message size: 64
+I (389829) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (389829) BENCH: [Zigbee Packet TX] Took 182 us and 29026 cycles
+I (389839) ESP32_NOISE_TEST: Sent first handshake message.
+I (390019) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (390029) ESP32_NOISE_TEST: Received APS Data Indication
+I (390029) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (390029) ESP32_NOISE_TEST: Processing handshake response...
+I (390039) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (390039) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (390079) BENCH: [Read message] Took 33962 us and 5433817 cycles
+I (390079) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (390079) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (390089) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (390099) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (390099) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (390109) BENCH: [Handshake] Took 307024 us and 21159411 cycles
+W (390119) LOOP COUNTER: Remaining handshakes for current pattern: 86
+I (390229) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (390229) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (390229) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (390239) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (390249) BENCH: [Write message] Took 10947 us and 1751562 cycles
+I (390259) ESP32_NOISE_TEST: Handshake message size: 64
+I (390259) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (390259) BENCH: [Zigbee Packet TX] Took 181 us and 29026 cycles
+I (390269) ESP32_NOISE_TEST: Sent first handshake message.
+I (390449) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (390459) ESP32_NOISE_TEST: Received APS Data Indication
+I (390459) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (390459) ESP32_NOISE_TEST: Processing handshake response...
+I (390469) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (390469) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (390509) BENCH: [Read message] Took 33955 us and 5432877 cycles
+I (390509) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (390509) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (390519) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (390529) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (390529) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (390539) BENCH: [Handshake] Took 307192 us and 21171798 cycles
+W (390549) LOOP COUNTER: Remaining handshakes for current pattern: 85
+I (390659) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (390659) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (390659) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (390669) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (390679) BENCH: [Write message] Took 10952 us and 1752394 cycles
+I (390689) ESP32_NOISE_TEST: Handshake message size: 64
+I (390689) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (390689) BENCH: [Zigbee Packet TX] Took 182 us and 29026 cycles
+I (390699) ESP32_NOISE_TEST: Sent first handshake message.
+I (390879) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (390889) ESP32_NOISE_TEST: Received APS Data Indication
+I (390889) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (390889) ESP32_NOISE_TEST: Processing handshake response...
+I (390899) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (390899) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (390939) BENCH: [Read message] Took 33961 us and 5433737 cycles
+I (390939) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (390939) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (390949) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (390959) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (390959) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (390969) BENCH: [Handshake] Took 306862 us and 21144711 cycles
+W (390969) LOOP COUNTER: Remaining handshakes for current pattern: 84
+I (391089) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (391089) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (391089) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (391099) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (391119) BENCH: [Write message] Took 11094 us and 1775054 cycles
+I (391119) ESP32_NOISE_TEST: Handshake message size: 64
+I (391119) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (391119) BENCH: [Zigbee Packet TX] Took 160 us and 25686 cycles
+I (391129) ESP32_NOISE_TEST: Sent first handshake message.
+I (391319) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (391319) ESP32_NOISE_TEST: Received APS Data Indication
+I (391319) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (391329) ESP32_NOISE_TEST: Processing handshake response...
+I (391329) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (391339) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (391379) BENCH: [Read message] Took 33971 us and 5435361 cycles
+I (391379) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (391379) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (391379) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (391389) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (391399) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (391399) BENCH: [Handshake] Took 311716 us and 21212847 cycles
+W (391409) LOOP COUNTER: Remaining handshakes for current pattern: 83
+I (391529) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (391529) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (391529) BENCH: [Handshake creation] Took 303 us and 48542 cycles
+W (391539) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (391549) BENCH: [Write message] Took 10954 us and 1752654 cycles
+I (391559) ESP32_NOISE_TEST: Handshake message size: 64
+I (391559) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (391559) BENCH: [Zigbee Packet TX] Took 181 us and 28954 cycles
+I (391569) ESP32_NOISE_TEST: Sent first handshake message.
+I (391749) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (391759) ESP32_NOISE_TEST: Received APS Data Indication
+I (391759) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (391759) ESP32_NOISE_TEST: Processing handshake response...
+I (391769) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (391769) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (391809) BENCH: [Read message] Took 34013 us and 5442045 cycles
+I (391809) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (391809) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (391819) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (391829) BENCH: [Handshake split] Took 512 us and 81887 cycles
+I (391829) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (391839) BENCH: [Handshake] Took 307002 us and 21161891 cycles
+W (391849) LOOP COUNTER: Remaining handshakes for current pattern: 82
+I (391959) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (391959) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (391959) BENCH: [Handshake creation] Took 307 us and 49227 cycles
+W (391969) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (391979) BENCH: [Write message] Took 10944 us and 1751066 cycles
+I (391989) ESP32_NOISE_TEST: Handshake message size: 64
+I (391989) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (391989) BENCH: [Zigbee Packet TX] Took 181 us and 28970 cycles
+I (391999) ESP32_NOISE_TEST: Sent first handshake message.
+I (392179) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (392189) ESP32_NOISE_TEST: Received APS Data Indication
+I (392189) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (392189) ESP32_NOISE_TEST: Processing handshake response...
+I (392199) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (392199) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (392239) BENCH: [Read message] Took 33958 us and 5433313 cycles
+I (392239) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (392239) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (392249) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (392259) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (392259) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (392269) BENCH: [Handshake] Took 306858 us and 21146003 cycles
+W (392269) LOOP COUNTER: Remaining handshakes for current pattern: 81
+I (392389) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (392389) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (392389) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (392399) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (392409) BENCH: [Write message] Took 10952 us and 1752202 cycles
+I (392419) ESP32_NOISE_TEST: Handshake message size: 64
+I (392419) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (392419) BENCH: [Zigbee Packet TX] Took 181 us and 29062 cycles
+I (392429) ESP32_NOISE_TEST: Sent first handshake message.
+I (392609) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (392619) ESP32_NOISE_TEST: Received APS Data Indication
+I (392619) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (392619) ESP32_NOISE_TEST: Processing handshake response...
+I (392629) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (392629) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (392669) BENCH: [Read message] Took 33965 us and 5434325 cycles
+I (392669) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (392669) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (392679) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (392689) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (392689) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (392699) BENCH: [Handshake] Took 308848 us and 21250778 cycles
+W (392709) LOOP COUNTER: Remaining handshakes for current pattern: 80
+I (392819) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (392819) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (392819) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (392829) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (392839) BENCH: [Write message] Took 10951 us and 1752178 cycles
+I (392849) ESP32_NOISE_TEST: Handshake message size: 64
+I (392849) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (392849) BENCH: [Zigbee Packet TX] Took 182 us and 29042 cycles
+I (392859) ESP32_NOISE_TEST: Sent first handshake message.
+I (393039) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (393049) ESP32_NOISE_TEST: Received APS Data Indication
+I (393049) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (393049) ESP32_NOISE_TEST: Processing handshake response...
+I (393059) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (393059) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (393099) BENCH: [Read message] Took 33967 us and 5434577 cycles
+I (393099) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (393099) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (393109) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (393119) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (393119) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (393129) BENCH: [Handshake] Took 306973 us and 21155307 cycles
+W (393139) LOOP COUNTER: Remaining handshakes for current pattern: 79
+I (393249) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (393249) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (393249) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (393259) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (393269) BENCH: [Write message] Took 10949 us and 1751830 cycles
+I (393279) ESP32_NOISE_TEST: Handshake message size: 64
+I (393279) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (393279) BENCH: [Zigbee Packet TX] Took 181 us and 29042 cycles
+I (393289) ESP32_NOISE_TEST: Sent first handshake message.
+I (393469) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (393479) ESP32_NOISE_TEST: Received APS Data Indication
+I (393479) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (393479) ESP32_NOISE_TEST: Processing handshake response...
+I (393489) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (393489) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (393529) BENCH: [Read message] Took 33960 us and 5433565 cycles
+I (393529) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (393529) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (393539) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (393549) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (393549) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (393559) BENCH: [Handshake] Took 306885 us and 21176591 cycles
+W (393569) LOOP COUNTER: Remaining handshakes for current pattern: 78
+I (393679) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (393679) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (393679) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (393689) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (393699) BENCH: [Write message] Took 10951 us and 1752182 cycles
+I (393709) ESP32_NOISE_TEST: Handshake message size: 64
+I (393709) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (393709) BENCH: [Zigbee Packet TX] Took 182 us and 29042 cycles
+I (393719) ESP32_NOISE_TEST: Sent first handshake message.
+I (393899) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (393909) ESP32_NOISE_TEST: Received APS Data Indication
+I (393909) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (393909) ESP32_NOISE_TEST: Processing handshake response...
+I (393919) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (393919) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (393959) BENCH: [Read message] Took 34020 us and 5443281 cycles
+I (393959) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (393959) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (393969) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (393979) BENCH: [Handshake split] Took 514 us and 82224 cycles
+I (393979) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (393989) BENCH: [Handshake] Took 306918 us and 21187599 cycles
+W (393999) LOOP COUNTER: Remaining handshakes for current pattern: 77
+I (394109) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (394109) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (394109) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (394119) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (394139) BENCH: [Write message] Took 11066 us and 1770566 cycles
+I (394139) ESP32_NOISE_TEST: Handshake message size: 64
+I (394139) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (394139) BENCH: [Zigbee Packet TX] Took 182 us and 29042 cycles
+I (394149) ESP32_NOISE_TEST: Sent first handshake message.
+I (394329) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (394339) ESP32_NOISE_TEST: Received APS Data Indication
+I (394339) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (394339) ESP32_NOISE_TEST: Processing handshake response...
+I (394349) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (394349) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (394389) BENCH: [Read message] Took 33963 us and 5434161 cycles
+I (394389) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (394389) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (394399) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (394409) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (394409) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (394419) BENCH: [Handshake] Took 306940 us and 21213715 cycles
+W (394429) LOOP COUNTER: Remaining handshakes for current pattern: 76
+I (394539) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (394539) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (394539) BENCH: [Handshake creation] Took 303 us and 48542 cycles
+W (394549) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (394559) BENCH: [Write message] Took 10950 us and 1751934 cycles
+I (394569) ESP32_NOISE_TEST: Handshake message size: 64
+I (394569) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (394569) BENCH: [Zigbee Packet TX] Took 180 us and 28930 cycles
+I (394579) ESP32_NOISE_TEST: Sent first handshake message.
+I (394769) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (394769) ESP32_NOISE_TEST: Received APS Data Indication
+I (394769) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (394769) ESP32_NOISE_TEST: Processing handshake response...
+I (394779) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (394789) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (394829) BENCH: [Read message] Took 33967 us and 5434689 cycles
+I (394829) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (394829) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (394829) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (394839) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (394849) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (394849) BENCH: [Handshake] Took 311061 us and 21171629 cycles
+W (394859) LOOP COUNTER: Remaining handshakes for current pattern: 75
+I (394979) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (394979) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (394979) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (394989) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (394999) BENCH: [Write message] Took 10951 us and 1752194 cycles
+I (395009) ESP32_NOISE_TEST: Handshake message size: 64
+I (395009) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (395009) BENCH: [Zigbee Packet TX] Took 181 us and 29026 cycles
+I (395019) ESP32_NOISE_TEST: Sent first handshake message.
+I (395209) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (395209) ESP32_NOISE_TEST: Received APS Data Indication
+I (395209) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (395209) ESP32_NOISE_TEST: Processing handshake response...
+I (395219) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (395229) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (395269) BENCH: [Read message] Took 33969 us and 5434917 cycles
+I (395269) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (395269) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (395269) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (395279) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (395289) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (395289) BENCH: [Handshake] Took 311104 us and 21151099 cycles
+W (395299) LOOP COUNTER: Remaining handshakes for current pattern: 74
+I (395419) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (395419) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (395419) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (395429) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (395439) BENCH: [Write message] Took 10951 us and 1752258 cycles
+I (395449) ESP32_NOISE_TEST: Handshake message size: 64
+I (395449) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (395449) BENCH: [Zigbee Packet TX] Took 181 us and 28934 cycles
+I (395459) ESP32_NOISE_TEST: Sent first handshake message.
+I (395639) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (395649) ESP32_NOISE_TEST: Received APS Data Indication
+I (395649) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (395649) ESP32_NOISE_TEST: Processing handshake response...
+I (395659) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (395659) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (395699) BENCH: [Read message] Took 33962 us and 5433905 cycles
+I (395699) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (395699) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (395709) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (395719) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (395719) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (395729) BENCH: [Handshake] Took 306954 us and 21205993 cycles
+W (395739) LOOP COUNTER: Remaining handshakes for current pattern: 73
+I (395849) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (395849) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (395849) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (395859) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (395869) BENCH: [Write message] Took 10950 us and 1751878 cycles
+I (395879) ESP32_NOISE_TEST: Handshake message size: 64
+I (395879) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (395879) BENCH: [Zigbee Packet TX] Took 182 us and 29114 cycles
+I (395889) ESP32_NOISE_TEST: Sent first handshake message.
+I (396069) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (396079) ESP32_NOISE_TEST: Received APS Data Indication
+I (396079) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (396079) ESP32_NOISE_TEST: Processing handshake response...
+I (396089) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (396089) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (396129) BENCH: [Read message] Took 33963 us and 5434069 cycles
+I (396129) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (396129) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (396139) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (396149) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (396149) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (396159) BENCH: [Handshake] Took 307172 us and 21174842 cycles
+W (396169) LOOP COUNTER: Remaining handshakes for current pattern: 72
+I (396279) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (396279) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (396279) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (396289) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (396299) BENCH: [Write message] Took 10949 us and 1751918 cycles
+I (396309) ESP32_NOISE_TEST: Handshake message size: 64
+I (396309) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (396309) BENCH: [Zigbee Packet TX] Took 182 us and 29098 cycles
+I (396319) ESP32_NOISE_TEST: Sent first handshake message.
+I (396509) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (396519) ESP32_NOISE_TEST: Received APS Data Indication
+I (396519) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (396519) ESP32_NOISE_TEST: Processing handshake response...
+I (396529) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (396529) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (396569) BENCH: [Read message] Took 33959 us and 5433401 cycles
+I (396569) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (396569) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (396579) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (396589) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (396589) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (396599) BENCH: [Handshake] Took 316767 us and 21270589 cycles
+W (396599) LOOP COUNTER: Remaining handshakes for current pattern: 71
+I (396719) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (396719) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (396719) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (396729) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (396739) BENCH: [Write message] Took 10952 us and 1752326 cycles
+I (396749) ESP32_NOISE_TEST: Handshake message size: 64
+I (396749) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (396749) BENCH: [Zigbee Packet TX] Took 181 us and 29078 cycles
+I (396759) ESP32_NOISE_TEST: Sent first handshake message.
+I (396949) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (396949) ESP32_NOISE_TEST: Received APS Data Indication
+I (396949) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (396949) ESP32_NOISE_TEST: Processing handshake response...
+I (396959) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (396969) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (397009) BENCH: [Read message] Took 33972 us and 5435573 cycles
+I (397009) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (397009) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (397009) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (397019) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (397029) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (397029) BENCH: [Handshake] Took 311121 us and 21212663 cycles
+W (397039) LOOP COUNTER: Remaining handshakes for current pattern: 70
+I (397159) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (397159) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (397159) BENCH: [Handshake creation] Took 305 us and 48734 cycles
+W (397169) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (397179) BENCH: [Write message] Took 10938 us and 1750218 cycles
+I (397189) ESP32_NOISE_TEST: Handshake message size: 64
+I (397189) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (397189) BENCH: [Zigbee Packet TX] Took 181 us and 28930 cycles
+I (397199) ESP32_NOISE_TEST: Sent first handshake message.
+I (397379) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (397389) ESP32_NOISE_TEST: Received APS Data Indication
+I (397389) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (397389) ESP32_NOISE_TEST: Processing handshake response...
+I (397399) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (397399) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (397439) BENCH: [Read message] Took 33962 us and 5433905 cycles
+I (397439) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (397439) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (397449) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (397459) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (397459) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (397469) BENCH: [Handshake] Took 306918 us and 21145453 cycles
+W (397479) LOOP COUNTER: Remaining handshakes for current pattern: 69
+I (397589) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (397589) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (397589) BENCH: [Handshake creation] Took 303 us and 48542 cycles
+W (397599) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (397609) BENCH: [Write message] Took 10939 us and 1750350 cycles
+I (397619) ESP32_NOISE_TEST: Handshake message size: 64
+I (397619) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (397619) BENCH: [Zigbee Packet TX] Took 181 us and 28930 cycles
+I (397629) ESP32_NOISE_TEST: Sent first handshake message.
+I (397809) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (397819) ESP32_NOISE_TEST: Received APS Data Indication
+I (397819) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (397819) ESP32_NOISE_TEST: Processing handshake response...
+I (397829) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (397829) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (397869) BENCH: [Read message] Took 33965 us and 5434325 cycles
+I (397869) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (397869) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (397879) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (397889) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (397889) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (397899) BENCH: [Handshake] Took 306879 us and 21149299 cycles
+W (397909) LOOP COUNTER: Remaining handshakes for current pattern: 68
+I (398019) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (398019) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (398019) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (398029) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (398039) BENCH: [Write message] Took 10950 us and 1752010 cycles
+I (398049) ESP32_NOISE_TEST: Handshake message size: 64
+I (398049) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (398049) BENCH: [Zigbee Packet TX] Took 181 us and 28990 cycles
+I (398059) ESP32_NOISE_TEST: Sent first handshake message.
+I (398239) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (398249) ESP32_NOISE_TEST: Received APS Data Indication
+I (398249) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (398249) ESP32_NOISE_TEST: Processing handshake response...
+I (398259) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (398259) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (398299) BENCH: [Read message] Took 33961 us and 5433733 cycles
+I (398299) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (398309) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (398309) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (398319) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (398319) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (398329) BENCH: [Handshake] Took 309569 us and 21188900 cycles
+W (398339) LOOP COUNTER: Remaining handshakes for current pattern: 67
+I (398449) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (398449) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (398449) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (398459) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (398479) BENCH: [Write message] Took 11111 us and 1777646 cycles
+I (398479) ESP32_NOISE_TEST: Handshake message size: 64
+I (398479) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (398479) BENCH: [Zigbee Packet TX] Took 181 us and 29006 cycles
+I (398489) ESP32_NOISE_TEST: Sent first handshake message.
+I (398669) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (398679) ESP32_NOISE_TEST: Received APS Data Indication
+I (398679) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (398679) ESP32_NOISE_TEST: Processing handshake response...
+I (398689) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (398689) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (398729) BENCH: [Read message] Took 33965 us and 5434409 cycles
+I (398729) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (398729) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (398739) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (398749) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (398749) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (398759) BENCH: [Handshake] Took 307011 us and 21212315 cycles
+W (398769) LOOP COUNTER: Remaining handshakes for current pattern: 66
+I (398879) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (398879) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (398879) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (398889) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (398899) BENCH: [Write message] Took 10950 us and 1751890 cycles
+I (398909) ESP32_NOISE_TEST: Handshake message size: 64
+I (398909) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (398909) BENCH: [Zigbee Packet TX] Took 181 us and 29042 cycles
+I (398919) ESP32_NOISE_TEST: Sent first handshake message.
+I (399099) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (399109) ESP32_NOISE_TEST: Received APS Data Indication
+I (399109) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (399109) ESP32_NOISE_TEST: Processing handshake response...
+I (399119) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (399119) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (399159) BENCH: [Read message] Took 33962 us and 5433901 cycles
+I (399159) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (399159) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (399169) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (399179) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (399179) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (399189) BENCH: [Handshake] Took 306958 us and 21152809 cycles
+W (399199) LOOP COUNTER: Remaining handshakes for current pattern: 65
+I (399309) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (399309) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (399309) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (399319) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (399329) BENCH: [Write message] Took 10949 us and 1751854 cycles
+I (399339) ESP32_NOISE_TEST: Handshake message size: 64
+I (399339) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (399339) BENCH: [Zigbee Packet TX] Took 181 us and 29042 cycles
+I (399349) ESP32_NOISE_TEST: Sent first handshake message.
+I (399529) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (399539) ESP32_NOISE_TEST: Received APS Data Indication
+I (399539) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (399539) ESP32_NOISE_TEST: Processing handshake response...
+I (399549) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (399549) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (399589) BENCH: [Read message] Took 33961 us and 5433901 cycles
+I (399589) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (399589) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (399599) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (399609) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (399609) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (399619) BENCH: [Handshake] Took 306953 us and 21177221 cycles
+W (399629) LOOP COUNTER: Remaining handshakes for current pattern: 64
+I (399739) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (399739) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (399739) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (399749) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (399759) BENCH: [Write message] Took 10952 us and 1752206 cycles
+I (399769) ESP32_NOISE_TEST: Handshake message size: 64
+I (399769) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (399769) BENCH: [Zigbee Packet TX] Took 181 us and 29042 cycles
+I (399779) ESP32_NOISE_TEST: Sent first handshake message.
+I (399959) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (399969) ESP32_NOISE_TEST: Received APS Data Indication
+I (399969) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (399969) ESP32_NOISE_TEST: Processing handshake response...
+I (399979) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (399979) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (400019) BENCH: [Read message] Took 33959 us and 5433401 cycles
+I (400019) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (400019) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (400029) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (400039) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (400039) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (400049) BENCH: [Handshake] Took 306866 us and 21179575 cycles
+W (400049) LOOP COUNTER: Remaining handshakes for current pattern: 63
+I (400169) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (400169) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (400169) BENCH: [Handshake creation] Took 305 us and 48734 cycles
+W (400179) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (400189) BENCH: [Write message] Took 10943 us and 1750854 cycles
+I (400199) ESP32_NOISE_TEST: Handshake message size: 64
+I (400199) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (400199) BENCH: [Zigbee Packet TX] Took 181 us and 28954 cycles
+I (400209) ESP32_NOISE_TEST: Sent first handshake message.
+I (400399) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (400409) ESP32_NOISE_TEST: Received APS Data Indication
+I (400409) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (400409) ESP32_NOISE_TEST: Processing handshake response...
+I (400409) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (400419) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (400459) BENCH: [Read message] Took 33961 us and 5433737 cycles
+I (400459) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (400459) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (400469) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (400479) BENCH: [Handshake split] Took 522 us and 83504 cycles
+I (400479) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (400489) BENCH: [Handshake] Took 315503 us and 21220526 cycles
+W (400489) LOOP COUNTER: Remaining handshakes for current pattern: 62
+I (400609) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (400609) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (400609) BENCH: [Handshake creation] Took 303 us and 48542 cycles
+W (400619) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (400629) BENCH: [Write message] Took 10956 us and 1753002 cycles
+I (400639) ESP32_NOISE_TEST: Handshake message size: 64
+I (400639) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (400639) BENCH: [Zigbee Packet TX] Took 181 us and 28970 cycles
+I (400649) ESP32_NOISE_TEST: Sent first handshake message.
+I (400849) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (400849) ESP32_NOISE_TEST: Received APS Data Indication
+I (400849) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (400849) ESP32_NOISE_TEST: Processing handshake response...
+I (400859) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (400869) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (400909) BENCH: [Read message] Took 33973 us and 5435777 cycles
+I (400909) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (400909) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (400909) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (400919) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (400929) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (400929) BENCH: [Handshake] Took 321336 us and 21176802 cycles
+W (400939) LOOP COUNTER: Remaining handshakes for current pattern: 61
+I (401059) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (401059) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (401059) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (401069) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (401079) BENCH: [Write message] Took 10950 us and 1752010 cycles
+I (401089) ESP32_NOISE_TEST: Handshake message size: 64
+I (401089) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (401089) BENCH: [Zigbee Packet TX] Took 181 us and 28930 cycles
+I (401099) ESP32_NOISE_TEST: Sent first handshake message.
+I (401279) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (401289) ESP32_NOISE_TEST: Received APS Data Indication
+I (401289) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (401289) ESP32_NOISE_TEST: Processing handshake response...
+I (401299) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (401299) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (401339) BENCH: [Read message] Took 33962 us and 5433985 cycles
+I (401339) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (401339) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (401349) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (401359) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (401359) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (401369) BENCH: [Handshake] Took 306883 us and 21145187 cycles
+W (401379) LOOP COUNTER: Remaining handshakes for current pattern: 60
+I (401489) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (401489) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (401489) BENCH: [Handshake creation] Took 303 us and 48542 cycles
+W (401499) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (401509) BENCH: [Write message] Took 10954 us and 1752698 cycles
+I (401519) ESP32_NOISE_TEST: Handshake message size: 64
+I (401519) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (401519) BENCH: [Zigbee Packet TX] Took 182 us and 29062 cycles
+I (401529) ESP32_NOISE_TEST: Sent first handshake message.
+I (401709) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (401719) ESP32_NOISE_TEST: Received APS Data Indication
+I (401719) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (401719) ESP32_NOISE_TEST: Processing handshake response...
+I (401729) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (401729) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (401769) BENCH: [Read message] Took 33963 us and 5434073 cycles
+I (401769) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (401769) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (401779) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (401789) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (401789) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (401799) BENCH: [Handshake] Took 306866 us and 21177407 cycles
+W (401809) LOOP COUNTER: Remaining handshakes for current pattern: 59
+I (401919) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (401919) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (401919) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (401929) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (401939) BENCH: [Write message] Took 10954 us and 1752670 cycles
+I (401949) ESP32_NOISE_TEST: Handshake message size: 64
+I (401949) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (401949) BENCH: [Zigbee Packet TX] Took 181 us and 29062 cycles
+I (401959) ESP32_NOISE_TEST: Sent first handshake message.
+I (402139) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (402149) ESP32_NOISE_TEST: Received APS Data Indication
+I (402149) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (402149) ESP32_NOISE_TEST: Processing handshake response...
+I (402159) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (402159) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (402199) BENCH: [Read message] Took 33959 us and 5433481 cycles
+I (402199) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (402199) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (402209) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (402219) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (402219) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (402229) BENCH: [Handshake] Took 307073 us and 21172759 cycles
+W (402239) LOOP COUNTER: Remaining handshakes for current pattern: 58
+I (402349) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (402349) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (402349) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (402359) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (402369) BENCH: [Write message] Took 10950 us and 1751914 cycles
+I (402379) ESP32_NOISE_TEST: Handshake message size: 64
+I (402379) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (402379) BENCH: [Zigbee Packet TX] Took 182 us and 29062 cycles
+I (402389) ESP32_NOISE_TEST: Sent first handshake message.
+I (402569) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (402579) ESP32_NOISE_TEST: Received APS Data Indication
+I (402579) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (402579) ESP32_NOISE_TEST: Processing handshake response...
+I (402589) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (402599) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (402629) BENCH: [Read message] Took 33960 us and 5433649 cycles
+I (402639) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (402639) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (402639) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (402649) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (402659) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (402659) BENCH: [Handshake] Took 310715 us and 20692507 cycles
+W (402669) LOOP COUNTER: Remaining handshakes for current pattern: 57
+I (402779) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (402779) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (402779) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (402789) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (402809) BENCH: [Write message] Took 10994 us and 1759041 cycles
+I (402809) ESP32_NOISE_TEST: Handshake message size: 64
+I (402809) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (402809) BENCH: [Zigbee Packet TX] Took 181 us and 29062 cycles
+I (402819) ESP32_NOISE_TEST: Sent first handshake message.
+I (402999) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (403009) ESP32_NOISE_TEST: Received APS Data Indication
+I (403009) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (403009) ESP32_NOISE_TEST: Processing handshake response...
+I (403019) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (403019) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (403059) BENCH: [Read message] Took 33960 us and 5433653 cycles
+I (403059) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (403059) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (403069) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (403079) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (403079) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (403089) BENCH: [Handshake] Took 307034 us and 21168091 cycles
+W (403099) LOOP COUNTER: Remaining handshakes for current pattern: 56
+I (403209) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (403209) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (403209) BENCH: [Handshake creation] Took 304 us and 48734 cycles
+W (403219) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (403229) BENCH: [Write message] Took 10943 us and 1750934 cycles
+I (403239) ESP32_NOISE_TEST: Handshake message size: 64
+I (403239) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (403239) BENCH: [Zigbee Packet TX] Took 181 us and 28930 cycles
+I (403249) ESP32_NOISE_TEST: Sent first handshake message.
+I (403429) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (403439) ESP32_NOISE_TEST: Received APS Data Indication
+I (403439) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (403439) ESP32_NOISE_TEST: Processing handshake response...
+I (403449) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (403449) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (403489) BENCH: [Read message] Took 34145 us and 5463201 cycles
+I (403489) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (403489) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (403499) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (403509) BENCH: [Handshake split] Took 514 us and 82220 cycles
+I (403509) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (403519) BENCH: [Handshake] Took 307155 us and 21180707 cycles
+W (403529) LOOP COUNTER: Remaining handshakes for current pattern: 55
+I (403639) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (403639) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (403639) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (403649) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (403659) BENCH: [Write message] Took 10949 us and 1751842 cycles
+I (403669) ESP32_NOISE_TEST: Handshake message size: 64
+I (403669) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (403669) BENCH: [Zigbee Packet TX] Took 181 us and 29026 cycles
+I (403679) ESP32_NOISE_TEST: Sent first handshake message.
+I (403859) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (403869) ESP32_NOISE_TEST: Received APS Data Indication
+I (403869) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (403869) ESP32_NOISE_TEST: Processing handshake response...
+I (403879) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (403879) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (403919) BENCH: [Read message] Took 33962 us and 5433817 cycles
+I (403919) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (403919) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (403929) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (403939) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (403939) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (403949) BENCH: [Handshake] Took 306885 us and 21151599 cycles
+W (403959) LOOP COUNTER: Remaining handshakes for current pattern: 54
+I (404069) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (404069) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (404069) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (404079) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (404089) BENCH: [Write message] Took 10951 us and 1752090 cycles
+I (404099) ESP32_NOISE_TEST: Handshake message size: 64
+I (404099) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (404099) BENCH: [Zigbee Packet TX] Took 181 us and 28934 cycles
+I (404109) ESP32_NOISE_TEST: Sent first handshake message.
+I (404289) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (404299) ESP32_NOISE_TEST: Received APS Data Indication
+I (404299) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (404299) ESP32_NOISE_TEST: Processing handshake response...
+I (404309) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (404309) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (404349) BENCH: [Read message] Took 33962 us and 5433901 cycles
+I (404349) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (404349) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (404359) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (404369) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (404369) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (404379) BENCH: [Handshake] Took 307247 us and 21168894 cycles
+W (404389) LOOP COUNTER: Remaining handshakes for current pattern: 53
+I (404499) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (404499) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (404499) BENCH: [Handshake creation] Took 303 us and 48542 cycles
+W (404509) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (404519) BENCH: [Write message] Took 10954 us and 1752718 cycles
+I (404529) ESP32_NOISE_TEST: Handshake message size: 64
+I (404529) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (404529) BENCH: [Zigbee Packet TX] Took 182 us and 29042 cycles
+I (404539) ESP32_NOISE_TEST: Sent first handshake message.
+I (404719) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (404739) ESP32_NOISE_TEST: Received APS Data Indication
+I (404739) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (404739) ESP32_NOISE_TEST: Processing handshake response...
+I (404739) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (404749) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (404789) BENCH: [Read message] Took 33973 us and 5435605 cycles
+I (404789) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (404789) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (404799) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (404799) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (404809) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (404819) BENCH: [Handshake] Took 313651 us and 20719277 cycles
+W (404819) LOOP COUNTER: Remaining handshakes for current pattern: 52
+I (404939) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (404939) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (404939) BENCH: [Handshake creation] Took 300 us and 47863 cycles
+W (404949) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (404959) BENCH: [Write message] Took 10950 us and 1752018 cycles
+I (404969) ESP32_NOISE_TEST: Handshake message size: 64
+I (404969) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (404969) BENCH: [Zigbee Packet TX] Took 181 us and 29042 cycles
+I (404979) ESP32_NOISE_TEST: Sent first handshake message.
+I (405159) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (405169) ESP32_NOISE_TEST: Received APS Data Indication
+I (405169) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (405169) ESP32_NOISE_TEST: Processing handshake response...
+I (405179) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (405179) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (405219) BENCH: [Read message] Took 33960 us and 5433481 cycles
+I (405219) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (405219) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (405229) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (405239) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (405239) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (405249) BENCH: [Handshake] Took 306934 us and 21143535 cycles
+W (405259) LOOP COUNTER: Remaining handshakes for current pattern: 51
+I (405369) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (405369) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (405369) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (405379) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (405389) BENCH: [Write message] Took 10951 us and 1752226 cycles
+I (405399) ESP32_NOISE_TEST: Handshake message size: 64
+I (405399) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (405399) BENCH: [Zigbee Packet TX] Took 182 us and 29042 cycles
+I (405409) ESP32_NOISE_TEST: Sent first handshake message.
+I (405589) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (405599) ESP32_NOISE_TEST: Received APS Data Indication
+I (405599) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (405599) ESP32_NOISE_TEST: Processing handshake response...
+I (405609) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (405609) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (405649) BENCH: [Read message] Took 33959 us and 5433401 cycles
+I (405649) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (405649) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (405659) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (405669) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (405669) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (405679) BENCH: [Handshake] Took 306954 us and 21173815 cycles
+W (405689) LOOP COUNTER: Remaining handshakes for current pattern: 50
+I (405799) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (405799) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (405799) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (405809) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (405819) BENCH: [Write message] Took 10952 us and 1752314 cycles
+I (405829) ESP32_NOISE_TEST: Handshake message size: 64
+I (405829) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (405829) BENCH: [Zigbee Packet TX] Took 181 us and 29042 cycles
+I (405839) ESP32_NOISE_TEST: Sent first handshake message.
+I (406029) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (406029) ESP32_NOISE_TEST: Received APS Data Indication
+I (406029) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (406039) ESP32_NOISE_TEST: Processing handshake response...
+I (406039) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (406049) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (406089) BENCH: [Read message] Took 33969 us and 5434969 cycles
+I (406089) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (406089) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (406099) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (406099) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (406109) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (406119) BENCH: [Handshake] Took 314427 us and 21223109 cycles
+W (406119) LOOP COUNTER: Remaining handshakes for current pattern: 49
+I (406239) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (406239) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (406239) BENCH: [Handshake creation] Took 304 us and 48734 cycles
+W (406249) BENCH: [Handshake start] Took 394 us and 62896 cycles
+W (406259) BENCH: [Write message] Took 10944 us and 1751002 cycles
+I (406269) ESP32_NOISE_TEST: Handshake message size: 64
+I (406269) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (406269) BENCH: [Zigbee Packet TX] Took 181 us and 28930 cycles
+I (406279) ESP32_NOISE_TEST: Sent first handshake message.
+I (406459) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (406479) ESP32_NOISE_TEST: Received APS Data Indication
+I (406479) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (406479) ESP32_NOISE_TEST: Processing handshake response...
+I (406479) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (406489) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (406529) BENCH: [Read message] Took 33969 us and 5435005 cycles
+I (406529) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (406529) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (406529) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (406539) BENCH: [Handshake split] Took 510 us and 81548 cycles
+I (406549) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (406549) BENCH: [Handshake] Took 311848 us and 20704915 cycles
+W (406559) LOOP COUNTER: Remaining handshakes for current pattern: 48
+I (406679) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (406679) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (406679) BENCH: [Handshake creation] Took 301 us and 48206 cycles
+W (406689) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (406699) BENCH: [Write message] Took 10951 us and 1752242 cycles
+I (406709) ESP32_NOISE_TEST: Handshake message size: 64
+I (406709) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (406709) BENCH: [Zigbee Packet TX] Took 181 us and 28990 cycles
+I (406719) ESP32_NOISE_TEST: Sent first handshake message.
+I (406899) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (406909) ESP32_NOISE_TEST: Received APS Data Indication
+I (406909) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (406909) ESP32_NOISE_TEST: Processing handshake response...
+I (406919) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (406919) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (406959) BENCH: [Read message] Took 33967 us and 5434745 cycles
+I (406959) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (406959) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (406969) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (406979) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (406979) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (406989) BENCH: [Handshake] Took 306975 us and 21283886 cycles
+W (406999) LOOP COUNTER: Remaining handshakes for current pattern: 47
+I (407109) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (407109) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (407109) BENCH: [Handshake creation] Took 301 us and 48206 cycles
+W (407119) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (407129) BENCH: [Write message] Took 10942 us and 1750714 cycles
+I (407139) ESP32_NOISE_TEST: Handshake message size: 64
+I (407139) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (407139) BENCH: [Zigbee Packet TX] Took 182 us and 29006 cycles
+I (407149) ESP32_NOISE_TEST: Sent first handshake message.
+I (407329) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (407339) ESP32_NOISE_TEST: Received APS Data Indication
+I (407339) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (407339) ESP32_NOISE_TEST: Processing handshake response...
+I (407349) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (407349) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (407389) BENCH: [Read message] Took 33962 us and 5433817 cycles
+I (407389) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (407389) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (407399) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (407409) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (407409) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (407419) BENCH: [Handshake] Took 306881 us and 21145703 cycles
+W (407429) LOOP COUNTER: Remaining handshakes for current pattern: 46
+I (407539) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (407539) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (407539) BENCH: [Handshake creation] Took 303 us and 48542 cycles
+W (407549) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (407559) BENCH: [Write message] Took 10954 us and 1752618 cycles
+I (407569) ESP32_NOISE_TEST: Handshake message size: 64
+I (407569) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (407569) BENCH: [Zigbee Packet TX] Took 181 us and 29062 cycles
+I (407579) ESP32_NOISE_TEST: Sent first handshake message.
+I (407759) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (407769) ESP32_NOISE_TEST: Received APS Data Indication
+I (407769) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (407769) ESP32_NOISE_TEST: Processing handshake response...
+I (407779) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (407779) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (407819) BENCH: [Read message] Took 33962 us and 5433905 cycles
+I (407819) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (407819) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (407829) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (407839) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (407839) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (407849) BENCH: [Handshake] Took 306854 us and 21177099 cycles
+W (407849) LOOP COUNTER: Remaining handshakes for current pattern: 45
+I (407969) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (407969) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (407969) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (407979) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (407989) BENCH: [Write message] Took 10948 us and 1751658 cycles
+I (407999) ESP32_NOISE_TEST: Handshake message size: 64
+I (407999) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (407999) BENCH: [Zigbee Packet TX] Took 181 us and 29062 cycles
+I (408009) ESP32_NOISE_TEST: Sent first handshake message.
+I (408189) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (408199) ESP32_NOISE_TEST: Received APS Data Indication
+I (408199) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (408199) ESP32_NOISE_TEST: Processing handshake response...
+I (408209) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (408209) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (408249) BENCH: [Read message] Took 34013 us and 5441957 cycles
+I (408249) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (408249) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (408259) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (408269) BENCH: [Handshake split] Took 514 us and 82224 cycles
+I (408269) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (408279) BENCH: [Handshake] Took 307099 us and 21169715 cycles
+W (408289) LOOP COUNTER: Remaining handshakes for current pattern: 44
+I (408399) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (408399) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (408399) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (408409) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (408419) BENCH: [Write message] Took 10949 us and 1751918 cycles
+I (408429) ESP32_NOISE_TEST: Handshake message size: 64
+I (408429) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (408429) BENCH: [Zigbee Packet TX] Took 182 us and 29062 cycles
+I (408439) ESP32_NOISE_TEST: Sent first handshake message.
+I (408619) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (408629) ESP32_NOISE_TEST: Received APS Data Indication
+I (408629) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (408629) ESP32_NOISE_TEST: Processing handshake response...
+I (408639) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (408639) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (408679) BENCH: [Read message] Took 33960 us and 5433733 cycles
+I (408679) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (408679) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (408689) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (408699) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (408699) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (408709) BENCH: [Handshake] Took 306885 us and 21175065 cycles
+W (408719) LOOP COUNTER: Remaining handshakes for current pattern: 43
+I (408829) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (408829) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (408829) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (408839) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (408849) BENCH: [Write message] Took 10951 us and 1752182 cycles
+I (408859) ESP32_NOISE_TEST: Handshake message size: 64
+I (408859) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (408859) BENCH: [Zigbee Packet TX] Took 182 us and 29062 cycles
+I (408869) ESP32_NOISE_TEST: Sent first handshake message.
+I (409049) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (409059) ESP32_NOISE_TEST: Received APS Data Indication
+I (409059) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (409059) ESP32_NOISE_TEST: Processing handshake response...
+I (409069) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (409069) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (409109) BENCH: [Read message] Took 33964 us and 5434153 cycles
+I (409109) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (409109) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (409119) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (409129) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (409129) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (409139) BENCH: [Handshake] Took 306860 us and 21178319 cycles
+W (409139) LOOP COUNTER: Remaining handshakes for current pattern: 42
+I (409259) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (409259) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (409259) BENCH: [Handshake creation] Took 305 us and 48734 cycles
+W (409269) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (409279) BENCH: [Write message] Took 10943 us and 1750870 cycles
+I (409289) ESP32_NOISE_TEST: Handshake message size: 64
+I (409289) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (409289) BENCH: [Zigbee Packet TX] Took 181 us and 28970 cycles
+I (409299) ESP32_NOISE_TEST: Sent first handshake message.
+I (409479) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (409499) ESP32_NOISE_TEST: Received APS Data Indication
+I (409499) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (409499) ESP32_NOISE_TEST: Processing handshake response...
+I (409499) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (409509) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (409549) BENCH: [Read message] Took 33964 us and 5434257 cycles
+I (409549) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (409549) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (409559) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (409559) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (409569) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (409579) BENCH: [Handshake] Took 313768 us and 20693442 cycles
+W (409579) LOOP COUNTER: Remaining handshakes for current pattern: 41
+I (409699) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (409699) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (409699) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (409709) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (409719) BENCH: [Write message] Took 10951 us and 1752254 cycles
+I (409729) ESP32_NOISE_TEST: Handshake message size: 64
+I (409729) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (409729) BENCH: [Zigbee Packet TX] Took 181 us and 28930 cycles
+I (409739) ESP32_NOISE_TEST: Sent first handshake message.
+I (409919) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (409929) ESP32_NOISE_TEST: Received APS Data Indication
+I (409929) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (409929) ESP32_NOISE_TEST: Processing handshake response...
+I (409939) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (409939) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (409979) BENCH: [Read message] Took 33961 us and 5433821 cycles
+I (409979) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (409979) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (409989) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (409999) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (409999) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (410009) BENCH: [Handshake] Took 306909 us and 21186263 cycles
+W (410019) LOOP COUNTER: Remaining handshakes for current pattern: 40
+I (410129) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (410129) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (410129) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (410139) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (410149) BENCH: [Write message] Took 10949 us and 1751918 cycles
+I (410159) ESP32_NOISE_TEST: Handshake message size: 64
+I (410159) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (410159) BENCH: [Zigbee Packet TX] Took 181 us and 28930 cycles
+I (410169) ESP32_NOISE_TEST: Sent first handshake message.
+I (410349) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (410369) ESP32_NOISE_TEST: Received APS Data Indication
+I (410369) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (410369) ESP32_NOISE_TEST: Processing handshake response...
+I (410369) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (410379) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (410419) BENCH: [Read message] Took 33964 us and 5434237 cycles
+I (410419) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (410419) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (410429) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (410429) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (410439) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (410449) BENCH: [Handshake] Took 314214 us and 20689352 cycles
+W (410449) LOOP COUNTER: Remaining handshakes for current pattern: 39
+I (410569) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (410569) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (410569) BENCH: [Handshake creation] Took 303 us and 48542 cycles
+W (410579) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (410589) BENCH: [Write message] Took 10954 us and 1752718 cycles
+I (410599) ESP32_NOISE_TEST: Handshake message size: 64
+I (410599) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (410599) BENCH: [Zigbee Packet TX] Took 182 us and 29042 cycles
+I (410609) ESP32_NOISE_TEST: Sent first handshake message.
+I (410789) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (410799) ESP32_NOISE_TEST: Received APS Data Indication
+I (410799) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (410799) ESP32_NOISE_TEST: Processing handshake response...
+I (410809) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (410809) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (410849) BENCH: [Read message] Took 33963 us and 5434069 cycles
+I (410849) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (410849) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (410859) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (410869) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (410869) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (410879) BENCH: [Handshake] Took 306941 us and 21178783 cycles
+W (410889) LOOP COUNTER: Remaining handshakes for current pattern: 38
+I (410999) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (410999) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (410999) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (411009) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (411019) BENCH: [Write message] Took 10948 us and 1751674 cycles
+I (411029) ESP32_NOISE_TEST: Handshake message size: 64
+I (411029) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (411029) BENCH: [Zigbee Packet TX] Took 181 us and 29042 cycles
+I (411039) ESP32_NOISE_TEST: Sent first handshake message.
+I (411219) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (411229) ESP32_NOISE_TEST: Received APS Data Indication
+I (411229) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (411229) ESP32_NOISE_TEST: Processing handshake response...
+I (411239) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (411239) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (411279) BENCH: [Read message] Took 33963 us and 5434073 cycles
+I (411279) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (411279) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (411289) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (411299) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (411299) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (411309) BENCH: [Handshake] Took 306943 us and 21146845 cycles
+W (411319) LOOP COUNTER: Remaining handshakes for current pattern: 37
+I (411429) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (411429) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (411429) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (411439) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (411449) BENCH: [Write message] Took 10952 us and 1752182 cycles
+I (411459) ESP32_NOISE_TEST: Handshake message size: 64
+I (411459) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (411459) BENCH: [Zigbee Packet TX] Took 181 us and 29042 cycles
+I (411469) ESP32_NOISE_TEST: Sent first handshake message.
+I (411649) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (411659) ESP32_NOISE_TEST: Received APS Data Indication
+I (411659) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (411659) ESP32_NOISE_TEST: Processing handshake response...
+I (411669) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (411669) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (411709) BENCH: [Read message] Took 33963 us and 5433985 cycles
+I (411709) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (411709) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (411719) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (411729) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (411729) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (411739) BENCH: [Handshake] Took 306868 us and 21146855 cycles
+W (411749) LOOP COUNTER: Remaining handshakes for current pattern: 36
+I (411859) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (411859) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (411859) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (411869) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (411879) BENCH: [Write message] Took 10952 us and 1752302 cycles
+I (411889) ESP32_NOISE_TEST: Handshake message size: 64
+I (411889) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (411889) BENCH: [Zigbee Packet TX] Took 181 us and 29042 cycles
+I (411899) ESP32_NOISE_TEST: Sent first handshake message.
+I (412079) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (412089) ESP32_NOISE_TEST: Received APS Data Indication
+I (412089) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (412089) ESP32_NOISE_TEST: Processing handshake response...
+I (412099) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (412099) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (412139) BENCH: [Read message] Took 33959 us and 5433485 cycles
+I (412139) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (412139) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (412149) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (412159) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (412159) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (412169) BENCH: [Handshake] Took 307070 us and 21207223 cycles
+W (412179) LOOP COUNTER: Remaining handshakes for current pattern: 35
+I (412289) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (412289) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (412289) BENCH: [Handshake creation] Took 304 us and 48734 cycles
+W (412299) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (412309) BENCH: [Write message] Took 10939 us and 1750190 cycles
+I (412319) ESP32_NOISE_TEST: Handshake message size: 64
+I (412319) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (412319) BENCH: [Zigbee Packet TX] Took 182 us and 29026 cycles
+I (412329) ESP32_NOISE_TEST: Sent first handshake message.
+I (412509) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (412519) ESP32_NOISE_TEST: Received APS Data Indication
+I (412519) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (412519) ESP32_NOISE_TEST: Processing handshake response...
+I (412529) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (412529) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (412569) BENCH: [Read message] Took 33964 us and 5434321 cycles
+I (412569) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (412569) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (412579) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (412589) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (412589) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (412599) BENCH: [Handshake] Took 306906 us and 21191653 cycles
+W (412609) LOOP COUNTER: Remaining handshakes for current pattern: 34
+I (412719) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (412719) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (412719) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (412729) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (412739) BENCH: [Write message] Took 10948 us and 1751814 cycles
+I (412749) ESP32_NOISE_TEST: Handshake message size: 64
+I (412749) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (412749) BENCH: [Zigbee Packet TX] Took 181 us and 28934 cycles
+I (412759) ESP32_NOISE_TEST: Sent first handshake message.
+I (412939) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (412949) ESP32_NOISE_TEST: Received APS Data Indication
+I (412949) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (412949) ESP32_NOISE_TEST: Processing handshake response...
+I (412959) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (412959) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (412999) BENCH: [Read message] Took 33962 us and 5433985 cycles
+I (412999) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (412999) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (413009) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (413019) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (413019) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (413029) BENCH: [Handshake] Took 306952 us and 21171707 cycles
+W (413039) LOOP COUNTER: Remaining handshakes for current pattern: 33
+I (413149) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (413149) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (413149) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (413159) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (413169) BENCH: [Write message] Took 10949 us and 1751878 cycles
+I (413179) ESP32_NOISE_TEST: Handshake message size: 64
+I (413179) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (413179) BENCH: [Zigbee Packet TX] Took 181 us and 28954 cycles
+I (413189) ESP32_NOISE_TEST: Sent first handshake message.
+I (413369) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (413379) ESP32_NOISE_TEST: Received APS Data Indication
+I (413379) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (413379) ESP32_NOISE_TEST: Processing handshake response...
+I (413389) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (413389) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (413429) BENCH: [Read message] Took 33961 us and 5433817 cycles
+I (413429) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (413429) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (413439) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (413449) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (413449) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (413459) BENCH: [Handshake] Took 306933 us and 21144883 cycles
+W (413469) LOOP COUNTER: Remaining handshakes for current pattern: 32
+I (413579) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (413579) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (413579) BENCH: [Handshake creation] Took 303 us and 48542 cycles
+W (413589) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (413599) BENCH: [Write message] Took 10952 us and 1752366 cycles
+I (413609) ESP32_NOISE_TEST: Handshake message size: 64
+I (413609) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (413609) BENCH: [Zigbee Packet TX] Took 182 us and 29062 cycles
+I (413619) ESP32_NOISE_TEST: Sent first handshake message.
+I (413799) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (413809) ESP32_NOISE_TEST: Received APS Data Indication
+I (413809) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (413809) ESP32_NOISE_TEST: Processing handshake response...
+I (413819) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (413819) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (413859) BENCH: [Read message] Took 33963 us and 5434157 cycles
+I (413859) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (413859) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (413869) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (413879) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (413879) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (413889) BENCH: [Handshake] Took 306867 us and 21177127 cycles
+W (413899) LOOP COUNTER: Remaining handshakes for current pattern: 31
+I (414009) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (414009) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (414009) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (414019) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (414029) BENCH: [Write message] Took 10948 us and 1751694 cycles
+I (414039) ESP32_NOISE_TEST: Handshake message size: 64
+I (414039) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (414039) BENCH: [Zigbee Packet TX] Took 182 us and 29062 cycles
+I (414049) ESP32_NOISE_TEST: Sent first handshake message.
+I (414229) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (414239) ESP32_NOISE_TEST: Received APS Data Indication
+I (414239) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (414239) ESP32_NOISE_TEST: Processing handshake response...
+I (414249) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (414249) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (414289) BENCH: [Read message] Took 33965 us and 5434489 cycles
+I (414289) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (414289) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (414299) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (414309) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (414309) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (414319) BENCH: [Handshake] Took 306896 us and 21145375 cycles
+W (414329) LOOP COUNTER: Remaining handshakes for current pattern: 30
+I (414439) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (414439) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (414439) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (414449) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (414459) BENCH: [Write message] Took 10952 us and 1752466 cycles
+I (414469) ESP32_NOISE_TEST: Handshake message size: 64
+I (414469) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (414469) BENCH: [Zigbee Packet TX] Took 182 us and 29062 cycles
+I (414479) ESP32_NOISE_TEST: Sent first handshake message.
+I (414659) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (414669) ESP32_NOISE_TEST: Received APS Data Indication
+I (414669) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (414669) ESP32_NOISE_TEST: Processing handshake response...
+I (414679) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (414679) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (414719) BENCH: [Read message] Took 33959 us and 5433481 cycles
+I (414719) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (414719) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (414729) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (414739) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (414739) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (414749) BENCH: [Handshake] Took 306939 us and 21144995 cycles
+W (414759) LOOP COUNTER: Remaining handshakes for current pattern: 29
+I (414869) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (414869) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (414869) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (414879) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (414889) BENCH: [Write message] Took 10953 us and 1752498 cycles
+I (414899) ESP32_NOISE_TEST: Handshake message size: 64
+I (414899) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (414899) BENCH: [Zigbee Packet TX] Took 182 us and 29062 cycles
+I (414909) ESP32_NOISE_TEST: Sent first handshake message.
+I (415089) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (415099) ESP32_NOISE_TEST: Received APS Data Indication
+I (415099) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (415099) ESP32_NOISE_TEST: Processing handshake response...
+I (415109) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (415109) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (415149) BENCH: [Read message] Took 33965 us and 5434409 cycles
+I (415149) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (415149) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (415159) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (415169) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (415169) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (415179) BENCH: [Handshake] Took 306934 us and 21179315 cycles
+W (415189) LOOP COUNTER: Remaining handshakes for current pattern: 28
+I (415299) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (415299) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (415299) BENCH: [Handshake creation] Took 305 us and 48734 cycles
+W (415309) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (415319) BENCH: [Write message] Took 10940 us and 1750550 cycles
+I (415329) ESP32_NOISE_TEST: Handshake message size: 64
+I (415329) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (415329) BENCH: [Zigbee Packet TX] Took 181 us and 28990 cycles
+I (415339) ESP32_NOISE_TEST: Sent first handshake message.
+I (415519) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (415529) ESP32_NOISE_TEST: Received APS Data Indication
+I (415529) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (415529) ESP32_NOISE_TEST: Processing handshake response...
+I (415539) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (415539) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (415579) BENCH: [Read message] Took 33959 us and 5433565 cycles
+I (415579) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (415579) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (415589) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (415599) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (415599) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (415609) BENCH: [Handshake] Took 306928 us and 21174717 cycles
+W (415619) LOOP COUNTER: Remaining handshakes for current pattern: 27
+I (415729) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (415729) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (415729) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (415739) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (415749) BENCH: [Write message] Took 10953 us and 1752474 cycles
+I (415759) ESP32_NOISE_TEST: Handshake message size: 64
+I (415759) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (415759) BENCH: [Zigbee Packet TX] Took 182 us and 29006 cycles
+I (415769) ESP32_NOISE_TEST: Sent first handshake message.
+I (415949) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (415959) ESP32_NOISE_TEST: Received APS Data Indication
+I (415959) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (415959) ESP32_NOISE_TEST: Processing handshake response...
+I (415969) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (415969) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (416009) BENCH: [Read message] Took 33965 us and 5434409 cycles
+I (416009) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (416009) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (416019) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (416029) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (416029) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (416039) BENCH: [Handshake] Took 306968 us and 21153855 cycles
+W (416049) LOOP COUNTER: Remaining handshakes for current pattern: 26
+I (416159) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (416159) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (416159) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (416169) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (416179) BENCH: [Write message] Took 10951 us and 1752118 cycles
+I (416189) ESP32_NOISE_TEST: Handshake message size: 64
+I (416189) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (416189) BENCH: [Zigbee Packet TX] Took 181 us and 28930 cycles
+I (416199) ESP32_NOISE_TEST: Sent first handshake message.
+I (416379) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (416389) ESP32_NOISE_TEST: Received APS Data Indication
+I (416389) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (416389) ESP32_NOISE_TEST: Processing handshake response...
+I (416399) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (416399) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (416439) BENCH: [Read message] Took 33958 us and 5433313 cycles
+I (416439) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (416439) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (416449) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (416459) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (416459) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (416469) BENCH: [Handshake] Took 306846 us and 21143447 cycles
+W (416469) LOOP COUNTER: Remaining handshakes for current pattern: 25
+I (416589) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (416589) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (416589) BENCH: [Handshake creation] Took 303 us and 48542 cycles
+W (416599) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (416609) BENCH: [Write message] Took 10955 us and 1752786 cycles
+I (416619) ESP32_NOISE_TEST: Handshake message size: 64
+I (416619) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (416619) BENCH: [Zigbee Packet TX] Took 182 us and 29042 cycles
+I (416629) ESP32_NOISE_TEST: Sent first handshake message.
+I (416809) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (416819) ESP32_NOISE_TEST: Received APS Data Indication
+I (416819) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (416819) ESP32_NOISE_TEST: Processing handshake response...
+I (416829) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (416829) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (416869) BENCH: [Read message] Took 33961 us and 5433821 cycles
+I (416869) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (416869) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (416879) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (416889) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (416889) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (416899) BENCH: [Handshake] Took 306866 us and 21176651 cycles
+W (416909) LOOP COUNTER: Remaining handshakes for current pattern: 24
+I (417019) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (417019) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (417019) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (417029) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (417039) BENCH: [Write message] Took 10952 us and 1752370 cycles
+I (417049) ESP32_NOISE_TEST: Handshake message size: 64
+I (417049) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (417049) BENCH: [Zigbee Packet TX] Took 182 us and 29042 cycles
+I (417059) ESP32_NOISE_TEST: Sent first handshake message.
+I (417239) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (417249) ESP32_NOISE_TEST: Received APS Data Indication
+I (417249) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (417249) ESP32_NOISE_TEST: Processing handshake response...
+I (417259) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (417259) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (417299) BENCH: [Read message] Took 33960 us and 5433565 cycles
+I (417299) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (417299) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (417309) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (417319) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (417319) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (417329) BENCH: [Handshake] Took 306982 us and 21151487 cycles
+W (417339) LOOP COUNTER: Remaining handshakes for current pattern: 23
+I (417449) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (417449) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (417449) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (417459) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (417479) BENCH: [Write message] Took 11109 us and 1777374 cycles
+I (417479) ESP32_NOISE_TEST: Handshake message size: 64
+I (417479) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (417479) BENCH: [Zigbee Packet TX] Took 182 us and 29042 cycles
+I (417489) ESP32_NOISE_TEST: Sent first handshake message.
+I (417669) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (417679) ESP32_NOISE_TEST: Received APS Data Indication
+I (417679) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (417679) ESP32_NOISE_TEST: Processing handshake response...
+I (417689) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (417689) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (417729) BENCH: [Read message] Took 33959 us and 5433481 cycles
+I (417729) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (417729) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (417739) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (417749) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (417749) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (417759) BENCH: [Handshake] Took 307001 us and 21178125 cycles
+W (417769) LOOP COUNTER: Remaining handshakes for current pattern: 22
+I (417879) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (417879) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (417879) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (417889) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (417899) BENCH: [Write message] Took 10952 us and 1752346 cycles
+I (417909) ESP32_NOISE_TEST: Handshake message size: 64
+I (417909) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (417909) BENCH: [Zigbee Packet TX] Took 181 us and 29042 cycles
+I (417919) ESP32_NOISE_TEST: Sent first handshake message.
+I (418099) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (418109) ESP32_NOISE_TEST: Received APS Data Indication
+I (418109) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (418109) ESP32_NOISE_TEST: Processing handshake response...
+I (418119) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (418119) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (418159) BENCH: [Read message] Took 33961 us and 5433769 cycles
+I (418159) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (418159) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (418169) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (418179) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (418179) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (418189) BENCH: [Handshake] Took 307303 us and 21173694 cycles
+W (418199) LOOP COUNTER: Remaining handshakes for current pattern: 21
+I (418309) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (418309) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (418309) BENCH: [Handshake creation] Took 304 us and 48734 cycles
+W (418319) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (418329) BENCH: [Write message] Took 10944 us and 1750946 cycles
+I (418339) ESP32_NOISE_TEST: Handshake message size: 64
+I (418339) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (418339) BENCH: [Zigbee Packet TX] Took 181 us and 28930 cycles
+I (418349) ESP32_NOISE_TEST: Sent first handshake message.
+I (418529) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (418539) ESP32_NOISE_TEST: Received APS Data Indication
+I (418539) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (418539) ESP32_NOISE_TEST: Processing handshake response...
+I (418549) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (418549) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (418589) BENCH: [Read message] Took 33960 us and 5433649 cycles
+I (418589) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (418589) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (418599) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (418609) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (418609) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (418619) BENCH: [Handshake] Took 306948 us and 21173969 cycles
+W (418629) LOOP COUNTER: Remaining handshakes for current pattern: 20
+I (418739) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (418739) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (418739) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (418749) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (418759) BENCH: [Write message] Took 10952 us and 1752210 cycles
+I (418769) ESP32_NOISE_TEST: Handshake message size: 64
+I (418769) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (418769) BENCH: [Zigbee Packet TX] Took 181 us and 28930 cycles
+I (418779) ESP32_NOISE_TEST: Sent first handshake message.
+I (418959) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (418969) ESP32_NOISE_TEST: Received APS Data Indication
+I (418969) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (418969) ESP32_NOISE_TEST: Processing handshake response...
+I (418979) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (418979) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (419019) BENCH: [Read message] Took 33962 us and 5433905 cycles
+I (419019) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (419019) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (419029) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (419039) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (419039) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (419049) BENCH: [Handshake] Took 306897 us and 21149931 cycles
+W (419059) LOOP COUNTER: Remaining handshakes for current pattern: 19
+I (419169) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (419169) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (419169) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (419179) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (419189) BENCH: [Write message] Took 10950 us and 1751862 cycles
+I (419199) ESP32_NOISE_TEST: Handshake message size: 64
+I (419199) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (419199) BENCH: [Zigbee Packet TX] Took 180 us and 28930 cycles
+I (419209) ESP32_NOISE_TEST: Sent first handshake message.
+I (419389) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (419399) ESP32_NOISE_TEST: Received APS Data Indication
+I (419399) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (419399) ESP32_NOISE_TEST: Processing handshake response...
+I (419409) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (419409) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (419449) BENCH: [Read message] Took 33963 us and 5434153 cycles
+I (419449) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (419449) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (419459) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (419469) BENCH: [Handshake split] Took 638 us and 102100 cycles
+I (419469) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (419479) BENCH: [Handshake] Took 307020 us and 21158647 cycles
+W (419489) LOOP COUNTER: Remaining handshakes for current pattern: 18
+I (419599) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (419599) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (419599) BENCH: [Handshake creation] Took 303 us and 48542 cycles
+W (419609) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (419619) BENCH: [Write message] Took 10954 us and 1752682 cycles
+I (419629) ESP32_NOISE_TEST: Handshake message size: 64
+I (419629) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (419629) BENCH: [Zigbee Packet TX] Took 182 us and 29062 cycles
+I (419639) ESP32_NOISE_TEST: Sent first handshake message.
+I (419819) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (419829) ESP32_NOISE_TEST: Received APS Data Indication
+I (419829) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (419829) ESP32_NOISE_TEST: Processing handshake response...
+I (419839) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (419839) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (419879) BENCH: [Read message] Took 33966 us and 5434577 cycles
+I (419879) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (419879) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (419889) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (419899) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (419899) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (419909) BENCH: [Handshake] Took 306865 us and 21180135 cycles
+W (419919) LOOP COUNTER: Remaining handshakes for current pattern: 17
+I (420029) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (420029) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (420029) BENCH: [Handshake creation] Took 300 us and 47863 cycles
+W (420039) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (420049) BENCH: [Write message] Took 10950 us and 1751922 cycles
+I (420059) ESP32_NOISE_TEST: Handshake message size: 64
+I (420059) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (420059) BENCH: [Zigbee Packet TX] Took 181 us and 29062 cycles
+I (420069) ESP32_NOISE_TEST: Sent first handshake message.
+I (420249) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (420259) ESP32_NOISE_TEST: Received APS Data Indication
+I (420259) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (420259) ESP32_NOISE_TEST: Processing handshake response...
+I (420269) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (420269) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (420309) BENCH: [Read message] Took 33965 us and 5434405 cycles
+I (420309) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (420309) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (420319) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (420329) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (420329) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (420339) BENCH: [Handshake] Took 306874 us and 21144655 cycles
+W (420349) LOOP COUNTER: Remaining handshakes for current pattern: 16
+I (420459) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (420459) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (420459) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (420469) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (420489) BENCH: [Write message] Took 10970 us and 1755222 cycles
+I (420489) ESP32_NOISE_TEST: Handshake message size: 64
+I (420489) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (420489) BENCH: [Zigbee Packet TX] Took 182 us and 29062 cycles
+I (420499) ESP32_NOISE_TEST: Sent first handshake message.
+I (420679) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (420689) ESP32_NOISE_TEST: Received APS Data Indication
+I (420689) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (420689) ESP32_NOISE_TEST: Processing handshake response...
+I (420699) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (420699) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (420739) BENCH: [Read message] Took 33962 us and 5433901 cycles
+I (420739) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (420739) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (420749) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (420759) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (420759) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (420769) BENCH: [Handshake] Took 307091 us and 21191923 cycles
+W (420779) LOOP COUNTER: Remaining handshakes for current pattern: 15
+I (420889) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (420889) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (420889) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (420899) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (420909) BENCH: [Write message] Took 10952 us and 1752314 cycles
+I (420919) ESP32_NOISE_TEST: Handshake message size: 64
+I (420919) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (420919) BENCH: [Zigbee Packet TX] Took 181 us and 29062 cycles
+I (420929) ESP32_NOISE_TEST: Sent first handshake message.
+I (421109) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (421119) ESP32_NOISE_TEST: Received APS Data Indication
+I (421119) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (421119) ESP32_NOISE_TEST: Processing handshake response...
+I (421129) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (421129) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (421169) BENCH: [Read message] Took 33962 us and 5433941 cycles
+I (421169) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (421169) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (421179) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (421189) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (421189) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (421199) BENCH: [Handshake] Took 307906 us and 21168502 cycles
+W (421209) LOOP COUNTER: Remaining handshakes for current pattern: 14
+I (421319) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (421319) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (421319) BENCH: [Handshake creation] Took 306 us and 49078 cycles
+W (421329) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (421339) BENCH: [Write message] Took 10933 us and 1749330 cycles
+I (421349) ESP32_NOISE_TEST: Handshake message size: 64
+I (421349) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (421349) BENCH: [Zigbee Packet TX] Took 181 us and 28934 cycles
+I (421359) ESP32_NOISE_TEST: Sent first handshake message.
+I (421539) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (421549) ESP32_NOISE_TEST: Received APS Data Indication
+I (421549) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (421549) ESP32_NOISE_TEST: Processing handshake response...
+I (421559) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (421559) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (421599) BENCH: [Read message] Took 33961 us and 5433733 cycles
+I (421599) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (421599) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (421609) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (421619) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (421619) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (421629) BENCH: [Handshake] Took 306902 us and 21174455 cycles
+W (421639) LOOP COUNTER: Remaining handshakes for current pattern: 13
+I (421749) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (421749) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (421749) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (421759) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (421769) BENCH: [Write message] Took 10953 us and 1752470 cycles
+I (421779) ESP32_NOISE_TEST: Handshake message size: 64
+I (421779) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (421779) BENCH: [Zigbee Packet TX] Took 180 us and 28954 cycles
+I (421789) ESP32_NOISE_TEST: Sent first handshake message.
+I (421969) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (421979) ESP32_NOISE_TEST: Received APS Data Indication
+I (421979) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (421979) ESP32_NOISE_TEST: Processing handshake response...
+I (421989) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (421989) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (422029) BENCH: [Read message] Took 33966 us and 5434645 cycles
+I (422029) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (422029) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (422039) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (422049) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (422049) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (422059) BENCH: [Handshake] Took 306932 us and 21495538 cycles
+W (422069) LOOP COUNTER: Remaining handshakes for current pattern: 12
+I (422179) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (422179) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (422179) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (422189) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (422199) BENCH: [Write message] Took 10955 us and 1752858 cycles
+I (422209) ESP32_NOISE_TEST: Handshake message size: 64
+I (422209) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (422209) BENCH: [Zigbee Packet TX] Took 181 us and 28970 cycles
+I (422219) ESP32_NOISE_TEST: Sent first handshake message.
+I (422399) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (422409) ESP32_NOISE_TEST: Received APS Data Indication
+I (422409) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (422409) ESP32_NOISE_TEST: Processing handshake response...
+I (422419) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (422419) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (422459) BENCH: [Read message] Took 33966 us and 5434577 cycles
+I (422459) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (422459) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (422469) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (422479) BENCH: [Handshake split] Took 522 us and 83504 cycles
+I (422479) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (422489) BENCH: [Handshake] Took 306860 us and 21144139 cycles
+W (422499) LOOP COUNTER: Remaining handshakes for current pattern: 11
+I (422609) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (422609) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (422609) BENCH: [Handshake creation] Took 303 us and 48542 cycles
+W (422619) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (422629) BENCH: [Write message] Took 10954 us and 1752646 cycles
+I (422639) ESP32_NOISE_TEST: Handshake message size: 64
+I (422639) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (422639) BENCH: [Zigbee Packet TX] Took 181 us and 29042 cycles
+I (422649) ESP32_NOISE_TEST: Sent first handshake message.
+I (422829) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (422839) ESP32_NOISE_TEST: Received APS Data Indication
+I (422839) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (422839) ESP32_NOISE_TEST: Processing handshake response...
+I (422849) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (422849) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (422889) BENCH: [Read message] Took 33963 us and 5434069 cycles
+I (422889) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (422889) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (422899) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (422909) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (422909) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (422919) BENCH: [Handshake] Took 306866 us and 21178919 cycles
+W (422929) LOOP COUNTER: Remaining handshakes for current pattern: 10
+I (423039) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (423039) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (423039) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (423049) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (423059) BENCH: [Write message] Took 10950 us and 1752054 cycles
+I (423069) ESP32_NOISE_TEST: Handshake message size: 64
+I (423069) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (423069) BENCH: [Zigbee Packet TX] Took 182 us and 29042 cycles
+I (423079) ESP32_NOISE_TEST: Sent first handshake message.
+I (423269) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (423269) ESP32_NOISE_TEST: Received APS Data Indication
+I (423269) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (423279) ESP32_NOISE_TEST: Processing handshake response...
+I (423279) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (423289) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (423329) BENCH: [Read message] Took 33966 us and 5434597 cycles
+I (423329) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (423329) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (423329) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (423339) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (423349) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (423349) BENCH: [Handshake] Took 311705 us and 21145841 cycles
+W (423359) LOOP COUNTER: Remaining handshakes for current pattern: 9
+I (423479) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (423479) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (423479) BENCH: [Handshake creation] Took 304 us and 48542 cycles
+W (423489) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (423499) BENCH: [Write message] Took 10956 us and 1752914 cycles
+I (423509) ESP32_NOISE_TEST: Handshake message size: 64
+I (423509) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (423509) BENCH: [Zigbee Packet TX] Took 181 us and 29042 cycles
+I (423519) ESP32_NOISE_TEST: Sent first handshake message.
+I (423699) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (423709) ESP32_NOISE_TEST: Received APS Data Indication
+I (423709) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (423709) ESP32_NOISE_TEST: Processing handshake response...
+I (423719) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (423719) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (423759) BENCH: [Read message] Took 33962 us and 5433905 cycles
+I (423759) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (423759) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (423769) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (423779) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (423779) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (423789) BENCH: [Handshake] Took 306772 us and 21145083 cycles
+W (423789) LOOP COUNTER: Remaining handshakes for current pattern: 8
+I (423909) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (423909) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (423909) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (423919) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (423929) BENCH: [Write message] Took 10951 us and 1752174 cycles
+I (423939) ESP32_NOISE_TEST: Handshake message size: 64
+I (423939) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (423939) BENCH: [Zigbee Packet TX] Took 182 us and 29042 cycles
+I (423949) ESP32_NOISE_TEST: Sent first handshake message.
+I (424129) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (424139) ESP32_NOISE_TEST: Received APS Data Indication
+I (424139) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (424139) ESP32_NOISE_TEST: Processing handshake response...
+I (424149) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (424149) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (424189) BENCH: [Read message] Took 33962 us and 5433905 cycles
+I (424189) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (424189) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (424199) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (424209) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (424209) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (424219) BENCH: [Handshake] Took 306882 us and 21150051 cycles
+W (424229) LOOP COUNTER: Remaining handshakes for current pattern: 7
+I (424339) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (424339) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (424339) BENCH: [Handshake creation] Took 305 us and 48734 cycles
+W (424349) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (424359) BENCH: [Write message] Took 10941 us and 1750678 cycles
+I (424369) ESP32_NOISE_TEST: Handshake message size: 64
+I (424369) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (424369) BENCH: [Zigbee Packet TX] Took 181 us and 29006 cycles
+I (424379) ESP32_NOISE_TEST: Sent first handshake message.
+I (424559) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (424569) ESP32_NOISE_TEST: Received APS Data Indication
+I (424569) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (424569) ESP32_NOISE_TEST: Processing handshake response...
+I (424579) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (424579) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (424619) BENCH: [Read message] Took 33961 us and 5433733 cycles
+I (424619) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (424619) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (424629) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (424639) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (424639) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (424649) BENCH: [Handshake] Took 306888 us and 21174581 cycles
+W (424659) LOOP COUNTER: Remaining handshakes for current pattern: 6
+I (424769) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (424769) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (424769) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (424779) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (424789) BENCH: [Write message] Took 10952 us and 1752426 cycles
+I (424799) ESP32_NOISE_TEST: Handshake message size: 64
+I (424799) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (424799) BENCH: [Zigbee Packet TX] Took 181 us and 28930 cycles
+I (424809) ESP32_NOISE_TEST: Sent first handshake message.
+I (424989) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (424999) ESP32_NOISE_TEST: Received APS Data Indication
+I (424999) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (424999) ESP32_NOISE_TEST: Processing handshake response...
+I (425009) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (425009) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (425049) BENCH: [Read message] Took 33961 us and 5433817 cycles
+I (425049) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (425049) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (425059) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (425069) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (425069) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (425079) BENCH: [Handshake] Took 306947 us and 21186115 cycles
+W (425089) LOOP COUNTER: Remaining handshakes for current pattern: 5
+I (425199) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (425199) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (425199) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (425209) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (425219) BENCH: [Write message] Took 10950 us and 1752094 cycles
+I (425229) ESP32_NOISE_TEST: Handshake message size: 64
+I (425229) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (425229) BENCH: [Zigbee Packet TX] Took 182 us and 29026 cycles
+I (425239) ESP32_NOISE_TEST: Sent first handshake message.
+I (425419) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (425429) ESP32_NOISE_TEST: Received APS Data Indication
+I (425429) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (425429) ESP32_NOISE_TEST: Processing handshake response...
+I (425439) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (425439) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (425479) BENCH: [Read message] Took 34103 us and 5456505 cycles
+I (425479) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (425479) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (425489) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (425499) BENCH: [Handshake split] Took 504 us and 80615 cycles
+I (425499) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (425509) BENCH: [Handshake] Took 306923 us and 21167227 cycles
+W (425519) LOOP COUNTER: Remaining handshakes for current pattern: 4
+I (425629) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (425629) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (425629) BENCH: [Handshake creation] Took 304 us and 48542 cycles
+W (425639) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (425649) BENCH: [Write message] Took 10954 us and 1752582 cycles
+I (425659) ESP32_NOISE_TEST: Handshake message size: 64
+I (425659) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (425659) BENCH: [Zigbee Packet TX] Took 182 us and 29062 cycles
+I (425669) ESP32_NOISE_TEST: Sent first handshake message.
+I (425849) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (425859) ESP32_NOISE_TEST: Received APS Data Indication
+I (425859) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (425859) ESP32_NOISE_TEST: Processing handshake response...
+I (425869) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (425869) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (425909) BENCH: [Read message] Took 33963 us and 5434069 cycles
+I (425909) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (425909) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (425919) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (425929) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (425929) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (425939) BENCH: [Handshake] Took 306859 us and 21178019 cycles
+W (425939) LOOP COUNTER: Remaining handshakes for current pattern: 3
+I (426059) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (426059) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (426059) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (426069) BENCH: [Handshake start] Took 393 us and 62896 cycles
+W (426079) BENCH: [Write message] Took 10948 us and 1751722 cycles
+I (426089) ESP32_NOISE_TEST: Handshake message size: 64
+I (426089) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (426089) BENCH: [Zigbee Packet TX] Took 182 us and 29062 cycles
+I (426099) ESP32_NOISE_TEST: Sent first handshake message.
+I (426279) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (426289) ESP32_NOISE_TEST: Received APS Data Indication
+I (426289) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (426289) ESP32_NOISE_TEST: Processing handshake response...
+I (426299) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (426299) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (426339) BENCH: [Read message] Took 33961 us and 5433733 cycles
+I (426339) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (426339) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (426349) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (426359) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (426359) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (426369) BENCH: [Handshake] Took 306801 us and 21144775 cycles
+W (426369) LOOP COUNTER: Remaining handshakes for current pattern: 2
+I (426489) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (426489) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (426489) BENCH: [Handshake creation] Took 303 us and 48542 cycles
+W (426499) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (426509) BENCH: [Write message] Took 10954 us and 1752686 cycles
+I (426519) ESP32_NOISE_TEST: Handshake message size: 64
+I (426519) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (426519) BENCH: [Zigbee Packet TX] Took 182 us and 29062 cycles
+I (426529) ESP32_NOISE_TEST: Sent first handshake message.
+I (426709) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (426719) ESP32_NOISE_TEST: Received APS Data Indication
+I (426719) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (426719) ESP32_NOISE_TEST: Processing handshake response...
+I (426729) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (426729) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (426769) BENCH: [Read message] Took 33961 us and 5433733 cycles
+I (426769) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (426769) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (426779) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (426789) BENCH: [Handshake split] Took 507 us and 81208 cycles
+I (426789) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (426799) BENCH: [Handshake] Took 306776 us and 21144599 cycles
+W (426799) LOOP COUNTER: Remaining handshakes for current pattern: 1
+I (426919) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...
+W (426919) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IN_25519_ChaChaPoly_SHA256
+W (426919) BENCH: [Handshake creation] Took 299 us and 47863 cycles
+W (426929) BENCH: [Handshake start] Took 393 us and 62900 cycles
+W (426939) BENCH: [Write message] Took 10952 us and 1752346 cycles
+I (426949) ESP32_NOISE_TEST: Handshake message size: 64
+I (426949) ESP32_NOISE_TEST: Sending APS data of length: 64
+W (426949) BENCH: [Zigbee Packet TX] Took 182 us and 29062 cycles
+I (426959) ESP32_NOISE_TEST: Sent first handshake message.
+I (427139) APSDE CONFIRM: Sent successfully from endpoint 1 (short=0x0000) to endpoint 10 (short=0x4e6a)
+I (427149) ESP32_NOISE_TEST: Received APS Data Indication
+I (427149) ESP32_NOISE_TEST: Current handshake state: READ MESSAGE
+I (427149) ESP32_NOISE_TEST: Processing handshake response...
+I (427149) ESP32_NOISE_TEST: Initiator handshake state: READ MESSAGE
+I (427159) ESP32_NOISE_TEST: Received APS Message Length: 48
+W (427199) BENCH: [Read message] Took 33963 us and 5434073 cycles
+I (427199) ESP32_NOISE_TEST: Processed handshake response successfully.
+I (427199) ESP32_NOISE_TEST: Initiator handshake state: SPLIT (Handshake Complete)
+I (427209) ESP32_NOISE_TEST: Handshake complete! Switching to encrypted mode.
+W (427219) BENCH: [Handshake split] Took 508 us and 81208 cycles
+I (427219) ESP32_NOISE_TEST: Cipher states created. Secure communication ready.
+W (427229) BENCH: [Handshake] Took 305657 us and 21155523 cycles
+W (427229) BENCH: Switching to next pattern: Noise_IK_25519_ChaChaPoly_SHA256
+I (427349) ESP32_NOISE_TEST: Starting Noise handshake as Initiator...

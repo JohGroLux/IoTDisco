@@ -1,0 +1,31 @@
+W (4569) ESP32_NOISE_TEST: SETUP: Initiator_Noise_KEMNN_Kyber512_ChaChaPoly_SHA256
+W (4919) BENCH: [Handshake] Took 354241 us and 16777403 cycles
+W (4919) LOOP COUNTER: Remaining handshakes for current pattern: 9
+W (5029) ESP32_NOISE_TEST: SETUP: Initiator_Noise_KEMNN_Kyber512_ChaChaPoly_SHA256
+W (5079) ESP32_NOISE_TEST: Network(0x3f66) closed, no longer permitting joins
+W (5329) BENCH: [Handshake] Took 307773 us and 12996020 cycles
+W (5329) LOOP COUNTER: Remaining handshakes for current pattern: 8
+W (5439) ESP32_NOISE_TEST: SETUP: Initiator_Noise_KEMNN_Kyber512_ChaChaPoly_SHA256
+W (5739) BENCH: [Handshake] Took 307475 us and 12599301 cycles
+W (5739) LOOP COUNTER: Remaining handshakes for current pattern: 7
+W (5849) ESP32_NOISE_TEST: SETUP: Initiator_Noise_KEMNN_Kyber512_ChaChaPoly_SHA256
+W (6149) BENCH: [Handshake] Took 307217 us and 12518895 cycles
+W (6149) LOOP COUNTER: Remaining handshakes for current pattern: 6
+W (6259) ESP32_NOISE_TEST: SETUP: Initiator_Noise_KEMNN_Kyber512_ChaChaPoly_SHA256
+W (6559) BENCH: [Handshake] Took 307282 us and 12625314 cycles
+W (6559) LOOP COUNTER: Remaining handshakes for current pattern: 5
+W (6669) ESP32_NOISE_TEST: SETUP: Initiator_Noise_KEMNN_Kyber512_ChaChaPoly_SHA256
+W (6969) BENCH: [Handshake] Took 307196 us and 12510009 cycles
+W (6969) LOOP COUNTER: Remaining handshakes for current pattern: 4
+W (7079) ESP32_NOISE_TEST: SETUP: Initiator_Noise_KEMNN_Kyber512_ChaChaPoly_SHA256
+W (7379) BENCH: [Handshake] Took 307287 us and 12515262 cycles
+W (7379) LOOP COUNTER: Remaining handshakes for current pattern: 3
+W (7489) ESP32_NOISE_TEST: SETUP: Initiator_Noise_KEMNN_Kyber512_ChaChaPoly_SHA256
+W (7789) BENCH: [Handshake] Took 308845 us and 12664230 cycles
+W (7789) LOOP COUNTER: Remaining handshakes for current pattern: 2
+W (7899) ESP32_NOISE_TEST: SETUP: Initiator_Noise_KEMNN_Kyber512_ChaChaPoly_SHA256
+W (8209) BENCH: [Handshake] Took 313757 us and 12559417 cycles
+W (8209) LOOP COUNTER: Remaining handshakes for current pattern: 1
+W (8319) ESP32_NOISE_TEST: SETUP: Initiator_Noise_KEMNN_Kyber512_ChaChaPoly_SHA256
+W (8619) BENCH: [Handshake] Took 305703 us and 12578779 cycles
+W (8619) BENCH: Switching to next pattern: Noise_KEMNK_Kyber512_ChaChaPoly_SHA256

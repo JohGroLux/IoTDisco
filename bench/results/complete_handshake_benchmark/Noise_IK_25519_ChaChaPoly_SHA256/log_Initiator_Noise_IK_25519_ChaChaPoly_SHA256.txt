@@ -1,0 +1,30 @@
+W (30139) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IK_25519_ChaChaPoly_SHA256
+W (30379) BENCH: [Handshake] Took 244885 us and 17726696 cycles
+W (30379) LOOP COUNTER: Remaining handshakes for current pattern: 9
+W (30489) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IK_25519_ChaChaPoly_SHA256
+W (30709) BENCH: [Handshake] Took 226402 us and 16801930 cycles
+W (30709) LOOP COUNTER: Remaining handshakes for current pattern: 8
+W (30819) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IK_25519_ChaChaPoly_SHA256
+W (31039) BENCH: [Handshake] Took 224574 us and 16400673 cycles
+W (31039) LOOP COUNTER: Remaining handshakes for current pattern: 7
+W (31149) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IK_25519_ChaChaPoly_SHA256
+W (31369) BENCH: [Handshake] Took 224693 us and 16402313 cycles
+W (31369) LOOP COUNTER: Remaining handshakes for current pattern: 6
+W (31479) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IK_25519_ChaChaPoly_SHA256
+W (31699) BENCH: [Handshake] Took 224743 us and 16438053 cycles
+W (31699) LOOP COUNTER: Remaining handshakes for current pattern: 5
+W (31809) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IK_25519_ChaChaPoly_SHA256
+W (32029) BENCH: [Handshake] Took 226515 us and 16541618 cycles
+W (32029) LOOP COUNTER: Remaining handshakes for current pattern: 4
+W (32139) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IK_25519_ChaChaPoly_SHA256
+W (32359) BENCH: [Handshake] Took 224652 us and 16402649 cycles
+W (32359) LOOP COUNTER: Remaining handshakes for current pattern: 3
+W (32469) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IK_25519_ChaChaPoly_SHA256
+W (32689) BENCH: [Handshake] Took 224690 us and 16454101 cycles
+W (32689) LOOP COUNTER: Remaining handshakes for current pattern: 2
+W (32799) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IK_25519_ChaChaPoly_SHA256
+W (33019) BENCH: [Handshake] Took 224625 us and 16401185 cycles
+W (33019) LOOP COUNTER: Remaining handshakes for current pattern: 1
+W (33129) ESP32_NOISE_TEST: SETUP: Initiator_Noise_IK_25519_ChaChaPoly_SHA256
+W (33329) BENCH: [Handshake] Took 203742 us and 16370609 cycles
+W (33329) BENCH: Benchmark complete for all patterns.

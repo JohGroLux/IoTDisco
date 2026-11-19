@@ -1,0 +1,4 @@
+W (4929) ESP32_NOISE_TEST: SETUP: Initiator_Noise_KEMNK_Kyber768_ChaChaPoly_SHA256
+W (4989) ESP32_NOISE_TEST: Network(0x3f66) closed, no longer permitting joins
+W (5359) BENCH: [Handshake] Took 436837 us and 25945353 cycles
+W (5359) BENCH: Switching to next pattern: Noise_KEMNX_Kyber768_ChaChaPoly_SHA256
